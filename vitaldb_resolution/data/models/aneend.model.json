@@ -1,0 +1,106 @@
+{
+ "variable": "aneend",
+ "unit": "clock minute",
+ "schema_version": "0.4",
+ "kind": "timestamp",
+ "resolution": {
+  "observed": "1 min (chronon)",
+  "effective": 1,
+  "anchor_base": "floor"
+ },
+ "reference": {
+  "name": "recording end",
+  "field": "caseend",
+  "note": "Recording end clock (minutes). 130 anaesthesia ends stored with floating-point noise (derived from an imputed op end) are excluded and flagged."
+ },
+ "grid": {
+  "lo": -150.0,
+  "hi": 240.0,
+  "dx": 0.05
+ },
+ "latent": {
+  "family": "reference_offset_spline",
+  "direction": "after",
+  "offset_name": "G (minutes)",
+  "inner_knots": [
+   -150.0,
+   -20.066666666666656,
+   -5.7999999999999545,
+   -0.38333333333332575,
+   19.737499999999997,
+   240.0
+  ],
+  "coefficients": [
+   18.116585533553017,
+   1.5079812160251074,
+   20.147852473237837,
+   17.06716605285182,
+   1.5097449423007057,
+   14.743764186245581,
+   7.472262602338465
+  ]
+ },
+ "required_covariates": [
+  "ref (recording end clock, minutes)"
+ ],
+ "allocation": [
+  {
+   "label": "ceiling_30min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 30,
+    "anchor": "ceiling"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -3.9982312877967168
+   }
+  },
+  {
+   "label": "ceiling_10min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10,
+    "anchor": "ceiling"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": 0.082607965180798
+   }
+  },
+  {
+   "label": "ceiling_5min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 5,
+    "anchor": "ceiling"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": 1.906942421797536
+   }
+  },
+  {
+   "label": "clock_minute",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "floor"
+   },
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 6256,
+  "loglik": -13065.915095334687,
+  "n_params": 10,
+  "bic": 26219.243153491625,
+  "source": "clinical_data.csv",
+  "method": "L-BFGS-B then Powell",
+  "date": "2026-10-13"
+ }
+}

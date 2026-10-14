@@ -1,0 +1,866 @@
+{
+ "loglik": {
+  "intraop_uo": [
+   -15603.903576137356,
+   -15603.903576137356,
+   3669
+  ],
+  "intraop_ebl": [
+   -12149.493122922317,
+   -12149.493122922317,
+   3933
+  ],
+  "intraop_crystalloid": [
+   -23656.606732810353,
+   -23656.606732810353,
+   5974
+  ],
+  "height": [
+   -32378.343087524154,
+   -32378.34308758191,
+   6041
+  ],
+  "weight": [
+   -38917.24449735528,
+   -38917.287569711785,
+   6041
+  ],
+  "anestart": [
+   -21644.900127340443,
+   -21645.008608877528,
+   6387
+  ],
+  "opstart": [
+   -18073.745131891184,
+   -18063.177909816128,
+   6387
+  ],
+  "opend": [
+   -9411.496858807295,
+   -9411.358523679852,
+   5850
+  ],
+  "aneend": [
+   -11684.40908736247,
+   -13065.915095334687,
+   6254
+  ]
+ },
+ "clinical": {
+  "caseid": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "subjectid": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "casestart": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {}
+  },
+  "caseend": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {}
+  },
+  "anestart": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {
+    "clock_uncertain": 2
+   }
+  },
+  "opstart": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {
+    "clock_uncertain": 2,
+    "clock_offset_mismatch": 1
+   }
+  },
+  "aneend": {
+   "status": {
+    "ok": 6254,
+    "imputed": 130,
+    "invalid": 4
+   },
+   "flags": {
+    "same_time": 108,
+    "order_violation": 47,
+    "clock_uncertain": 2
+   }
+  },
+  "opend": {
+   "status": {
+    "ok": 5850,
+    "imputed": 537,
+    "invalid": 1
+   },
+   "flags": {
+    "clock_offset_mismatch": 92,
+    "same_time": 107,
+    "order_violation": 45,
+    "clock_uncertain": 2
+   }
+  },
+  "adm": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {}
+  },
+  "dis": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {}
+  },
+  "icu_days": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {
+    "counting_rule_unknown": 1204
+   }
+  },
+  "death_inhosp": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "age": {
+   "status": {
+    "ok": 6380,
+    "top_coded": 8
+   },
+   "flags": {}
+  },
+  "sex": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "height": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {
+    "child_native_resolution": 57,
+    "age_covariate_top_coded": 8,
+    "off_grid": 1
+   }
+  },
+  "weight": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {
+    "child_native_resolution": 57,
+    "age_covariate_top_coded": 8,
+    "off_grid": 5
+   }
+  },
+  "bmi": {
+   "status": {
+    "ok": 6388
+   },
+   "flags": {
+    "recorded_bmi_mismatch": 2,
+    "age_covariate_top_coded": 8
+   }
+  },
+  "asa": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "emop": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "department": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "optype": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "dx": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "opname": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "approach": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "position": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "ane_type": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "preop_htn": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "preop_dm": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "preop_ecg": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "preop_pft": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "cormack": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "airway": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "tubesize": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "dltubesize": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "lmasize": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "iv1": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "iv2": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "aline1": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "aline2": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "cline1": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "cline2": {
+   "status": {
+    "not_applicable": 6388
+   },
+   "flags": {}
+  },
+  "intraop_uo": {
+   "status": {
+    "ok": 3684,
+    "missing": 2681,
+    "zero_or_not_recorded": 23
+   },
+   "flags": {
+    "off_grid": 15
+   }
+  },
+  "intraop_ebl": {
+   "status": {
+    "missing": 2401,
+    "ok": 3976,
+    "zero_or_not_recorded": 11
+   },
+   "flags": {
+    "off_grid": 43
+   }
+  },
+  "intraop_crystalloid": {
+   "status": {
+    "ok": 5980,
+    "missing": 408
+   },
+   "flags": {
+    "off_grid": 6
+   }
+  },
+  "intraop_ppf": {
+   "status": {
+    "ok": 2335,
+    "zero_or_not_recorded": 4053
+   },
+   "flags": {
+    "age_covariate_top_coded": 8,
+    "off_grid": 4
+   }
+  },
+  "intraop_colloid": {
+   "status": {
+    "zero_or_not_recorded": 5857,
+    "ok": 531
+   },
+   "flags": {
+    "unit_uncertain": 98,
+    "possibly_albumin": 65
+   }
+  },
+  "intraop_rbc": {
+   "status": {
+    "zero_or_not_recorded": 6036,
+    "ok": 352
+   },
+   "flags": {
+    "unit_uncertain": 7
+   }
+  },
+  "intraop_ffp": {
+   "status": {
+    "zero_or_not_recorded": 6259,
+    "ok": 129
+   },
+   "flags": {}
+  },
+  "intraop_ftn": {
+   "status": {
+    "ok": 1168,
+    "zero_or_not_recorded": 5220
+   },
+   "flags": {
+    "off_unit_dose_grid": 28
+   }
+  },
+  "intraop_eph": {
+   "status": {
+    "ok": 3211,
+    "zero_or_not_recorded": 3177
+   },
+   "flags": {
+    "off_unit_dose_grid": 20
+   }
+  },
+  "intraop_phe": {
+   "status": {
+    "zero_or_not_recorded": 5544,
+    "ok": 844
+   },
+   "flags": {
+    "off_unit_dose_grid": 7
+   }
+  },
+  "intraop_ca": {
+   "status": {
+    "zero_or_not_recorded": 5520,
+    "ok": 868
+   },
+   "flags": {
+    "off_unit_dose_grid": 26
+   }
+  },
+  "intraop_rocu": {
+   "status": {
+    "ok": 5942,
+    "zero_or_not_recorded": 446
+   },
+   "flags": {
+    "off_unit_dose_grid": 319
+   }
+  },
+  "intraop_mdz": {
+   "status": {
+    "zero_or_not_recorded": 6308,
+    "ok": 80
+   },
+   "flags": {}
+  },
+  "intraop_vecu": {
+   "status": {
+    "zero_or_not_recorded": 6376,
+    "ok": 12
+   },
+   "flags": {}
+  },
+  "intraop_epi": {
+   "status": {
+    "zero_or_not_recorded": 6299,
+    "ok": 89
+   },
+   "flags": {}
+  },
+  "preop_hb": {
+   "status": {
+    "ok": 6047,
+    "missing": 341
+   },
+   "flags": {}
+  },
+  "preop_plt": {
+   "status": {
+    "ok": 6047,
+    "missing": 341
+   },
+   "flags": {}
+  },
+  "preop_pt": {
+   "status": {
+    "ok": 5998,
+    "missing": 390
+   },
+   "flags": {
+    "off_grid": 3,
+    "not_a_reachable_value": 3
+   }
+  },
+  "preop_aptt": {
+   "status": {
+    "ok": 5986,
+    "missing": 402
+   },
+   "flags": {}
+  },
+  "preop_na": {
+   "status": {
+    "ok": 5765,
+    "missing": 623
+   },
+   "flags": {}
+  },
+  "preop_k": {
+   "status": {
+    "ok": 5767,
+    "missing": 621
+   },
+   "flags": {}
+  },
+  "preop_gluc": {
+   "status": {
+    "ok": 6010,
+    "missing": 378
+   },
+   "flags": {}
+  },
+  "preop_alb": {
+   "status": {
+    "ok": 6016,
+    "missing": 372
+   },
+   "flags": {}
+  },
+  "preop_ast": {
+   "status": {
+    "ok": 6022,
+    "missing": 366
+   },
+   "flags": {}
+  },
+  "preop_alt": {
+   "status": {
+    "ok": 6024,
+    "missing": 364
+   },
+   "flags": {}
+  },
+  "preop_bun": {
+   "status": {
+    "ok": 6023,
+    "missing": 365
+   },
+   "flags": {}
+  },
+  "preop_cr": {
+   "status": {
+    "ok": 6016,
+    "missing": 372
+   },
+   "flags": {}
+  },
+  "preop_ph": {
+   "status": {
+    "missing": 5842,
+    "ok": 546
+   },
+   "flags": {}
+  },
+  "preop_hco3": {
+   "status": {
+    "missing": 5855,
+    "ok": 533
+   },
+   "flags": {}
+  },
+  "preop_be": {
+   "status": {
+    "missing": 5856,
+    "ok": 532
+   },
+   "flags": {}
+  },
+  "preop_pao2": {
+   "status": {
+    "missing": 5850,
+    "ok": 538
+   },
+   "flags": {}
+  },
+  "preop_paco2": {
+   "status": {
+    "missing": 5850,
+    "ok": 538
+   },
+   "flags": {}
+  },
+  "preop_sao2": {
+   "status": {
+    "missing": 5855,
+    "ok": 533
+   },
+   "flags": {}
+  },
+  "los": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {}
+  },
+  "ind_to_incision": {
+   "status": {
+    "ok": 6387,
+    "invalid": 1
+   },
+   "flags": {
+    "clock_uncertain": 2,
+    "clock_offset_mismatch": 1
+   }
+  },
+  "op_duration": {
+   "status": {
+    "ok": 5850,
+    "imputed": 537,
+    "invalid": 1
+   },
+   "flags": {
+    "clock_offset_mismatch": 92,
+    "same_time": 107,
+    "order_violation": 45,
+    "clock_uncertain": 2
+   }
+  },
+  "ane_duration": {
+   "status": {
+    "ok": 6254,
+    "imputed": 130,
+    "invalid": 4
+   },
+   "flags": {
+    "same_time": 108,
+    "order_violation": 47,
+    "clock_uncertain": 2
+   }
+  },
+  "emergence": {
+   "status": {
+    "ok": 5731,
+    "imputed": 653,
+    "invalid": 4
+   },
+   "flags": {
+    "clock_offset_mismatch": 91,
+    "same_time": 107,
+    "order_violation": 41,
+    "clock_uncertain": 2
+   }
+  }
+ },
+ "lab": {
+  "alb": {
+   "status": {
+    "ok": 36629
+   },
+   "flags": {}
+  },
+  "alt": {
+   "status": {
+    "ok": 35918
+   },
+   "flags": {}
+  },
+  "ammo": {
+   "status": {
+    "ok": 864
+   },
+   "flags": {}
+  },
+  "aptt": {
+   "status": {
+    "ok": 20542
+   },
+   "flags": {}
+  },
+  "ast": {
+   "status": {
+    "ok": 35919
+   },
+   "flags": {
+    "off_grid": 1
+   }
+  },
+  "be": {
+   "status": {
+    "ok": 3911
+   },
+   "flags": {}
+  },
+  "bun": {
+   "status": {
+    "ok": 37213
+   },
+   "flags": {
+    "off_grid": 1
+   }
+  },
+  "ccr": {
+   "status": {
+    "ok": 537
+   },
+   "flags": {}
+  },
+  "cl": {
+   "status": {
+    "ok": 40863
+   },
+   "flags": {
+    "off_grid": 1
+   }
+  },
+  "cr": {
+   "status": {
+    "ok": 37311
+   },
+   "flags": {}
+  },
+  "crp": {
+   "status": {
+    "ok": 28278
+   },
+   "flags": {}
+  },
+  "esr": {
+   "status": {
+    "ok": 1415
+   },
+   "flags": {}
+  },
+  "fib": {
+   "status": {
+    "ok": 18931
+   },
+   "flags": {}
+  },
+  "gfr": {
+   "status": {
+    "ok": 36683
+   },
+   "flags": {}
+  },
+  "gluc": {
+   "status": {
+    "ok": 35358
+   },
+   "flags": {}
+  },
+  "hb": {
+   "status": {
+    "ok": 43976
+   },
+   "flags": {}
+  },
+  "hco3": {
+   "status": {
+    "ok": 14578
+   },
+   "flags": {}
+  },
+  "hct": {
+   "status": {
+    "ok": 58498
+   },
+   "flags": {}
+  },
+  "ica": {
+   "status": {
+    "ok": 17705
+   },
+   "flags": {}
+  },
+  "k": {
+   "status": {
+    "ok": 55486
+   },
+   "flags": {}
+  },
+  "lac": {
+   "status": {
+    "ok": 14516
+   },
+   "flags": {}
+  },
+  "na": {
+   "status": {
+    "ok": 55463
+   },
+   "flags": {}
+  },
+  "p": {
+   "status": {
+    "ok": 16440
+   },
+   "flags": {}
+  },
+  "pco2": {
+   "status": {
+    "ok": 14590
+   },
+   "flags": {
+    "off_grid": 8
+   }
+  },
+  "ph": {
+   "status": {
+    "ok": 14597
+   },
+   "flags": {
+    "off_grid": 7
+   }
+  },
+  "plt": {
+   "status": {
+    "ok": 43529
+   },
+   "flags": {}
+  },
+  "po2": {
+   "status": {
+    "ok": 14597
+   },
+   "flags": {}
+  },
+  "pt%": {
+   "status": {
+    "ok": 21154
+   },
+   "flags": {}
+  },
+  "ptinr": {
+   "status": {
+    "ok": 21156
+   },
+   "flags": {
+    "off_grid": 1
+   }
+  },
+  "ptsec": {
+   "status": {
+    "ok": 21156
+   },
+   "flags": {}
+  },
+  "sao2": {
+   "status": {
+    "ok": 14572
+   },
+   "flags": {}
+  },
+  "tbil": {
+   "status": {
+    "ok": 36088
+   },
+   "flags": {}
+  },
+  "tprot": {
+   "status": {
+    "ok": 36034
+   },
+   "flags": {}
+  },
+  "wbc": {
+   "status": {
+    "ok": 43941
+   },
+   "flags": {}
+  }
+ }
+}

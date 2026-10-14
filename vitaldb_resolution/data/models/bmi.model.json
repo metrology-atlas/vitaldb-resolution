@@ -1,0 +1,7 @@
+{"variable":"bmi","unit":"kg/m2","schema_version":"0.3","kind":"derived",
+ "formula":"weight / (height/100)^2","inputs":["weight","height"],
+ "recorded_rounding":{"resolution":0.1,"anchor":"nearest"},
+ "evidence":"Recorded BMI equals round(weight / (height/100)^2, 1) for 6,388 of 6,388 cases, so it is computed from the recorded height and weight and carries no information of its own about the true values.",
+ "required_covariates":["sex","age","emop","department"],
+ "api":"Return the distribution of weight/(height/100)^2 with height and weight drawn from their own posteriors for the same case; optionally include measurement variability. The recorded BMI is used only as a consistency check.",
+ "limitations":"Height and weight posteriors are drawn independently given sex and age; their correlation is ignored. This matters only when an input posterior is wide (written-in values)."}

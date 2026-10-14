@@ -1,0 +1,114 @@
+{
+ "variable": "opend",
+ "unit": "clock minute",
+ "schema_version": "0.4",
+ "kind": "timestamp",
+ "resolution": {
+  "observed": "1 min (chronon)",
+  "effective": 1,
+  "anchor_base": "floor"
+ },
+ "reference": {
+  "name": "recording end",
+  "field": "caseend",
+  "note": "537 op ends at 598-604 s before recording end are imputed from the recording and are excluded and flagged."
+ },
+ "grid": {
+  "lo": -150.0,
+  "hi": 240.0,
+  "dx": 0.05
+ },
+ "latent": {
+  "family": "reference_offset_spline",
+  "direction": "after",
+  "offset_name": "G = opend - recording end (min)",
+  "inner_knots": [
+   -150.0,
+   -36.95100000000004,
+   -22.11083333333327,
+   -19.23333333333335,
+   -17.39883333333322,
+   -15.733333333333348,
+   -14.199999999999932,
+   -12.399999999999977,
+   -4.5833333333333135,
+   240.0
+  ],
+  "coefficients": [
+   34.12179384765063,
+   27.55160141751305,
+   36.32435725894895,
+   38.134585039012336,
+   38.56806991729535,
+   39.533771859221304,
+   38.259692091450304,
+   41.278274358628785,
+   -107.1253831501042,
+   4225.46431190529,
+   -551226.2009767587
+  ]
+ },
+ "required_covariates": [
+  "ref"
+ ],
+ "allocation": [
+  {
+   "label": "floor_30min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 30,
+    "anchor": "floor"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -5.72571700813352
+   }
+  },
+  {
+   "label": "floor_10min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10,
+    "anchor": "floor"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -3.1552057014655754
+   }
+  },
+  {
+   "label": "floor_5min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 5,
+    "anchor": "floor"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": 3.116424163551192
+   }
+  },
+  {
+   "label": "clock_minute",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "floor"
+   },
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 5850,
+  "loglik": -9411.358523679852,
+  "n_params": 14,
+  "bic": 18944.155804522867,
+  "source": "clinical_data.csv",
+  "method": "JAX gradient, L-BFGS-B then BFGS",
+  "date": "2026-10-13"
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "schema_version": "0.1",
+ "variable": "intraop_uo",
+ "unit": "mL",
+ "resolution": {
+  "observed": 1,
+  "override": 5,
+  "effective": 5,
+  "justification": "Only 15 of 3,707 values (0.4%) are not multiples of 5; treated as typos or over-precise readings and flagged off_grid."
+ },
+ "special_values": [
+  {
+   "value": 0,
+   "handling": "excluded from fit; returned with status special_value"
+  }
+ ],
+ "truncation": {
+  "exclude_recorded_zero": true
+ },
+ "grid": {
+  "lo": 0,
+  "hi": 8000,
+  "dx": 0.25
+ },
+ "latent": {
+  "family": "log_spline",
+  "basis": "cubic_bspline_on_log_x",
+  "domain": [
+   1,
+   8000
+  ],
+  "K": 5,
+  "coefficients": [
+   0.1741695933833961,
+   11.367035807841765,
+   4.659198295347198,
+   -0.8925590694720781
+  ],
+  "note": "log f(x) = B(log x)\u00b7[0, coefficients] - log x, normalised on the grid"
+ },
+ "allocation": [
+  {
+   "label": "100 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 100
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": -2.890534933471286
+   }
+  },
+  {
+   "label": "50 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 50
+   },
+   "anchor": "nearest",
+   "capture_window": 20.0,
+   "prob": {
+    "form": "logistic_logx",
+    "logit": -0.5358012009274511,
+    "slope": 0.17620638882336492,
+    "centre": 160
+   }
+  },
+  {
+   "label": "10 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": 1.0821622359125642
+   }
+  },
+  {
+   "label": "5 mL (base)",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 5
+   },
+   "anchor": "nearest",
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 3669,
+  "loglik": -15603.903576137356,
+  "n_params": 9,
+  "aic": 31225.807152274712,
+  "bic": 31273.468547669556,
+  "data": "VitalDB clinical_data.csv (intraop_uo), positive values on the 5 mL grid",
+  "fitted": "2026-10-13",
+  "engine": "rounding_engine 0.1"
+ }
+}

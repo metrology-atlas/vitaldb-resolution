@@ -1,0 +1,124 @@
+{
+ "schema_version": "0.1",
+ "variable": "intraop_ebl",
+ "unit": "mL",
+ "resolution": {
+  "observed": 1,
+  "override": 10,
+  "effective": 10,
+  "justification": "Only 0.7% of values are odd multiples of 5 and 17 are off any 5 mL grid; working resolution 10 mL."
+ },
+ "special_values": [
+  {
+   "value": 0,
+   "handling": "excluded from fit"
+  }
+ ],
+ "truncation": {
+  "exclude_recorded_zero": true
+ },
+ "grid": {
+  "lo": 0,
+  "hi": 40000,
+  "dx": 1.0
+ },
+ "latent": {
+  "family": "log_spline",
+  "basis": "cubic_bspline_on_log_x",
+  "domain": [
+   1,
+   40000
+  ],
+  "K": 6,
+  "coefficients": [
+   23.123557893857754,
+   29.0384607552788,
+   27.1970332692924,
+   22.293194529070025,
+   22.494459499653786
+  ]
+ },
+ "allocation": [
+  {
+   "label": "preferred small values",
+   "kind": "rounding",
+   "mode": {
+    "type": "set",
+    "values": [
+     10,
+     20,
+     30,
+     50
+    ]
+   },
+   "anchor": "nearest",
+   "applies_below": 75,
+   "prob": {
+    "form": "constant",
+    "logit": -0.3883030062862894
+   }
+  },
+  {
+   "label": "500 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 500
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "logistic_logx",
+    "logit": -4.090218912383013,
+    "slope": 0.6570215807013458,
+    "centre": 150
+   }
+  },
+  {
+   "label": "100 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 100
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "logistic_logx",
+    "logit": -1.1542724669143016,
+    "slope": 0.602593290627398,
+    "centre": 150
+   }
+  },
+  {
+   "label": "50 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 50
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "logistic_logx",
+    "logit": 1.9778367780772754,
+    "slope": 0.2632809103705836,
+    "centre": 150
+   }
+  },
+  {
+   "label": "10 mL (base)",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10
+   },
+   "anchor": "nearest",
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 3933,
+  "loglik": -12149.493122922317,
+  "n_params": 12,
+  "aic": 24322.986245844633,
+  "bic": 24398.312139113816
+ }
+}

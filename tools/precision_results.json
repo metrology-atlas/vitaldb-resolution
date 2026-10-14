@@ -1,0 +1,946 @@
+{
+ "n_tables": 66180,
+ "tables_by_variable": {
+  "height": 12662,
+  "weight": 12662,
+  "anestart": 6387,
+  "opstart": 6387,
+  "aneend": 6254,
+  "intraop_crystalloid": 5980,
+  "opend": 5850,
+  "intraop_ebl": 3976,
+  "intraop_uo": 3684,
+  "intraop_ppf": 2335,
+  "lab": 3
+ },
+ "options": [
+  {
+   "knots": 256,
+   "dtype": "int16",
+   "tables_MB": 34.9,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 1.7621539854822876e-05,
+     "w1_rel_p99": 0.00296489279309694,
+     "w1_rel_max": 0.0032215348240024495,
+     "max_rel_p99": 2.0126991082055308,
+     "mean_rel_max": 0.001983102938969913,
+     "sd_rel_max": 0.010277581567819993
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.156994615968238e-05,
+     "w1_rel_p99": 2.8349851751593124e-05,
+     "w1_rel_max": 0.0008402976008449316,
+     "max_rel_p99": 0.0027152981589853055,
+     "mean_rel_max": 0.0003398133047195689,
+     "sd_rel_max": 0.0008236053218406703
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 5.914814667969237e-05,
+     "w1_rel_p99": 0.001876180638553809,
+     "w1_rel_max": 0.0030591838258851836,
+     "max_rel_p99": 3.5178472523418574,
+     "mean_rel_max": 0.0028837260858290735,
+     "sd_rel_max": 0.011475849334585009
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 2.463232731638314e-05,
+     "w1_rel_p99": 2.4632327316613464e-05,
+     "w1_rel_max": 2.4632327316618163e-05,
+     "max_rel_p99": 0.0034943148628461124,
+     "mean_rel_max": 1.5094737161446276e-16,
+     "sd_rel_max": 3.233660000656613e-06
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.017687376104393637,
+     "w1_abs_max": 0.42650989570704967,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0013827931071214439,
+     "w1_abs_max": 0.24233460550911584,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.050834254635093e-07,
+     "w1_abs_max": 0.0012107666248145563,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.00042504110917288007,
+     "w1_abs_max": 0.0007582841257402053,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.00020257919291765498,
+     "w1_abs_max": 0.011118748239464772,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 0.00015396168793799236,
+     "w1_abs_max": 0.08375665267772732,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 4.672012611895218e-05,
+     "w1_abs_max": 0.002101649060239595,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 6.244153195032318e-06,
+     "w1_abs_max": 6.244153195091896e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.008799099732709259,
+     "w1_abs_max": 0.2826911800031543,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.001366483467755586,
+     "w1_abs_max": 0.06749526529683333,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.7736541983954264e-07,
+     "w1_abs_max": 3.6966904328160355e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 85.1,
+   "draw_ms_full_dataset": 38.3,
+   "draw_ms_clinical_only": 12.58
+  },
+  {
+   "knots": 256,
+   "dtype": "float32",
+   "tables_MB": 67.8,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 7.400323832439609e-06,
+     "w1_rel_p99": 0.0029325740645662944,
+     "w1_rel_max": 0.0031838542657829194,
+     "max_rel_p99": 2.012698934567277,
+     "mean_rel_max": 0.0019789642304006727,
+     "sd_rel_max": 0.010273118873469489
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 6.236859704840527e-05,
+     "w1_rel_p99": 0.00011796582171336304,
+     "w1_rel_max": 0.0008320669850422508,
+     "max_rel_p99": 0.002713366184692951,
+     "mean_rel_max": 0.0003414415832441013,
+     "sd_rel_max": 0.0008229265221033621
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 4.883212331973228e-05,
+     "w1_rel_p99": 0.001859267985235016,
+     "w1_rel_max": 0.003040455950144503,
+     "max_rel_p99": 3.5178490250235344,
+     "mean_rel_max": 0.002882313134913934,
+     "sd_rel_max": 0.011478359220149503
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.4607462703692199e-05,
+     "w1_rel_p99": 1.5224629032867124e-05,
+     "w1_rel_max": 1.5237224264074776e-05,
+     "max_rel_p99": 0.003479257570517225,
+     "mean_rel_max": 1.548526664284486e-16,
+     "sd_rel_max": 2.80519649953348e-06
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.016311601301532086,
+     "w1_abs_max": 0.4233320857784666,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0006327728699925123,
+     "w1_abs_max": 0.23736964479439643,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.1296867826751534e-06,
+     "w1_abs_max": 0.0011989073086561657,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.000164841875311586,
+     "w1_abs_max": 0.0006813398129144055,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 6.74911036136535e-05,
+     "w1_abs_max": 0.009962143390386955,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 9.880542477938223e-05,
+     "w1_abs_max": 0.08280054464485642,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 2.276960864259353e-05,
+     "w1_abs_max": 0.0018479859438653018,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 3.7029077172058295e-06,
+     "w1_abs_max": 3.8625486479576705e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.007721669130018927,
+     "w1_abs_max": 0.2800877157935975,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0007157649806206479,
+     "w1_abs_max": 0.06640748994318424,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 8.257404291210982e-07,
+     "w1_abs_max": 2.706440372212543e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 117.9,
+   "draw_ms_full_dataset": 54.8,
+   "draw_ms_clinical_only": 15.85
+  },
+  {
+   "knots": 256,
+   "dtype": "float64",
+   "tables_MB": 135.5,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 6.29011356609891e-06,
+     "w1_rel_p99": 0.0029325406804396894,
+     "w1_rel_max": 0.0031838148342731376,
+     "max_rel_p99": 2.0126992995537387,
+     "mean_rel_max": 0.0019789543743841745,
+     "sd_rel_max": 0.010273126454491743
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.8542453664858167e-07,
+     "w1_rel_p99": 1.674764204150602e-05,
+     "w1_rel_max": 0.0008317697381860009,
+     "max_rel_p99": 0.002715269194297915,
+     "mean_rel_max": 0.0003417857714560801,
+     "sd_rel_max": 0.0008229268770574283
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 4.809984336028141e-05,
+     "w1_rel_p99": 0.001858973505802939,
+     "w1_rel_max": 0.003036895092620841,
+     "max_rel_p99": 3.517848339602883,
+     "mean_rel_max": 0.002881647946886176,
+     "sd_rel_max": 0.011478280840141242
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.3970235328329936e-05,
+     "w1_rel_p99": 1.3970235329618399e-05,
+     "w1_rel_max": 1.3970235329644694e-05,
+     "max_rel_p99": 0.0034792576447928085,
+     "mean_rel_max": 2.3095955297771227e-17,
+     "sd_rel_max": 2.7760225009831885e-06
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.016154277043211596,
+     "w1_abs_max": 0.4232362257192306,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0006248389389704734,
+     "w1_abs_max": 0.23736778731550073,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 1.52765708763547e-09,
+     "w1_abs_max": 0.0011984790120949038,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.0001514619291356767,
+     "w1_abs_max": 0.0004959570377598092,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 6.678470006495464e-05,
+     "w1_abs_max": 0.009959235816118985,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 9.771792761443035e-05,
+     "w1_abs_max": 0.08279951917377215,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 1.7819834230689818e-05,
+     "w1_abs_max": 0.0018462043768684988,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 3.541374245328655e-06,
+     "w1_abs_max": 3.5413742456619386e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.007616335019521192,
+     "w1_abs_max": 0.2800468701943728,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0007092708910695356,
+     "w1_abs_max": 0.0664016198070887,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 6.332138636783863e-08,
+     "w1_abs_max": 4.378018516326687e-07,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 185.7,
+   "draw_ms_full_dataset": 72.2,
+   "draw_ms_clinical_only": 12.2
+  },
+  {
+   "knots": 1024,
+   "dtype": "int16",
+   "tables_MB": 136.6,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 1.2339783910138174e-05,
+     "w1_rel_p99": 0.0005204914535721183,
+     "w1_rel_max": 0.000594318319976546,
+     "max_rel_p99": 0.3621398372440033,
+     "mean_rel_max": 0.0004688844850771745,
+     "sd_rel_max": 0.004231001623741459
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.1513862699106804e-05,
+     "w1_rel_p99": 1.3902316272012454e-05,
+     "w1_rel_max": 0.00018128817653462274,
+     "max_rel_p99": 0.0006606938492356482,
+     "mean_rel_max": 0.00010388776396597791,
+     "sd_rel_max": 0.0003450903455044507
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 1.6501633480924035e-05,
+     "w1_rel_p99": 0.0005066031551598713,
+     "w1_rel_max": 0.0006300408496473099,
+     "max_rel_p99": 1.431381132622689,
+     "mean_rel_max": 0.00043952910673229984,
+     "sd_rel_max": 0.0023111662316586123
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.1178807755985785e-05,
+     "w1_rel_p99": 1.1178807756120638e-05,
+     "w1_rel_max": 1.1178807756123391e-05,
+     "max_rel_p99": 0.0002266556597783057,
+     "mean_rel_max": 1.4626623882005139e-16,
+     "sd_rel_max": 1.949585084481953e-07
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.002882142112205943,
+     "w1_abs_max": 0.08449690889851513,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.000921124977326479,
+     "w1_abs_max": 0.04762519373233784,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.211699232605336e-07,
+     "w1_abs_max": 0.0002612142095858687,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.0003065198753497943,
+     "w1_abs_max": 0.00034117526629251493,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.00016198813988105559,
+     "w1_abs_max": 0.001961623706357069,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 8.220608214795297e-05,
+     "w1_abs_max": 0.01554851030404216,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 3.25715943279882e-05,
+     "w1_abs_max": 0.00042961475682440353,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 2.8337634227426314e-06,
+     "w1_abs_max": 2.833763422777514e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.002211356396725983,
+     "w1_abs_max": 0.07742268294605503,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0009705739177171269,
+     "w1_abs_max": 0.014543818160877242,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.1057647685746315e-07,
+     "w1_abs_max": 3.5266012332526436e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 186.7,
+   "draw_ms_full_dataset": 66.3,
+   "draw_ms_clinical_only": 14.11
+  },
+  {
+   "knots": 1024,
+   "dtype": "float32",
+   "tables_MB": 271.1,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 1.1972108998775276e-06,
+     "w1_rel_p99": 0.00047387035593067874,
+     "w1_rel_max": 0.000544976850935906,
+     "max_rel_p99": 0.3622145395174885,
+     "mean_rel_max": 0.00046591714216743764,
+     "sd_rel_max": 0.0042258191359574315
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 5.585465350595655e-05,
+     "w1_rel_p99": 9.225387506865411e-05,
+     "w1_rel_max": 0.0001666802913858551,
+     "max_rel_p99": 0.000659912309166428,
+     "mean_rel_max": 0.00010515457402499993,
+     "sd_rel_max": 0.000346784256836985
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 4.743825751036622e-06,
+     "w1_rel_p99": 0.0004784268706650612,
+     "w1_rel_max": 0.0005971219288600954,
+     "max_rel_p99": 1.4313848273048215,
+     "mean_rel_max": 0.00043834810950506926,
+     "sd_rel_max": 0.002311135740791004
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 9.460995946406745e-07,
+     "w1_rel_p99": 1.5936138257794655e-06,
+     "w1_rel_max": 1.606828401925155e-06,
+     "max_rel_p99": 0.0002368697560003689,
+     "mean_rel_max": 1.4952495412467753e-16,
+     "sd_rel_max": 5.427053895168399e-08
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.0011462552481064092,
+     "w1_abs_max": 0.08007213158998416,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 5.053795207177192e-05,
+     "w1_abs_max": 0.041774142111112106,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 2.615657295982482e-06,
+     "w1_abs_max": 0.00024016602406270668,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 2.510390327744444e-05,
+     "w1_abs_max": 0.000417091363682065,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 2.0559138675685373e-05,
+     "w1_abs_max": 0.0006184987205048835,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 7.797790103063196e-06,
+     "w1_abs_max": 0.014224311628114933,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 7.2060961668826695e-06,
+     "w1_abs_max": 0.00016841892218788512,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 2.398308016459804e-07,
+     "w1_abs_max": 4.0732175124501627e-07,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0007065829031759341,
+     "w1_abs_max": 0.07308328888071614,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.00010574172991006936,
+     "w1_abs_max": 0.0131081358817986,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 7.95867529585978e-07,
+     "w1_abs_max": 3.1101102755115573e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 321.2,
+   "draw_ms_full_dataset": 77.2,
+   "draw_ms_clinical_only": 14.37
+  },
+  {
+   "knots": 1024,
+   "dtype": "float64",
+   "tables_MB": 542.1,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 4.833606908580643e-07,
+     "w1_rel_p99": 0.00047379049796316883,
+     "w1_rel_max": 0.0005448985096153541,
+     "max_rel_p99": 0.36221426006837737,
+     "mean_rel_max": 0.0004659159300157484,
+     "sd_rel_max": 0.0042258222119264666
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.0666527433709172e-08,
+     "w1_rel_p99": 1.0587485064722502e-06,
+     "w1_rel_max": 0.00016510947389932883,
+     "max_rel_p99": 0.0006603828376958728,
+     "mean_rel_max": 0.0001051900506332349,
+     "sd_rel_max": 0.0003467065564906058
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 2.86892304364575e-06,
+     "w1_rel_p99": 0.0004766190283824289,
+     "w1_rel_max": 0.0005959081971147303,
+     "max_rel_p99": 1.4313837353535135,
+     "mean_rel_max": 0.00043830917203777585,
+     "sd_rel_max": 0.0023110422107293083
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 2.3178806782302286e-07,
+     "w1_rel_p99": 2.317880694426139e-07,
+     "w1_rel_max": 2.3178806947566678e-07,
+     "max_rel_p99": 0.00023568271933518226,
+     "mean_rel_max": 1.8818926538924703e-17,
+     "sd_rel_max": 4.565052913463319e-08
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.0009680612630553753,
+     "w1_abs_max": 0.07990937406370247,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 3.852186236685817e-05,
+     "w1_abs_max": 0.04175746801870095,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 1.1906356282842534e-10,
+     "w1_abs_max": 0.00023790266714671798,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 1.1886712158133694e-05,
+     "w1_abs_max": 2.0358909985571973e-05,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 4.986001463184401e-06,
+     "w1_abs_max": 0.0006125856341423208,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 6.245189934021844e-06,
+     "w1_abs_max": 0.014222289417396386,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 1.0845497314115882e-06,
+     "w1_abs_max": 0.00011805514255751326,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 5.875694105870674e-08,
+     "w1_abs_max": 5.875694147764246e-08,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0005327257615963532,
+     "w1_abs_max": 0.07300620318568596,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 4.319671485145116e-05,
+     "w1_abs_max": 0.012946200290522292,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 4.612383254845587e-09,
+     "w1_abs_max": 2.7099788107130818e-08,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 592.3,
+   "draw_ms_full_dataset": 70.1,
+   "draw_ms_clinical_only": 13.88
+  },
+  {
+   "knots": 4096,
+   "dtype": "int16",
+   "tables_MB": 543.2,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 1.234534986760602e-05,
+     "w1_rel_p99": 0.00010275627880521046,
+     "w1_rel_max": 0.00012268199833427945,
+     "max_rel_p99": 0.06455175805595935,
+     "mean_rel_max": 6.558511134532371e-05,
+     "sd_rel_max": 0.0007453551583527229
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.1794364534897893e-05,
+     "w1_rel_p99": 1.416535170793748e-05,
+     "w1_rel_max": 5.2706979981791056e-05,
+     "max_rel_p99": 0.00014835114157578228,
+     "mean_rel_max": 3.3277474815228923e-05,
+     "sd_rel_max": 0.00014213200944501736
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 1.3034893359197922e-05,
+     "w1_rel_p99": 0.00017795054540254264,
+     "w1_rel_max": 0.00023388551880137288,
+     "max_rel_p99": 0.6770627470162636,
+     "mean_rel_max": 0.00020226063671951753,
+     "sd_rel_max": 0.0011026251483388094
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.2498986215687692e-05,
+     "w1_rel_p99": 1.249898621583434e-05,
+     "w1_rel_max": 1.2498986215837334e-05,
+     "max_rel_p99": 8.508832795927916e-05,
+     "mean_rel_max": 1.4054316501569677e-14,
+     "sd_rel_max": 5.594456120583402e-08
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.002053748400488331,
+     "w1_abs_max": 0.02132670449006424,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0008824479537452856,
+     "w1_abs_max": 0.01613549880190679,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.6261006520176e-07,
+     "w1_abs_max": 7.594434661309726e-05,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.0003079911087240095,
+     "w1_abs_max": 0.00033373958025739725,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.0001546169557646998,
+     "w1_abs_max": 0.001643480533074615,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 8.122009200715874e-05,
+     "w1_abs_max": 0.0031893323389528497,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 3.292943220490653e-05,
+     "w1_abs_max": 0.0003236970053909355,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 3.168421063544512e-06,
+     "w1_abs_max": 3.168421063582446e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0017998883955443468,
+     "w1_abs_max": 0.02345780208470416,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.000978649198885323,
+     "w1_abs_max": 0.0038689031568985843,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.0496867328960037e-07,
+     "w1_abs_max": 4.090596762140568e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 593.3,
+   "draw_ms_full_dataset": 43.5,
+   "draw_ms_clinical_only": 15.42
+  },
+  {
+   "knots": 4096,
+   "dtype": "float32",
+   "tables_MB": 1084.3,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 5.247805665437525e-07,
+     "w1_rel_p99": 5.1217139232604356e-05,
+     "w1_rel_max": 9.10651114118051e-05,
+     "max_rel_p99": 0.06455351812858694,
+     "mean_rel_max": 6.3846206009008e-05,
+     "sd_rel_max": 0.0007424419890498246
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 5.865506574528096e-05,
+     "w1_rel_p99": 9.153430740275029e-05,
+     "w1_rel_max": 0.00011928050130832808,
+     "max_rel_p99": 0.000264001355343393,
+     "mean_rel_max": 3.237425693902768e-05,
+     "sd_rel_max": 0.00014200727886826137
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 1.2729555159323942e-06,
+     "w1_rel_p99": 0.0001472789023517029,
+     "w1_rel_max": 0.00020772244654876325,
+     "max_rel_p99": 0.6771082362116745,
+     "mean_rel_max": 0.00020116659223005776,
+     "sd_rel_max": 0.0011017857427959576
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 8.301534773286428e-07,
+     "w1_rel_p99": 1.2883558623160424e-06,
+     "w1_rel_max": 1.2977069313974178e-06,
+     "max_rel_p99": 7.606402100163298e-05,
+     "mean_rel_max": 1.537897152065077e-16,
+     "sd_rel_max": 9.185904037423143e-09
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.00026334814713901977,
+     "w1_abs_max": 0.01632593633318269,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 1.9616009005865576e-05,
+     "w1_abs_max": 0.009096551307453044,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 2.630467853776547e-06,
+     "w1_abs_max": 5.0751574075160594e-05,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 1.2508159570087662e-05,
+     "w1_abs_max": 0.00035474255801704047,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 4.558570390313099e-06,
+     "w1_abs_max": 0.0003832293214087734,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 3.0101869328627573e-06,
+     "w1_abs_max": 0.00168160234244393,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 3.2097233727927665e-06,
+     "w1_abs_max": 0.00010228415316271278,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 2.1043912827437873e-07,
+     "w1_abs_max": 3.28961237719156e-07,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0002934357660083764,
+     "w1_abs_max": 0.020849545289721938,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 6.0185856183281317e-05,
+     "w1_abs_max": 0.0022776749694073395,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 7.795640163650933e-07,
+     "w1_abs_max": 3.167398561369772e-06,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 1134.4,
+   "draw_ms_full_dataset": 34.1,
+   "draw_ms_clinical_only": 15.55
+  },
+  {
+   "knots": 4096,
+   "dtype": "float64",
+   "tables_MB": 2168.6,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15975,
+     "w1_rel_median": 2.9217899697480113e-08,
+     "w1_rel_p99": 5.0916265959132665e-05,
+     "w1_rel_max": 6.39500787266484e-05,
+     "max_rel_p99": 0.06455353976229833,
+     "mean_rel_max": 6.384820433600558e-05,
+     "sd_rel_max": 0.0007424393890591574
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 6.375834404967507e-10,
+     "w1_rel_p99": 6.848614185169677e-08,
+     "w1_rel_max": 3.320160432986185e-05,
+     "max_rel_p99": 0.00014387830145165051,
+     "mean_rel_max": 3.241332017384528e-05,
+     "sd_rel_max": 0.00014197288879147507
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 1.8864606607790004e-07,
+     "w1_rel_p99": 0.0001461212275640686,
+     "w1_rel_max": 0.00020134850382338602,
+     "max_rel_p99": 0.6771075474643423,
+     "mean_rel_max": 0.0002011554085700879,
+     "sd_rel_max": 0.0011017472065033562
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.979207751949882e-08,
+     "w1_rel_p99": 1.979207856317938e-08,
+     "w1_rel_max": 1.9792078584478983e-08,
+     "max_rel_p99": 7.33819347899681e-05,
+     "mean_rel_max": 6.843246014154438e-18,
+     "sd_rel_max": 3.913183777015661e-09
+    }
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 6.424761190115813e-05,
+     "w1_abs_max": 0.015966023664424345,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 2.393612553525104e-06,
+     "w1_abs_max": 0.009069226305693429,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 6.354528014895777e-12,
+     "w1_abs_max": 4.7839473030119456e-05,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 8.135224121852414e-07,
+     "w1_abs_max": 1.7640366182496842e-06,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 3.7525445774908364e-07,
+     "w1_abs_max": 3.244306788117643e-05,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 4.002482557989573e-07,
+     "w1_abs_max": 0.0016789487981205744,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 6.824501159671814e-08,
+     "w1_abs_max": 7.2516470773775765e-06,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 5.017177731212949e-09,
+     "w1_abs_max": 5.01717800117929e-09,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 2.788515613574849e-05,
+     "w1_abs_max": 0.020194466835509628,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 2.7160800168540833e-06,
+     "w1_abs_max": 0.002091394310243855,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.421950869365864e-10,
+     "w1_abs_max": 1.7250373768318283e-09,
+     "unit_resolution": 0.05
+    }
+   },
+   "cache_total_MB": 2218.7,
+   "draw_ms_full_dataset": 38.6,
+   "draw_ms_clinical_only": 16.73
+  }
+ ],
+ "exact_ragged_MB": 251.923296
+}

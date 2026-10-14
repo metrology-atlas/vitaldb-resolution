@@ -1,0 +1,201 @@
+{
+ "variable": "height",
+ "unit": "cm",
+ "schema_version": "0.3",
+ "record_unit": 0.1,
+ "resolution": {
+  "observed": 0.1,
+  "override": null,
+  "effective": 0.1,
+  "justification": "Rounding model kept at the native 0.1 cm so that the decimal digit can separate measured from written-in heights; diurnal height change is handled by measurement_variability, not by coarsening."
+ },
+ "population": {
+  "fitted": "adults (age >= 18), first case per patient (subjectid)",
+  "children": "not modelled; native resolution only",
+  "repeat_cases": "later cases of the same patient usually copy the height; use the first-case posterior"
+ },
+ "special_values": {
+  "off_grid": "values finer than 0.1 cm (1 value, 157.36) are flagged off_grid and rounded to 0.1 before evaluation"
+ },
+ "grid": {
+  "lo": 100,
+  "hi": 210,
+  "dx": 0.01
+ },
+ "latent": {
+  "family": "normal_regression",
+  "intercept": 155.85659602740606,
+  "covariates": [
+   {
+    "name": "sex",
+    "transform": {
+     "type": "indicator",
+     "value": "M"
+    },
+    "coef": 12.585034550446375
+   },
+   {
+    "name": "age",
+    "transform": {
+     "type": "linear",
+     "centre": 60,
+     "scale": 10
+    },
+    "coef": -2.2628228032048963
+   },
+   {
+    "name": "age",
+    "transform": {
+     "type": "quadratic",
+     "centre": 60,
+     "scale": 10
+    },
+    "coef": -0.1334209316346992
+   }
+  ],
+  "log_sd": 1.6529480702237325,
+  "sd_covariates": [
+   {
+    "name": "sex",
+    "transform": {
+     "type": "indicator",
+     "value": "M"
+    },
+    "coef": 0.08394273951030617
+   }
+  ]
+ },
+ "required_covariates": [
+  "sex",
+  "age",
+  "emop"
+ ],
+ "allocation": [
+  {
+   "label": "tens",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -4.30525730813146
+   }
+  },
+  {
+   "label": "whole_cm",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -2.6873858559001156,
+    "covariates": [
+     {
+      "name": "emop",
+      "transform": {
+       "type": "indicator",
+       "value": 1
+      },
+      "coef": 1.0928475987200357
+     }
+    ]
+   }
+  },
+  {
+   "label": "half_cm",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 0.5,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -3.4640758567296386
+   }
+  },
+  {
+   "label": "round_up_from_x9",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "ceiling"
+   },
+   "capture_window": {
+    "lo": 0.05,
+    "hi": 0.15
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -1.422038923305735
+   }
+  },
+  {
+   "label": "measured_0.1",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 0.1,
+    "anchor": "nearest"
+   },
+   "prob": null
+  }
+ ],
+ "flags": {
+  "possibly_written_in": "posterior weight of the tens, whole_cm, half_cm and round_up modes; > 0 only for values ending in .0 or .5"
+ },
+ "measurement_variability": {
+  "status": "from literature, not fitted",
+  "kind": "normal",
+  "measured": {
+   "sd": 0.5,
+   "unit": "cm",
+   "basis": "Adult stature falls about 14-17 mm over the day, mostly in the first hours after rising (Leatt, Reilly & Troup 1986; Healey et al. 2011; Voss & Bailey 1997). With time of measurement unknown, a uniform loss over ~1.5 cm has SD ~0.43 cm; combined with stadiometer reproducibility SD ~0.3 cm (Voss & Bailey 1997) gives ~0.5 cm."
+  },
+  "written_in": {
+   "sd": 2.6,
+   "unit": "cm",
+   "bias_self_minus_measured": {
+    "M": {
+     "19-29": 0.03,
+     "30-39": 0.26,
+     "40-49": 0.43,
+     "50-59": 0.65,
+     "60-69": 1.02,
+     "70+": 1.7
+    },
+    "F": {
+     "19-29": -0.11,
+     "30-39": 0.2,
+     "40-49": 0.39,
+     "50-59": 0.75,
+     "60-69": 1.3,
+     "70+": 2.17
+    }
+   },
+   "basis": "2018 Korea Community Health Survey, 171,384 adults: self-reported minus measured height by sex and age; limits of agreement -6.26 to 4.31 cm give SD ~2.6 cm. Assumes written-in heights are self-reported. True height = recorded - bias."
+  },
+  "references": [
+   "Leatt P, Reilly T, Troup JG. Spinal loading during circuit weight-training and running. Br J Sports Med 1986;20(3):119-24.",
+   "Voss LD, Bailey BJR. Diurnal variation in stature: is stretching the answer? Arch Dis Child 1997;77:319-22.",
+   "Differences in accuracy of height, weight, and BMI between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health 2022 (PMC9117107)."
+  ]
+ },
+ "fit": {
+  "n": 6041,
+  "loglik": -32378.34308758191,
+  "n_params": 11,
+  "aic": 64778.68617516382,
+  "bic": 64852.455748405344,
+  "source": "clinical_data.csv",
+  "method": "closed-form likelihood, Nelder-Mead",
+  "date": "2026-10-13"
+ }
+}

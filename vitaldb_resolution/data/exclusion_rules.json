@@ -1,0 +1,127 @@
+{
+ "schema_version": "0.4",
+ "dataset": "VitalDB clinical_data.csv / lab_data.csv",
+ "date": "2026-10-13",
+ "statuses": {
+  "imputed": "excluded from fitting; API returns status, no distribution",
+  "invalid": "excluded; API returns status",
+  "flag": "fitted and returned with the flag attached"
+ },
+ "rules": [
+  {
+   "id": "opend_imputed",
+   "field": "opend",
+   "test": "598 <= caseend - opend <= 604 (s)",
+   "cases": 537,
+   "status": "imputed"
+  },
+  {
+   "id": "aneend_derived",
+   "field": "aneend",
+   "test": "abs(aneend - round(aneend)) > 1e-9",
+   "cases": 130,
+   "status": "imputed",
+   "note": "14 also have an imputed op end"
+  },
+  {
+   "id": "date_1900",
+   "field": [
+    "adm",
+    "dis",
+    "aneend"
+   ],
+   "test": "value < -1e8 s (1900-01-01 placeholder)",
+   "cases": 2,
+   "status": "invalid"
+  },
+  {
+   "id": "event_outside_model_range",
+   "field": [
+    "aneend"
+   ],
+   "test": "offset from the device reference outside the model grid",
+   "cases": 2,
+   "status": "invalid",
+   "note": "aneend 720 min after recording end in one case (12-hour clock error?) and 1,441 min in the other (date error?)"
+  },
+  {
+   "id": "adm_not_whole_minute",
+   "field": "adm",
+   "test": "adm % 60 != 0",
+   "cases": 2,
+   "status": "flag",
+   "flag": "clock_uncertain"
+  },
+  {
+   "id": "clock_offset_mismatch",
+   "field": [
+    "opstart",
+    "opend"
+   ],
+   "test": "sub-minute offset differs from anaesthesia start's (charted times should share it)",
+   "status": "flag",
+   "flag": "clock_offset_mismatch",
+   "note": "count in validation report"
+  },
+  {
+   "id": "opend_after_aneend",
+   "field": [
+    "opend",
+    "aneend"
+   ],
+   "test": "opend > aneend",
+   "cases": 52,
+   "status": "flag",
+   "flag": "order_violation"
+  },
+  {
+   "id": "opend_equals_aneend",
+   "field": [
+    "opend",
+    "aneend"
+   ],
+   "test": "opend == aneend",
+   "cases": 108,
+   "status": "flag",
+   "flag": "same_time"
+  },
+  {
+   "id": "icu_gt_los",
+   "field": "icu_days",
+   "test": "icu_days > (dis - adm)/86400",
+   "cases": 6,
+   "status": "flag",
+   "flag": "order_violation"
+  },
+  {
+   "id": "rbc_probable_ml",
+   "field": "intraop_rbc",
+   "test": "value consistent with mL rather than units",
+   "cases": 5,
+   "status": "flag",
+   "flag": "unit_uncertain"
+  },
+  {
+   "id": "hct_standalone",
+   "field": "hct",
+   "test": "no other lab panel at the same timestamp",
+   "cases": 9,
+   "status": "flag",
+   "flag": "source_unknown"
+  },
+  {
+   "id": "colloid_kidney",
+   "field": "intraop_colloid",
+   "test": "kidney transplant, donor or other nephrectomy",
+   "status": "flag",
+   "flag": "unit_uncertain",
+   "note": "pending clarification"
+  }
+ ],
+ "checked_no_cases": [
+  "opstart < anestart",
+  "opend < opstart",
+  "aneend < anestart"
+ ],
+ "case_ids": "not published: per-case lists are kept with the analysis outputs (aggregate counts only here)"
+}

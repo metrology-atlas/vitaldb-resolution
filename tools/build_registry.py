@@ -52,8 +52,16 @@ for v in ['adm', 'dis']:
         special_values=[{'test': 'value < -1e8', 'status': 'invalid', 'note': '1900-01-01 placeholder'}],
         evidence='Discharge minus admission is a whole number of days in every case; value marks midnight.')
 add('icu_days', 'clinical', type='count', method='triangular_count', half_width=1, unit='days',
-    evidence='Day count; counting rule unknown (calendar days touched or completed 24 h), so ±1 day.',
-    flag_rules=[{'test': 'icu_days > (dis - adm)/86400', 'flag': 'order_violation'}])
+    counting_rule='nights or completed days (assumed)',
+    evidence='Day count, read as nights or completed days: 815 one-day stays against 98 two-day stays argue against '
+             'calendar days touched. The rule is an assumption, so ±1 day is kept.',
+    optional_covariates=['adm', 'dis'],
+    flag_rules=[{'test': 'icu_days > (dis - adm)/86400', 'flag': 'order_violation',
+                 'note': 'ICU days exceed the whole hospital stay'},
+                {'test': 'icu_days > 0 and icu_days >= days from the case-day midnight to the discharge midnight',
+                 'flag': 'icu_exceeds_postop',
+                 'note': 'probably includes preoperative ICU days (mostly emergencies with long preoperative stays); '
+                         'do not use as postoperative ICU length'}])
 add('death_inhosp', 'clinical', type='binary', method='not_applicable')
 
 # ---------------- demographics and body size ----------------
@@ -76,9 +84,18 @@ for v in ['asa', 'emop', 'department', 'optype', 'dx', 'opname', 'approach', 'po
             evidence='Discrete category or device size; not a resolution question.')
 
 # ---------------- fluids, blood products, drugs ----------------
+DURATION_NOTE = {'duration': 'charted anaesthesia duration in minutes; taken from anestart and aneend in a case row, '
+                 'or passed as duration=; without a usable one the latent is the marginal over fitted cases (flag duration_marginal)'}
 for v in ['intraop_uo', 'intraop_ebl', 'intraop_crystalloid']:
+    kw = dict(zero_status='zero_or_not_recorded') if v != 'intraop_uo' else dict(
+        zero_rule='A recorded 0 is a point mass at 0 mixed with the latent below 2.5 mL (zero_model in the model file); '
+                  'flag zero_anuric (preop_cr > 2 or asa == 6) or zero_unexplained. Missing means not measured, not 0.')
+    notes = dict(DURATION_NOTE)
+    if v == 'intraop_uo':
+        notes['department'] = ('shifts the heaping propensities (100 / 50 / 10 mL grids); without it, or for another '
+                               'department, propensities are averaged over the fitted department shares (flag department_marginal)')
     add(v, 'clinical', type='continuous', method='model', model=f'{v}.model.json', required_covariates=[],
-        zero_status='zero_or_not_recorded')
+        optional_covariates=['duration'] + (['department'] if v == 'intraop_uo' else []), covariate_notes=notes, **kw)
 add('intraop_ppf', 'clinical', type='continuous', method='model', model='intraop_ppf.model.json',
     required_covariates=['weight', 'age', 'sex'], zero_status='zero_or_not_recorded',
     evidence='Single weight-based induction dose written as a preferred value. Zero in 3,719 of 6,043 GAs '
@@ -147,7 +164,8 @@ for a in sorted(lab.name.unique()):
         add(a, 'lab', type='continuous', method='uniform', resolution=r, anchor='nearest',
             evidence='Single resolution; no heaping in the whole-number screen.' if r and r >= 1 else
                      'Single resolution; last digit flat.')
-R['p']['description'] = 'Not in lab_parameters.csv (probably phosphorus); confirm with the VitalDB team'
+R['p']['description'] = ('Probably phosphorus (unconfirmed): not in lab_parameters.csv; median 3.2, IQR 2.7-3.8, '
+                        '5th-95th percentile 1.9-5.0, consistent with inorganic phosphorus in mg/dL. Name kept as released.')
 R['lab_dt'] = {'variable': 'lab_dt', 'source': 'lab', 'description': 'Lab timestamp (seconds from casestart)',
                'unit': 'sec', 'type': 'timestamp', 'method': 'uniform', 'resolution': 1, 'anchor': 'floor',
                'available_at': 'lab_time_plus_turnaround',
@@ -171,6 +189,38 @@ for v, a in PREOP.items():
         add(v, 'clinical', type='continuous', method='uniform', resolution=finest(x), anchor='nearest',
             lab_analyte=a, evidence='Pre-operative copy of a lab result; behaves like the lab data.')
 
+# ---------------- reporting limits (open intervals, like age > 89) ----------------
+LIMITS = {'lac': {'upper': 15.0, 'note': 'values above 15 mmol/L are reported as 15.0: 317 results at 15.0 (28 cases) '
+                                          'against at most 16 at any nearby value'},
+          'aptt': {'upper': 400.0, 'note': 'capped at 400.0 s: 226 results (87 cases)'},
+          'esr': {'lower': 2.0, 'note': 'floor at 2 mm/h: no result below it; 89 results (72 cases) at 2'}}
+for a, lim in LIMITS.items():
+    R[a]['reporting_limits'] = lim
+R['preop_aptt']['reporting_limits'] = dict(LIMITS['aptt'], note='pre-operative copy of aptt (2 values at 400.0); ' + LIMITS['aptt']['note'])
+
+# ---------------- anchor basis ----------------
+VOLUME_ANCHOR = json.load(open(os.path.join(ROOT, 'results', 'anchor_basis_volume.json')))
+for k, e in R.items():
+    if k in ('adm', 'dis'):
+        e.update(anchor_basis='tested', anchor_note='Discharge minus admission is a whole number of days in every case, '
+                                                    'so each value marks a midnight.')
+    elif k in ('caseend', 'lab_dt'):
+        e.update(anchor_basis='convention', anchor_note='Clock truncation to the whole second; at most 1 s, negligible.')
+    elif k == 'age':
+        e.update(anchor_basis='assumption', anchor_note='The release says only "years"; infants in tenths and the >89 cap '
+                                                        'point to an exact age cut down to completed years.')
+    elif k == 'icu_days':
+        e.update(anchor_basis='assumption', anchor_note='815 one-day stays against 98 two-day stays argue against calendar '
+                                                        'days touched; read as nights or completed days.')
+    elif k in VOLUME_ANCHOR:
+        e.update(anchor='nearest', **VOLUME_ANCHOR[k])
+    elif e.get('anchor') and (e['source'] == 'lab' or e.get('lab_analyte')):
+        e.update(anchor_basis='convention', anchor_note='Laboratory results rounded to the last reported digit; at most '
+                                                        'half the last digit.')
+    elif e.get('anchor'):
+        e.update(anchor_basis='convention', anchor_note='Native recording unit, rounding to the nearest assumed; not '
+                                                        'tested (sparse or exact-count data).')
+
 # ---------------- derived ----------------
 R['los'] = {'variable': 'los', 'source': 'derived', 'description': 'Length of hospital stay (dis - adm)',
             'unit': 'days', 'type': 'derived', 'method': 'derived', 'formula': '(dis - adm) / 86400',
@@ -185,10 +235,12 @@ for k, a, b, desc_ in [('ind_to_incision', 'anestart', 'opstart', 'Anaesthesia s
             'required_covariates': ['adm', 'caseend', 'emop'],
             'distribution': 'difference of the two event posteriors, sampled independently given the device references'}
 
-reg = {'schema_version': '0.4', 'dataset': 'VitalDB (clinical_data.csv, lab_data.csv)',
+reg = {'schema_version': '0.5', 'dataset': 'VitalDB (clinical_data.csv, lab_data.csv)',
        'built': pd.Timestamp.today().strftime('%Y-%m-%d'),
        'statuses': ['ok', 'missing', 'invalid', 'imputed', 'not_applicable', 'zero_or_not_recorded', 'special_value',
-                    'top_coded', 'error'],
+                    'top_coded', 'bottom_coded', 'error'],
+       'anchor_bases': {'tested': 'settled by the data', 'convention': 'standard practice, negligible if wrong',
+                        'assumption': 'a reasoned reading the release does not confirm', 'open': 'not yet settled'},
        'methods': {
            'model': 'fitted rounding model (value kind); posterior over the true value',
            'timestamp_model': 'fitted reference-offset model; posterior over the true event time',
@@ -200,5 +252,6 @@ reg = {'schema_version': '0.4', 'dataset': 'VitalDB (clinical_data.csv, lab_data
            'age': 'completed years, top-coded and infant rules', 'colloid_rules': 'rule set by operation',
            'derived': 'computed from other variables\' posteriors', 'not_applicable': 'categorical or identifier'},
        'variables': R}
-json.dump(reg, open(os.path.join(DATA, 'registry.json'), 'w'), indent=1)
+with open(os.path.join(DATA, 'registry.json'), 'w', encoding='utf-8') as fh:
+    json.dump(reg, fh, indent=1, ensure_ascii=False); fh.write('\n')
 print(len(R), 'variables;', pd.Series([e['method'] for e in R.values()]).value_counts().to_dict())

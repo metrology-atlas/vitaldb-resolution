@@ -47,7 +47,35 @@ class Model:
             lsd=L['log_sd']+sum(c['coef']*transform(c['transform'], cov[c['name']]) for c in L.get('sd_covariates',[]))
             z=(self.X-mu)/np.exp(lsd); w=np.exp(-0.5*z*z); return w/w.sum()
         coef=np.asarray(L['coefficients'] if coef is None else coef)
-        lw=self.B@np.r_[0,coef]-self.LX; w=np.exp(lw-lw.max()); return w/w.sum()
+        if L.get('location_covariates'):
+            s=self.shift(L, cov)
+            if s is None:                       # covariate not available: marginal over the fitted cases
+                ws=[self._log_spline(coef, q) for q in L['marginal']['shifts']]
+                w=np.mean(ws, axis=0); return w/w.sum()
+            return self._log_spline(coef, s)
+        return self._log_spline(coef, 0.0)
+    @staticmethod
+    def shift(L, cov):
+        """Location shift of a log-spline latent on the log scale (sum of coef x transform), or None when a
+        location covariate is missing from cov."""
+        s=0.0
+        for c in L['location_covariates']:
+            v=None if cov is None else cov.get(c['name'])
+            if v is None or (isinstance(v,float) and not np.isfinite(v)): return None
+            s+=c['coef']*transform(c['transform'], v)
+        return s
+    def _log_spline(self, coef, s):
+        """Grid probabilities of a log-spline latent shifted by s on the log scale: f(x) ~ g(log x - s) / x."""
+        if s==0.0: B=self.B
+        else:
+            key=round(float(s),12); cache=self.__dict__.setdefault('_bcache',{})
+            if key not in cache:
+                if len(cache)>256: cache.clear()
+                lo,hi=self.knots[0],self.knots[-1]; K=self.B.shape[1]
+                u=np.clip(self.LX-s,lo,hi)
+                cache[key]=np.column_stack([BSpline(self.knots,np.eye(K)[k],3)(u) for k in range(K)])
+            B=cache[key]
+        lw=B@np.r_[0,coef]-self.LX; w=np.exp(lw-lw.max()); return w/w.sum()
     # ---- rounding
     def _round(self, mode):
         if mode['type']=='set':
@@ -65,8 +93,18 @@ class Model:
         if p['form']=='logistic_logx': return sig(lg+p['slope']*(self.LX-np.log(p['centre'])))
         raise ValueError(p['form'])
     def components(self, spec=None, cov=None):
-        """Return list of (label, recorded_value_array, weight_array) over the true-value grid."""
+        """Return list of (label, recorded_value_array, weight_array) over the true-value grid.
+
+        A propensity covariate missing from ``cov`` (or an unknown level) is averaged over its fitted shares
+        (``covariate_marginals`` in the model file): the weights become the share-weighted mixture."""
         s=self.spec if spec is None else spec
+        for name,shares in s.get('covariate_marginals',{}).items():
+            if cov is None or cov.get(name) not in shares:
+                out=None
+                for lev,sh in shares.items():
+                    part=self.components(s,{**(cov or {}),name:lev})
+                    out=[(l,r,sh*t) for l,r,t in part] if out is None else [(l,r,t0+sh*t) for (l,r,t0),(_,_,t) in zip(out,part)]
+                return out
         remaining=np.ones_like(self.X); out=[]
         for comp in s['allocation']:
             if comp['kind']=='nominal':

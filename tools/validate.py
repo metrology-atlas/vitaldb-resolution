@@ -1,5 +1,7 @@
 """Validation against the data: (1) each fitted model reproduces its stored log-likelihood through the package,
-(2) every clinical and lab value returns a status without error, (3) summary of statuses and flags.
+(2) every clinical and lab value returns a status without error, (3) summary of statuses, flags and densities,
+(4) for each modelled variable, the largest gap between the latent and uniform means within an interval, as a fraction
+of the interval width.
 usage: python tools/validate.py <clinical_data.csv> <lab_data.csv> [--full]"""
 import json, sys, time
 import numpy as np, pandas as pd
@@ -10,48 +12,30 @@ clin, labf = sys.argv[1], sys.argv[2]
 FULL = '--full' in sys.argv
 reg = vr.load()
 d = pd.read_csv(clin, encoding='utf-8-sig')
-report = {'loglik': {}, 'clinical': {}, 'lab': {}}
+report = {'models': {}, 'loglik': {}, 'clinical': {}, 'lab': {}}
+for mid, m in vr.versions.load_lock()['models'].items():
+    report['models'][mid] = m
 
-# ---------------- 1. log-likelihood reproduction ----------------
-def ll_value(v):
-    spec = reg.spec(f'{v}.model.json'); M = reg.model(f'{v}.model.json'); res = spec['resolution']['effective']
-    x = d[v].dropna(); x = x[(x > 0) & (np.abs(x / res - np.round(x / res)) < 1e-9)]
-    vals, cnt = np.unique(np.round(x / M.ru).astype(int), return_counts=True)
-    return M.loglik(vals, cnt), spec['fit']['loglik'], len(x)
+# ---------------- 1. log-likelihood reproduction (stored fit block vs the library) ----------------
+from vitaldb_resolution import fitcheck
+quick = ['intraop_uo', 'intraop_ebl', 'intraop_crystalloid', 'intraop_ppf']
+for v in (quick + ['height', 'weight', 'anestart', 'opstart', 'opend', 'aneend']) if FULL else quick:
+    r = fitcheck.recompute(v, d, reg)
+    report['loglik'][v] = {'n': r['n'], 'n_stored': r['n_stored'], 'loglik': r['loglik'], 'loglik_stored': r['loglik_stored'],
+                           'diff': r['loglik'] - r['loglik_stored']}
+    print(f"{v:22s} n={r['n']:5d} (stored {r['n_stored']:5d}) loglik package {r['loglik']:12.3f}  stored "
+          f"{r['loglik_stored']:12.3f}  diff {r['loglik'] - r['loglik_stored']:+.4f}")
 
-def ll_covariate(v, frame, cov_cols):
-    spec = reg.spec(f'{v}.model.json'); M = reg.model(f'{v}.model.json')
-    tot = 0.0
-    for _, r in frame.iterrows():
-        q = M.pmf(spec, {k: r[k] for k in cov_cols})
-        tot += np.log(max(q[int(round(r[v] / M.ru))], 1e-300))
-    return tot, spec['fit']['loglik'], len(frame)
-
-def ll_timestamp(v):
-    spec = reg.spec(f'{v}.model.json'); TM = reg.model(f'{v}.model.json')
-    tot, n = 0.0, 0
-    for _, r in d.iterrows():
-        dist = reg.case_distribution(r, v)
-        if not dist.ok: continue
-        ctx = reg.timestamp_context(v, r[v], r)
-        c = {'ref': ctx['ref']}
-        if v == 'anestart':
-            from vitaldb_resolution.registry import _ref_window
-            c.update(ref_window=_ref_window(ctx['recording_start_clock']), emop=int(r['emop']))
-        tot += np.log(TM.prob_recorded(ctx['M'], c)); n += 1
-    return tot, spec['fit']['loglik'], n
-
-for v in ['intraop_uo', 'intraop_ebl', 'intraop_crystalloid']:
-    report['loglik'][v] = ll_value(v)
-adults = d[pd.to_numeric(d.age, errors='coerce') >= 18].sort_values('caseid').drop_duplicates('subjectid')
-adults = adults.assign(age=pd.to_numeric(adults.age))
-if FULL:
-    report['loglik']['height'] = ll_covariate('height', adults, ['sex', 'age', 'emop'])
-    report['loglik']['weight'] = ll_covariate('weight', adults, ['sex', 'age', 'department'])
-    for v in ['anestart', 'opstart', 'opend', 'aneend']:
-        report['loglik'][v] = ll_timestamp(v)
-for k, (got, stored, n) in report['loglik'].items():
-    print(f'{k:22s} n={n:5d} loglik package {got:12.2f}  stored {stored:12.2f}  diff {got - stored:+.3f}')
+# ---------------- 1b. zeros and missing values of the volume variables ----------------
+zeros = {}
+for v in ['intraop_uo', 'intraop_ebl', 'intraop_crystalloid', 'intraop_colloid']:
+    x = d[v]; zeros[v] = {'recorded': int(x.notna().sum()), 'missing': int(x.isna().sum()), 'zero': int((x == 0).sum())}
+uo0 = d[d.intraop_uo == 0]
+an = (uo0.preop_cr > 2) | (uo0.asa == 6)
+zeros['intraop_uo'].update(zero_anuric=int(an.sum()), zero_unexplained=int((~an).sum()),
+                           p0=float((d.intraop_uo == 0).sum() / d.intraop_uo.notna().sum()))
+report['zeros'] = zeros
+print('zeros:', json.dumps(zeros))
 
 # ---------------- 2. every clinical value ----------------
 t0 = time.time()
@@ -60,16 +44,20 @@ for v in list(reg.vars):
     e = reg.vars[v]
     if e['source'] == 'lab': continue
     if e['source'] == 'clinical' and v not in d.columns: continue
-    st, fl = {}, {}
+    st, fl, dn, gap = {}, {}, {}, None
     for r in rows.to_dict('records'):
         x = reg.case_distribution(r, v, n_samples=2000)
         st[x.status] = st.get(x.status, 0) + 1
         for f in x.flags: fl[f] = fl.get(f, 0) + 1
+        dn[x.density] = dn.get(x.density, 0) + 1
+        g = x.latent_uniform_gap() if x.ok else None
+        if g is not None and (gap is None or g > gap[0]): gap = (g, r[v])
         if x.ok:
             mu = x.mean()
             assert np.isfinite(mu), (v, r['caseid'])
             json.dumps(x.to_dict())
-    report['clinical'][v] = {'status': st, 'flags': fl}
+    report['clinical'][v] = {'status': st, 'flags': fl, 'density': dn}
+    if gap: report['clinical'][v]['latent_uniform_gap_max'] = {'fraction_of_width': round(gap[0], 4), 'recorded_value': gap[1]}
 print(f'clinical: {len(report["clinical"])} variables x {len(rows)} cases in {time.time() - t0:.0f} s')
 
 # ---------------- 3. lab values ----------------
@@ -85,4 +73,7 @@ print(f'lab: {len(ds)} results in {time.time() - t0:.0f} s; statuses {S.status.v
 
 bad = {k: v for k, v in {**report['clinical'], **report['lab']}.items() if 'error' in v['status']}
 print('variables with errors:', bad or 'none')
+gaps = {k: v['latent_uniform_gap_max'] for k, v in report['clinical'].items() if 'latent_uniform_gap_max' in v}
+report['latent_uniform_gap_max'] = gaps
+print('largest latent-uniform mean gap (fraction of interval width):', json.dumps(gaps))
 json.dump(report, open('validation_report.json', 'w'), indent=1, default=str)

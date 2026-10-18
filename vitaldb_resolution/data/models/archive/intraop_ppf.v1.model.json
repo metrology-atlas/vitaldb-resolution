@@ -1,0 +1,134 @@
+{
+ "id": "intraop_ppf",
+ "version": 1,
+ "fit_hash": "ddfabed0ef8024f2cfcf67268baebb3fd891999fd973ab76030981b611efeaa1",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "superseded_by": 2,
+ "schema_version": "0.2",
+ "variable": "intraop_ppf",
+ "unit": "mg",
+ "resolution": {
+  "observed": 1,
+  "override": 10,
+  "effective": 10,
+  "justification": "Only 4 of 2,335 non-zero values are off the 10 mg grid; flagged off_grid."
+ },
+ "special_values": [
+  {
+   "value": 0,
+   "handling": "status zero_or_not_recorded; model is conditional on a recorded bolus"
+  }
+ ],
+ "truncation": {
+  "exclude_recorded_zero": true
+ },
+ "required_covariates": [
+  "weight",
+  "age",
+  "sex"
+ ],
+ "grid": {
+  "lo": 0,
+  "hi": 600,
+  "dx": 0.25
+ },
+ "latent": {
+  "family": "log_student_t_regression",
+  "intercept": 4.629129089145826,
+  "scale": 0.13276498932110692,
+  "df": 3.2594180355822724,
+  "covariates": [
+   {
+    "name": "weight",
+    "unit": "kg",
+    "transform": {
+     "type": "log_ratio",
+     "ref": 60
+    },
+    "coef": 0.6115664797835554
+   },
+   {
+    "name": "age",
+    "unit": "years",
+    "transform": {
+     "type": "linear",
+     "centre": 60,
+     "scale": 10
+    },
+    "coef": -0.03700827897631678
+   },
+   {
+    "name": "sex",
+    "transform": {
+     "type": "indicator",
+     "value": "M"
+    },
+    "coef": 0.09406692577186955
+   }
+  ],
+  "note": "log x = intercept + sum(coef * transform(covariate)) + scale * t(df)"
+ },
+ "allocation": [
+  {
+   "label": "preferred values",
+   "kind": "rounding",
+   "mode": {
+    "type": "set",
+    "values": [
+     60,
+     70,
+     80,
+     90,
+     100,
+     120,
+     150
+    ]
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": 0.9485592571381749
+   },
+   "note": "nearest member of the set; values beyond the ends snap to 60 or 150"
+  },
+  {
+   "label": "50 mg",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 50
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": 0.10478173732331725
+   }
+  },
+  {
+   "label": "10 mg (base)",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10
+   },
+   "anchor": "nearest",
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 2328,
+  "loglik": -3850.159878125143,
+  "n_params": 8,
+  "bic": 7762.341874721097,
+  "data": "VitalDB clinical_data.csv (intraop_ppf), non-zero values on the 10 mg grid with weight, age and sex",
+  "fitted": "2026-10-13",
+  "engine": "rounding_engine 0.2"
+ }
+}

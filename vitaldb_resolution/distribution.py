@@ -14,7 +14,8 @@ class Component:
         weight: Mixture weight; :class:`Distribution` normalises the weights.
         label: Name of this component, e.g. the rounding mode (``"5 mL"``) or the analyser.
         **kw: The density's parameters (above), plus optional descriptive keys kept in :meth:`to_dict`:
-            ``resolution``, ``anchor``, ``closed``, ``mode``, ``value``.
+            ``resolution``, ``anchor``, ``closed``, ``mode``, ``value``, ``interval`` (the rounding interval of a
+            latent component: the true values this mode records as the recorded value).
     """
 
     def __init__(self, kind, weight=1.0, label=None, **kw):
@@ -157,6 +158,11 @@ class Component:
                'upper': round(float(self.upper), 6), 'weight': round(float(self.weight), 6)}
         for k in ('resolution', 'anchor', 'closed', 'mode', 'value'):
             if k in self.p: out[k] = self.p[k]
+        if 'interval' in self.p:
+            lo, hi = self.p['interval']
+            out['interval'] = [round(float(lo), 6), round(float(hi), 6)]
+            out['mean'] = round(self.moments()[0], 6)
+            out['uniform_mean'] = round((lo + hi) / 2, 6)
         if self.kind == 'tabulated' and include_grid:
             out.update(grid=self.x.tolist(), probabilities=self.m.tolist(), cell_width=self.dx)
         return out
@@ -180,6 +186,19 @@ def uniform_interval(v, resolution, anchor):
     return v - r / 2, v + r / 2, 'lower'
 
 
+DENSITIES = ('latent', 'uniform', 'exact', 'triangular', 'derived', 'none')
+
+
+def _infer_density(components):
+    kinds = {c.kind for c in components}
+    if not kinds: return 'none'
+    if 'tabulated' in kinds: return 'latent'
+    if kinds == {'uniform'}: return 'uniform'
+    if kinds == {'point'}: return 'exact'
+    if kinds == {'triangular'}: return 'triangular'
+    return 'derived'
+
+
 class Distribution:
     """The distribution of a true value given a recorded one: a weighted mixture of components.
 
@@ -200,16 +219,31 @@ class Distribution:
         flags: Warnings that do not prevent a distribution, e.g. ``"off_grid"`` or ``"source_unknown"``.
         note: Free-text explanation.
         extra: Further fields, e.g. the clock time of a timestamp.
+        density: Where the shape within each interval comes from: ``"latent"`` (a fitted latent truncated to each
+            component's interval, computed at call time), ``"uniform"`` (rectangular over the interval, GUM: midpoint,
+            width/sqrt(12); used wherever no latent is fitted), ``"exact"``, ``"triangular"``, ``"derived"`` or
+            ``"none"`` (no distribution). Inferred from the components when not given.
     """
 
     def __init__(self, variable, recorded_value, unit='', status='ok', kind=None, components=None, model=None,
-                 flags=None, note=None, extra=None):
+                 flags=None, note=None, extra=None, density=None):
         self.variable, self.recorded_value, self.unit = variable, recorded_value, unit
         self.status, self.kind = status, kind
         self.components = components or []
         tot = sum(c.weight for c in self.components)
         for c in self.components: c.weight = c.weight / tot if tot > 0 else c.weight
         self.model, self.flags, self.note, self.extra = model, list(flags or []), note, dict(extra or {})
+        self.density = density or _infer_density(self.components)
+
+    def latent_uniform_gap(self):
+        """Largest gap between a latent component's mean and its interval midpoint (the uniform mean), as a
+        fraction of the interval width; ``None`` when no component carries an interval."""
+        gaps = []
+        for c in self.components:
+            if 'interval' in c.p:
+                lo, hi = c.p['interval']
+                if hi > lo: gaps.append(abs(c.moments()[0] - (lo + hi) / 2) / (hi - lo))
+        return max(gaps) if gaps else None
 
     @property
     def ok(self):
@@ -347,7 +381,7 @@ class Distribution:
             ``summary``, ``flags``, ``note`` and, when present, ``extra``.
         """
         return {'variable': self.variable, 'recorded_value': self.recorded_value, 'unit': self.unit,
-                'status': self.status, 'kind': self.kind,
+                'status': self.status, 'kind': self.kind, 'density': self.density,
                 'components': [c.to_dict(include_grid) for c in self.components],
                 'model': self.model, 'summary': self.summary(), 'flags': self.flags, 'note': self.note,
                 **({'extra': self.extra} if self.extra else {})}

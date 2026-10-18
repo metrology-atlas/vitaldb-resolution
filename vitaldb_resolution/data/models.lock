@@ -1,0 +1,146 @@
+{
+ "release": "0.6.0",
+ "baseline": {
+  "tag": "v0.5.0",
+  "commit": "e2376f4"
+ },
+ "models": {
+  "aneend": {
+   "version": 2,
+   "fit_hash": "168d91cd9aa9fae96856fec59fd9db6a483ad200dcc4193aeec3e84ba5be581d",
+   "file": "aneend.model.json"
+  },
+  "anestart": {
+   "version": 2,
+   "fit_hash": "79d08da46c4fe141959116039cda94e571bcbcf21dd79257a2ef92691b3c4553",
+   "file": "anestart.model.json"
+  },
+  "bmi": {
+   "version": 1,
+   "fit_hash": "b9e63b1b4497b143f565127cad5241e4fb463848576d1a31f8d275efcf58573a",
+   "file": "bmi.model.json"
+  },
+  "height": {
+   "version": 1,
+   "fit_hash": "c78b88db45dbc749821372a49ddd40f31278c2c75da3bf544704794fde1077e2",
+   "file": "height.model.json"
+  },
+  "intraop_crystalloid": {
+   "version": 2,
+   "fit_hash": "724cc3cc0dfbd81e958f34cfcc8fc398c8225568d517cf288a36b37347700872",
+   "file": "intraop_crystalloid.model.json"
+  },
+  "intraop_ebl": {
+   "version": 2,
+   "fit_hash": "70c2f11e274c4a02186af3ed3c404570a96c7bf4f76a801373ce9d037ddb962b",
+   "file": "intraop_ebl.model.json"
+  },
+  "intraop_ppf": {
+   "version": 2,
+   "fit_hash": "f271327e96496363a62c5c7abe73cbfd5472bc73178c500bf289fd7ec92dcf96",
+   "file": "intraop_ppf.model.json"
+  },
+  "intraop_uo": {
+   "version": 2,
+   "fit_hash": "5bf56f515582d45bb73302e680e8dfb05ef2428dffc91f94d8b3552a3935fdff",
+   "file": "intraop_uo.model.json"
+  },
+  "opend": {
+   "version": 2,
+   "fit_hash": "c3691c6334ff6fc02aa4d5b048065a76d82b57ac9ab7edf391b2275908904746",
+   "file": "opend.model.json"
+  },
+  "opstart": {
+   "version": 2,
+   "fit_hash": "e7987f5631141f727534f5ffe91d99f55dbf27ee93c7041c148045511fb33d66",
+   "file": "opstart.model.json"
+  },
+  "weight": {
+   "version": 2,
+   "fit_hash": "1a142ff6ccaca6036d90af7d31303a5f46028fb55e1ab33bb1e11bd24dee88f6",
+   "file": "weight.model.json"
+  }
+ },
+ "published": {
+  "aneend@1": {
+   "fit_hash": "5397f074bf09203b1c270e89cfb375bc443160457f9ac4881ea58ce38aaf72dd",
+   "release": "0.5.0"
+  },
+  "aneend@2": {
+   "fit_hash": "168d91cd9aa9fae96856fec59fd9db6a483ad200dcc4193aeec3e84ba5be581d",
+   "release": "0.6.0"
+  },
+  "anestart@1": {
+   "fit_hash": "0d420a24783dc52ea310de6460cf9d97fd47ffdd373da3fafaaab00ea0152e6d",
+   "release": "0.5.0"
+  },
+  "anestart@2": {
+   "fit_hash": "79d08da46c4fe141959116039cda94e571bcbcf21dd79257a2ef92691b3c4553",
+   "release": "0.6.0"
+  },
+  "bmi@1": {
+   "fit_hash": "b9e63b1b4497b143f565127cad5241e4fb463848576d1a31f8d275efcf58573a",
+   "release": "0.5.0"
+  },
+  "height@1": {
+   "fit_hash": "c78b88db45dbc749821372a49ddd40f31278c2c75da3bf544704794fde1077e2",
+   "release": "0.5.0"
+  },
+  "intraop_crystalloid@1": {
+   "fit_hash": "144e64d6501293b6299012fc558a182500d7540618929eaf5bda934840e1106a",
+   "release": "0.5.0"
+  },
+  "intraop_crystalloid@2": {
+   "fit_hash": "724cc3cc0dfbd81e958f34cfcc8fc398c8225568d517cf288a36b37347700872",
+   "release": "0.6.0"
+  },
+  "intraop_ebl@1": {
+   "fit_hash": "4977d0818efaacd923bf7743a7cf8782f32f710ad48ea2679d8802d307032108",
+   "release": "0.5.0"
+  },
+  "intraop_ebl@2": {
+   "fit_hash": "70c2f11e274c4a02186af3ed3c404570a96c7bf4f76a801373ce9d037ddb962b",
+   "release": "0.6.0"
+  },
+  "intraop_ppf@1": {
+   "fit_hash": "ddfabed0ef8024f2cfcf67268baebb3fd891999fd973ab76030981b611efeaa1",
+   "release": "0.5.0"
+  },
+  "intraop_ppf@2": {
+   "fit_hash": "f271327e96496363a62c5c7abe73cbfd5472bc73178c500bf289fd7ec92dcf96",
+   "release": "0.6.0"
+  },
+  "intraop_uo@1": {
+   "fit_hash": "e019984c952148548159070efd4f7f6a8afc9a67149a763066f0747931b5fe42",
+   "release": "0.5.0"
+  },
+  "intraop_uo@2": {
+   "fit_hash": "5bf56f515582d45bb73302e680e8dfb05ef2428dffc91f94d8b3552a3935fdff",
+   "release": "0.6.0"
+  },
+  "opend@1": {
+   "fit_hash": "7445d7c91815a68a6181d1bcba042d2e2cdd207962e510ce279cc6c060510f0e",
+   "release": "0.5.0"
+  },
+  "opend@2": {
+   "fit_hash": "c3691c6334ff6fc02aa4d5b048065a76d82b57ac9ab7edf391b2275908904746",
+   "release": "0.6.0"
+  },
+  "opstart@1": {
+   "fit_hash": "b52a5a19d7b0b958dbdbae2b955c4667b5e0852b0ad9b6ff890d3be5d14f0346",
+   "release": "0.5.0"
+  },
+  "opstart@2": {
+   "fit_hash": "e7987f5631141f727534f5ffe91d99f55dbf27ee93c7041c148045511fb33d66",
+   "release": "0.6.0"
+  },
+  "weight@1": {
+   "fit_hash": "19dcc8ab75837fce290feb5b6140a5f9f3648163a49dbde4e3b314fd6826b73b",
+   "release": "0.5.0"
+  },
+  "weight@2": {
+   "fit_hash": "1a142ff6ccaca6036d90af7d31303a5f46028fb55e1ab33bb1e11bd24dee88f6",
+   "release": "0.6.0"
+  }
+ }
+}

@@ -1,5 +1,20 @@
 {
- "schema_version": "0.1",
+ "id": "intraop_crystalloid",
+ "version": 2,
+ "fit_hash": "724cc3cc0dfbd81e958f34cfcc8fc398c8225568d517cf288a36b37347700872",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/intraop_crystalloid.v1.model.json",
+  "reason": "anaesthesia duration as a latent location covariate"
+ },
+ "schema_version": "0.5",
  "variable": "intraop_crystalloid",
  "unit": "mL",
  "resolution": {
@@ -26,12 +41,70 @@
   ],
   "K": 6,
   "coefficients": [
-   4.263813564377886,
-   10.780960907946312,
-   12.790187955194845,
-   7.852432898539658,
-   2.2966852302212253
-  ]
+   0.27174049637324654,
+   4.039523987657278,
+   15.954806682913564,
+   -5.314839252281241,
+   3.1218725465491977
+  ],
+  "location_covariates": [
+   {
+    "name": "duration",
+    "transform": {
+     "type": "log_ratio",
+     "ref": 180.0
+    },
+    "coef": 1.3780096415410006,
+    "note": "charted anaesthesia duration, aneend - anestart, minutes"
+   }
+  ],
+  "marginal": {
+   "covariate": "duration",
+   "shifts": [
+    -1.6338008425155486,
+    -1.361837639396066,
+    -1.2064043609414,
+    -1.0834429983386606,
+    -0.9861313098556632,
+    -0.9099788058240628,
+    -0.8099756914043492,
+    -0.7427423747665035,
+    -0.6786373446969831,
+    -0.6173823872908829,
+    -0.5472989979896171,
+    -0.4915015116436692,
+    -0.4182963747084296,
+    -0.3463137052294529,
+    -0.2979575281951239,
+    -0.23298881295690937,
+    -0.16230615874446394,
+    -0.11157614883792945,
+    -0.04671666507228935,
+    0.01313888212456266,
+    0.0745051522017707,
+    0.1313383467073661,
+    0.17921446463858476,
+    0.2189674994565409,
+    0.27652615312158235,
+    0.3317767017181232,
+    0.37909498637715316,
+    0.4248422461041236,
+    0.47996998291487497,
+    0.5277670162444167,
+    0.5840201182802622,
+    0.6332399804832853,
+    0.6993215965596983,
+    0.7509934928862817,
+    0.8226763310016927,
+    0.8965159388091973,
+    0.9817009547744769,
+    1.0830176210728841,
+    1.2410532858918728,
+    1.501079539322012
+   ],
+   "note": "used when duration is missing: average of the latent over 40 quantiles of log(duration / ref) among the fitted cases"
+  },
+  "note": "log f(x | duration) = B(log x - b log(duration / 180))·[0, coefficients] - log x, normalised on the grid; duration = charted anaesthesia duration (aneend - anestart, min); without it, the marginal is used"
  },
  "allocation": [
   {
@@ -44,7 +117,7 @@
    "anchor": "nearest",
    "prob": {
     "form": "constant",
-    "logit": -0.08248736093740439
+    "logit": -0.087592621198456
    }
   },
   {
@@ -57,7 +130,7 @@
    "anchor": "nearest",
    "prob": {
     "form": "constant",
-    "logit": 3.188136902829972
+    "logit": 3.1921025813214197
    }
   },
   {
@@ -72,13 +145,32 @@
   }
  ],
  "fit": {
-  "n": 5974,
-  "loglik": -23656.606732810353,
-  "n_params": 7,
-  "aic": 47327.213465620705,
-  "bic": 47374.07966961214,
-  "data": "VitalDB clinical_data.csv (intraop_crystalloid), positive values on the 10 mL grid",
-  "fitted": "2026-10-13",
-  "engine": "rounding_engine 0.1"
- }
+  "n": 5863,
+  "loglik": -20154.700391872782,
+  "n_params": 8,
+  "aic": 40325.400783745565,
+  "bic": 40378.81211732128,
+  "data": "VitalDB clinical_data.csv (intraop_crystalloid), positive values on the 10 mL grid with a usable anaesthesia duration",
+  "method": "tools/fit_volume.py --duration: library likelihood, JAX gradient, L-BFGS-B then BFGS",
+  "date": "2026-10-18",
+  "previous": {
+   "n": 5974,
+   "loglik": -23656.606732810353,
+   "bic": 47374.07966961214
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  }
+ ]
 }

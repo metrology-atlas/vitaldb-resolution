@@ -1,4 +1,4 @@
-# vitaldb-resolution 0.5
+# vitaldb-resolution 0.6
 
 Every recorded VitalDB time and value as a probability distribution of the true value: native resolution,
 or a mixture of resolutions deconvolved from heaped data. Models are JSON files evaluated by one generic engine.
@@ -69,26 +69,46 @@ The number of knots sets the precision; the storage type does not (int16 adds ~1
 
 `status`: `ok`, `missing`, `invalid` (1900 placeholder), `imputed` (op end set from recording end, anaesthesia end
 derived from it), `not_applicable` (categorical, identifiers), `zero_or_not_recorded` (0 in a drug or fluid field),
-`top_coded` (age ">89"), `error` (missing covariates). Only `ok` carries components.
+`top_coded` (age ">89", lactate 15.0, aPTT 400.0: open interval above), `bottom_coded` (ESR 2), `error`
+(missing covariates). Only `ok` carries components. A recorded urine output of 0 returns a point mass at 0 mixed
+with the latent below half the base resolution, flagged `zero_anuric` or `zero_unexplained`; missing is never 0.
+
+`density`: where the shape inside each interval comes from. `latent` means the fitted latent, truncated to each
+component's interval and computed at call time; with the duration covariate it is the conditional latent, and
+without it the marginal (flag `duration_marginal`). `uniform` means rectangular over the interval (GUM: midpoint,
+width/√12), used wherever no latent is fitted. The other values are `exact`, `triangular` and `derived`. Latent
+components report their `interval`, `mean` and `uniform_mean`.
+
+`model`: `id`, `version` and `fit_hash` of the model used. Pin a version with `model="aneend@1"`.
 
 `kind`: `single_resolution`, `heaped`, `mixed_source`, `computed_value`, `exact`, `count_uncertain`, `derived`.
 
 `flags` (value still returned): `off_grid`, `outside_model_support`, `child_native_resolution`, `source_unknown`,
-`possibly_albumin`, `unit_uncertain`, `off_unit_dose_grid`, `counting_rule_unknown`, `order_violation`,
-`same_time`, `clock_uncertain`, `clock_offset_mismatch`, `age_covariate_top_coded`, `recorded_bmi_mismatch`.
+`possibly_albumin`, `unit_uncertain`, `off_unit_dose_grid`, `counting_rule_assumed`, `icu_exceeds_postop`, `order_violation`,
+`same_time`, `clock_uncertain`, `clock_offset_mismatch`, `age_covariate_top_coded`, `recorded_bmi_mismatch`,
+`duration_marginal`, `department_marginal`, `zero_anuric`, `zero_unexplained`.
+
+## Model versions and contributing
+
+Each model has an integer version and a `fit_hash`, and `data/models.lock` lists them for the release. Published
+versions never change: superseded ones stay loadable from `data/models/archive/`. To propose a new version of a
+model, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contents
 
 | Path | What |
 | --- | --- |
 | `vitaldb_resolution/data/registry.json` | 114 entries: method, resolution, anchor, model file, covariates, rules, evidence |
-| `vitaldb_resolution/data/models/*.model.json` | 11 fitted models (schema v0.4: `kind` value, timestamp or derived) |
+| `vitaldb_resolution/data/models/*.model.json` | 11 models (current versions); `archive/` holds superseded versions |
+| `vitaldb_resolution/data/models.lock` | id, version and fit_hash of every model; every published version |
 | `vitaldb_resolution/data/exclusion_rules.json` | exclusion and flag rules with case counts |
 | `vitaldb_resolution/engine.py` | generic evaluator (`rounding_engine` v0.4) |
 | `vitaldb_resolution/registry.py` | the API |
 | `vitaldb_resolution/distribution.py` | mixture distribution object |
 | `tools/build_registry.py` | rebuilds the registry from the data and the recorded decisions |
 | `tools/validate.py` | reproduces stored log-likelihoods; runs every clinical and lab value |
+| `vitaldb_resolution/fitcheck.py`, `versions.py` | recompute stored fit statistics; model ids, versions, fit_hash |
+| `tools/fit_*.py`, `tools/version_models.py` | fitters using the library likelihood; versioning |
 | `vitaldb_resolution/cache.py` | whole-dataset cache: build (CLI) and vectorised sampler |
 | `tools/precision_study.py` | precision, memory and speed of every knots x dtype option |
 

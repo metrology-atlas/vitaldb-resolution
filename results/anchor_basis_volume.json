@@ -1,0 +1,14 @@
+{
+ "intraop_uo": {
+  "anchor_basis": "tested",
+  "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 383 with the duration covariate, 317 without (same 3630 records; results/2026-10-18_refits_duration_zero.md)."
+ },
+ "intraop_crystalloid": {
+  "anchor_basis": "tested",
+  "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 47 with the duration covariate, 12 without (same 5863 records; results/2026-10-18_refits_duration_zero.md)."
+ },
+ "intraop_ebl": {
+  "anchor_basis": "tested",
+  "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 52 with the duration covariate, 25 without (same 3882 records; results/2026-10-18_refits_duration_zero.md)."
+ }
+}

@@ -1,4 +1,19 @@
 {
+ "id": "opend",
+ "version": 2,
+ "fit_hash": "c3691c6334ff6fc02aa4d5b048065a76d82b57ac9ab7edf391b2275908904746",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/opend.v1.model.json",
+  "reason": "fit block re-evaluated with the library likelihood; parameters unchanged"
+ },
  "variable": "opend",
  "unit": "clock minute",
  "schema_version": "0.4",
@@ -104,11 +119,32 @@
  ],
  "fit": {
   "n": 5850,
-  "loglik": -9411.358523679852,
+  "loglik": -9411.496858807313,
   "n_params": 14,
-  "bic": 18944.155804522867,
+  "bic": 18944.43247477779,
   "source": "clinical_data.csv",
-  "method": "JAX gradient, L-BFGS-B then BFGS",
-  "date": "2026-10-13"
- }
+  "method": "parameters as fitted on 2026-10-13 (JAX gradient, L-BFGS-B then BFGS); fit statistics re-evaluated with the library likelihood by tools/fit_timestamps.py",
+  "date": "2026-10-18",
+  "previous": {
+   "n": 5850,
+   "loglik": -9411.358523679852,
+   "bic": 18944.155804522867,
+   "method": "JAX gradient, L-BFGS-B then BFGS",
+   "date": "2026-10-13"
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  }
+ ]
 }

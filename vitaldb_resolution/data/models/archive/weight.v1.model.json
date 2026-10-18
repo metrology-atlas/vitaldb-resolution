@@ -1,0 +1,175 @@
+{
+ "id": "weight",
+ "version": 1,
+ "fit_hash": "19dcc8ab75837fce290feb5b6140a5f9f3648163a49dbde4e3b314fd6826b73b",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "superseded_by": 2,
+ "variable": "weight",
+ "unit": "kg",
+ "schema_version": "0.3",
+ "record_unit": 0.05,
+ "resolution": {
+  "observed": 0.05,
+  "override": null,
+  "effective": 0.05,
+  "justification": "Two scale resolutions are present (0.05 and 0.1 kg); modelled as modes rather than overridden."
+ },
+ "population": {
+  "fitted": "adults (age >= 18), first case per patient",
+  "children": "not modelled; native resolution only",
+  "repeat_cases": "later cases often copy the weight; use the first-case posterior"
+ },
+ "special_values": {
+  "off_grid": "5 values finer than 0.05 kg are flagged off_grid and rounded to 0.05 before evaluation"
+ },
+ "grid": {
+  "lo": 20,
+  "hi": 200,
+  "dx": 0.005
+ },
+ "latent": {
+  "family": "log_student_t_regression",
+  "intercept": 4.0331936500693235,
+  "covariates": [
+   {
+    "name": "sex",
+    "transform": {
+     "type": "indicator",
+     "value": "M"
+    },
+    "coef": 0.15697943189632302
+   },
+   {
+    "name": "age",
+    "transform": {
+     "type": "linear",
+     "centre": 60,
+     "scale": 10
+    },
+    "coef": -0.026054897675203793
+   },
+   {
+    "name": "age",
+    "transform": {
+     "type": "quadratic",
+     "centre": 60,
+     "scale": 10
+    },
+    "coef": -0.005021329174311643
+   }
+  ],
+  "scale": 0.15150556813902608,
+  "df": 12.454158213373141
+ },
+ "required_covariates": [
+  "sex",
+  "age",
+  "department"
+ ],
+ "allocation": [
+  {
+   "label": "whole_kg",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -3.5099454306261073
+   }
+  },
+  {
+   "label": "scale_0.1",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 0.1,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": 0.661394675689066,
+    "covariates": [
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Thoracic surgery"
+      },
+      "coef": 0.5803846620464012
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Gynecology"
+      },
+      "coef": 0.7149786287720861
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Urology"
+      },
+      "coef": 1.25983556014498
+     }
+    ]
+   }
+  },
+  {
+   "label": "scale_0.05",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 0.05,
+    "anchor": "nearest"
+   },
+   "prob": null
+  }
+ ],
+ "flags": {
+  "possibly_written_in": "posterior weight of whole_kg; > 0 only for whole kilograms"
+ },
+ "measurement_variability": {
+  "status": "from literature, not fitted",
+  "kind": "normal",
+  "measured": {
+   "sd_relative": 0.005,
+   "basis": "Day-to-day SD of body weight ~0.5% (range 0.4-0.8%) around its trend (Khosla & Billewicz 1964); evening weights ~1 kg above morning in one subject; same-time weights in hospital inpatients vary by <=0.4 kg (Vivanti et al. 2013). Clothing not included."
+  },
+  "written_in": {
+   "sd": 2.7,
+   "unit": "kg",
+   "bias_self_minus_measured": {
+    "M": -0.55,
+    "F": -0.67
+   },
+   "basis": "2018 Korea Community Health Survey, 177,839 adults; limits of agreement -4.80 to 5.84 kg give SD ~2.7 kg. Assumes written-in weights are self-reported. True weight = recorded - bias."
+  },
+  "references": [
+   "Khosla T, Billewicz WZ. Measurement of change in body-weight. Br J Nutr 1964;18:227-39.",
+   "Vivanti A et al. Short-term body weight fluctuations in older well-hydrated hospitalised patients. J Hum Nutr Diet 2013;26(5):429-35.",
+   "2018 Korea Community Health Survey validation, Epidemiol Health 2022 (PMC9117107)."
+  ]
+ },
+ "fit": {
+  "n": 6041,
+  "loglik": -38917.287569711785,
+  "n_params": 11,
+  "aic": 77856.57513942357,
+  "bic": 77930.3447126651,
+  "source": "clinical_data.csv",
+  "method": "closed-form likelihood, Nelder-Mead",
+  "date": "2026-10-13"
+ }
+}

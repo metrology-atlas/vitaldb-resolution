@@ -1,7 +1,7 @@
 {
- "schema_version": "0.4",
+ "schema_version": "0.5",
  "dataset": "VitalDB (clinical_data.csv, lab_data.csv)",
- "built": "2026-10-13",
+ "built": "2026-10-18",
  "statuses": [
   "ok",
   "missing",
@@ -11,8 +11,15 @@
   "zero_or_not_recorded",
   "special_value",
   "top_coded",
+  "bottom_coded",
   "error"
  ],
+ "anchor_bases": {
+  "tested": "settled by the data",
+  "convention": "standard practice, negligible if wrong",
+  "assumption": "a reasoned reading the release does not confirm",
+  "open": "not yet settled"
+ },
  "methods": {
   "model": "fitted rounding model (value kind); posterior over the true value",
   "timestamp_model": "fitted reference-offset model; posterior over the true event time",
@@ -63,7 +70,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "floor",
-   "evidence": "Device clock, whole seconds."
+   "evidence": "Device clock, whole seconds.",
+   "anchor_basis": "convention",
+   "anchor_note": "Clock truncation to the whole second; at most 1 s, negligible."
   },
   "anestart": {
    "variable": "anestart",
@@ -164,7 +173,9 @@
      "note": "1900-01-01 placeholder"
     }
    ],
-   "evidence": "Discharge minus admission is a whole number of days in every case; value marks midnight."
+   "evidence": "Discharge minus admission is a whole number of days in every case; value marks midnight.",
+   "anchor_basis": "tested",
+   "anchor_note": "Discharge minus admission is a whole number of days in every case, so each value marks a midnight."
   },
   "dis": {
    "variable": "dis",
@@ -182,7 +193,9 @@
      "note": "1900-01-01 placeholder"
     }
    ],
-   "evidence": "Discharge minus admission is a whole number of days in every case; value marks midnight."
+   "evidence": "Discharge minus admission is a whole number of days in every case; value marks midnight.",
+   "anchor_basis": "tested",
+   "anchor_note": "Discharge minus admission is a whole number of days in every case, so each value marks a midnight."
   },
   "icu_days": {
    "variable": "icu_days",
@@ -192,13 +205,26 @@
    "type": "count",
    "method": "triangular_count",
    "half_width": 1,
-   "evidence": "Day count; counting rule unknown (calendar days touched or completed 24 h), so ±1 day.",
+   "counting_rule": "nights or completed days (assumed)",
+   "evidence": "Day count, read as nights or completed days: 815 one-day stays against 98 two-day stays argue against calendar days touched. The rule is an assumption, so ±1 day is kept.",
+   "optional_covariates": [
+    "adm",
+    "dis"
+   ],
    "flag_rules": [
     {
      "test": "icu_days > (dis - adm)/86400",
-     "flag": "order_violation"
+     "flag": "order_violation",
+     "note": "ICU days exceed the whole hospital stay"
+    },
+    {
+     "test": "icu_days > 0 and icu_days >= days from the case-day midnight to the discharge midnight",
+     "flag": "icu_exceeds_postop",
+     "note": "probably includes preoperative ICU days (mostly emergencies with long preoperative stays); do not use as postoperative ICU length"
     }
-   ]
+   ],
+   "anchor_basis": "assumption",
+   "anchor_note": "815 one-day stays against 98 two-day stays argue against calendar days touched; read as nights or completed days."
   },
   "death_inhosp": {
    "variable": "death_inhosp",
@@ -222,7 +248,9 @@
     "text": ">89",
     "lower": 90
    },
-   "evidence": "Completed years; 19.2% end in 0 or 5 (20% expected), so no heaping. 8 values top-coded \">89\"; 10 infants recorded in tenths of a year."
+   "evidence": "Completed years; 19.2% end in 0 or 5 (20% expected), so no heaping. 8 values top-coded \">89\"; 10 infants recorded in tenths of a year.",
+   "anchor_basis": "assumption",
+   "anchor_note": "The release says only \"years\"; infants in tenths and the >89 cap point to an exact age cut down to completed years."
   },
   "sex": {
    "variable": "sex",
@@ -506,7 +534,18 @@
    "method": "model",
    "model": "intraop_uo.model.json",
    "required_covariates": [],
-   "zero_status": "zero_or_not_recorded"
+   "optional_covariates": [
+    "duration",
+    "department"
+   ],
+   "covariate_notes": {
+    "duration": "charted anaesthesia duration in minutes; taken from anestart and aneend in a case row, or passed as duration=; without a usable one the latent is the marginal over fitted cases (flag duration_marginal)",
+    "department": "shifts the heaping propensities (100 / 50 / 10 mL grids); without it, or for another department, propensities are averaged over the fitted department shares (flag department_marginal)"
+   },
+   "zero_rule": "A recorded 0 is a point mass at 0 mixed with the latent below 2.5 mL (zero_model in the model file); flag zero_anuric (preop_cr > 2 or asa == 6) or zero_unexplained. Missing means not measured, not 0.",
+   "anchor": "nearest",
+   "anchor_basis": "tested",
+   "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 383 with the duration covariate, 317 without (same 3630 records; results/2026-10-18_refits_duration_zero.md)."
   },
   "intraop_ebl": {
    "variable": "intraop_ebl",
@@ -517,7 +556,16 @@
    "method": "model",
    "model": "intraop_ebl.model.json",
    "required_covariates": [],
-   "zero_status": "zero_or_not_recorded"
+   "optional_covariates": [
+    "duration"
+   ],
+   "covariate_notes": {
+    "duration": "charted anaesthesia duration in minutes; taken from anestart and aneend in a case row, or passed as duration=; without a usable one the latent is the marginal over fitted cases (flag duration_marginal)"
+   },
+   "zero_status": "zero_or_not_recorded",
+   "anchor": "nearest",
+   "anchor_basis": "tested",
+   "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 52 with the duration covariate, 25 without (same 3882 records; results/2026-10-18_refits_duration_zero.md)."
   },
   "intraop_crystalloid": {
    "variable": "intraop_crystalloid",
@@ -528,7 +576,16 @@
    "method": "model",
    "model": "intraop_crystalloid.model.json",
    "required_covariates": [],
-   "zero_status": "zero_or_not_recorded"
+   "optional_covariates": [
+    "duration"
+   ],
+   "covariate_notes": {
+    "duration": "charted anaesthesia duration in minutes; taken from anestart and aneend in a case row, or passed as duration=; without a usable one the latent is the marginal over fitted cases (flag duration_marginal)"
+   },
+   "zero_status": "zero_or_not_recorded",
+   "anchor": "nearest",
+   "anchor_basis": "tested",
+   "anchor_note": "Nearest rounding preferred to floor (H1, last graduation passed) by BIC: 47 with the duration covariate, 12 without (same 5863 records; results/2026-10-18_refits_duration_zero.md)."
   },
   "intraop_ppf": {
    "variable": "intraop_ppf",
@@ -583,7 +640,9 @@
      "treat": "native 1 mL"
     }
    ],
-   "evidence": "Container sizes are exact counts; partial amounts estimated. Kidney question pending."
+   "evidence": "Container sizes are exact counts; partial amounts estimated. Kidney question pending.",
+   "anchor_basis": "convention",
+   "anchor_note": "Native recording unit, rounding to the nearest assumed; not tested (sparse or exact-count data)."
   },
   "intraop_rbc": {
    "variable": "intraop_rbc",
@@ -677,7 +736,9 @@
    "resolution": 0.5,
    "anchor": "nearest",
    "zero_status": "zero_or_not_recorded",
-   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only."
+   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only.",
+   "anchor_basis": "convention",
+   "anchor_note": "Native recording unit, rounding to the nearest assumed; not tested (sparse or exact-count data)."
   },
   "intraop_vecu": {
    "variable": "intraop_vecu",
@@ -689,7 +750,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "zero_status": "zero_or_not_recorded",
-   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only."
+   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only.",
+   "anchor_basis": "convention",
+   "anchor_note": "Native recording unit, rounding to the nearest assumed; not tested (sparse or exact-count data)."
   },
   "intraop_epi": {
    "variable": "intraop_epi",
@@ -701,7 +764,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "zero_status": "zero_or_not_recorded",
-   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only."
+   "evidence": "Sparse (80, 12 and 89 non-zero); native resolution only.",
+   "anchor_basis": "convention",
+   "anchor_note": "Native recording unit, rounding to the nearest assumed; not tested (sparse or exact-count data)."
   },
   "alb": {
    "variable": "alb",
@@ -712,7 +777,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "alt": {
    "variable": "alt",
@@ -723,7 +790,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ammo": {
    "variable": "ammo",
@@ -734,7 +803,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "aptt": {
    "variable": "aptt",
@@ -745,7 +816,13 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "reporting_limits": {
+    "upper": 400.0,
+    "note": "capped at 400.0 s: 226 results (87 cases)"
+   },
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ast": {
    "variable": "ast",
@@ -756,7 +833,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "be": {
    "variable": "be",
@@ -767,7 +846,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "bun": {
    "variable": "bun",
@@ -778,7 +859,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ccr": {
    "variable": "ccr",
@@ -789,7 +872,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "cl": {
    "variable": "cl",
@@ -800,7 +885,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "cr": {
    "variable": "cr",
@@ -811,7 +898,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "crp": {
    "variable": "crp",
@@ -822,7 +911,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "esr": {
    "variable": "esr",
@@ -833,7 +924,13 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "reporting_limits": {
+    "lower": 2.0,
+    "note": "floor at 2 mm/h: no result below it; 89 results (72 cases) at 2"
+   },
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "fib": {
    "variable": "fib",
@@ -1447,7 +1544,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "gluc": {
    "variable": "gluc",
@@ -1458,7 +1557,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "hb": {
    "variable": "hb",
@@ -1469,7 +1570,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "hco3": {
    "variable": "hco3",
@@ -1480,7 +1583,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "hct": {
    "variable": "hct",
@@ -1510,7 +1615,9 @@
      "note": "probably body fluid (9 results)"
     }
    ],
-   "evidence": "Two analysers distinguishable record by record; neither is heaped."
+   "evidence": "Two analysers distinguishable record by record; neither is heaped.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ica": {
    "variable": "ica",
@@ -1521,7 +1628,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "k": {
    "variable": "k",
@@ -1532,7 +1641,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "lac": {
    "variable": "lac",
@@ -1543,7 +1654,13 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "reporting_limits": {
+    "upper": 15.0,
+    "note": "values above 15 mmol/L are reported as 15.0: 317 results at 15.0 (28 cases) against at most 16 at any nearby value"
+   },
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "na": {
    "variable": "na",
@@ -1554,18 +1671,22 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "p": {
    "variable": "p",
    "source": "lab",
-   "description": "Not in lab_parameters.csv (probably phosphorus); confirm with the VitalDB team",
+   "description": "Probably phosphorus (unconfirmed): not in lab_parameters.csv; median 3.2, IQR 2.7-3.8, 5th-95th percentile 1.9-5.0, consistent with inorganic phosphorus in mg/dL. Name kept as released.",
    "unit": "",
    "type": "continuous",
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "pco2": {
    "variable": "pco2",
@@ -1576,7 +1697,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ph": {
    "variable": "ph",
@@ -1587,7 +1710,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "plt": {
    "variable": "plt",
@@ -1598,7 +1723,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "po2": {
    "variable": "po2",
@@ -1609,7 +1736,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "pt%": {
    "variable": "pt%",
@@ -1781,7 +1910,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "ptsec": {
    "variable": "ptsec",
@@ -1792,7 +1923,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "sao2": {
    "variable": "sao2",
@@ -1803,7 +1936,9 @@
    "method": "uniform",
    "resolution": 1,
    "anchor": "nearest",
-   "evidence": "Single resolution; no heaping in the whole-number screen."
+   "evidence": "Single resolution; no heaping in the whole-number screen.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "tbil": {
    "variable": "tbil",
@@ -1814,7 +1949,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "tprot": {
    "variable": "tprot",
@@ -1825,7 +1962,9 @@
    "method": "uniform",
    "resolution": 0.1,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "wbc": {
    "variable": "wbc",
@@ -1836,7 +1975,9 @@
    "method": "uniform",
    "resolution": 0.01,
    "anchor": "nearest",
-   "evidence": "Single resolution; last digit flat."
+   "evidence": "Single resolution; last digit flat.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "lab_dt": {
    "variable": "lab_dt",
@@ -1848,7 +1989,9 @@
    "resolution": 1,
    "anchor": "floor",
    "available_at": "lab_time_plus_turnaround",
-   "evidence": "Machine-generated per-specimen time, not the result time: central-lab panels are logged about 10 min or more after the draw (specimen at the lab); blood gases 3-12 min after it (point-of-care entry or lab logging). The result is known only after a turnaround the release does not record, so a lab value must not be used at this time (the availability rule)."
+   "evidence": "Machine-generated per-specimen time, not the result time: central-lab panels are logged about 10 min or more after the draw (specimen at the lab); blood gases 3-12 min after it (point-of-care entry or lab logging). The result is known only after a turnaround the release does not record, so a lab value must not be used at this time (the availability rule).",
+   "anchor_basis": "convention",
+   "anchor_note": "Clock truncation to the whole second; at most 1 s, negligible."
   },
   "preop_hb": {
    "variable": "preop_hb",
@@ -1860,7 +2003,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "hb",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_plt": {
    "variable": "preop_plt",
@@ -1872,7 +2017,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "plt",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_pt": {
    "variable": "preop_pt",
@@ -2046,7 +2193,13 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "aptt",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "reporting_limits": {
+    "upper": 400.0,
+    "note": "pre-operative copy of aptt (2 values at 400.0); capped at 400.0 s: 226 results (87 cases)"
+   },
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_na": {
    "variable": "preop_na",
@@ -2058,7 +2211,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "na",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_k": {
    "variable": "preop_k",
@@ -2070,7 +2225,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "k",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_gluc": {
    "variable": "preop_gluc",
@@ -2082,7 +2239,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "gluc",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_alb": {
    "variable": "preop_alb",
@@ -2094,7 +2253,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "alb",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_ast": {
    "variable": "preop_ast",
@@ -2106,7 +2267,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "ast",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_alt": {
    "variable": "preop_alt",
@@ -2118,7 +2281,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "alt",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_bun": {
    "variable": "preop_bun",
@@ -2130,7 +2295,9 @@
    "resolution": 1,
    "anchor": "nearest",
    "lab_analyte": "bun",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_cr": {
    "variable": "preop_cr",
@@ -2142,7 +2309,9 @@
    "resolution": 0.01,
    "anchor": "nearest",
    "lab_analyte": "cr",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_ph": {
    "variable": "preop_ph",
@@ -2154,7 +2323,9 @@
    "resolution": 0.001,
    "anchor": "nearest",
    "lab_analyte": "ph",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_hco3": {
    "variable": "preop_hco3",
@@ -2166,7 +2337,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "hco3",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_be": {
    "variable": "preop_be",
@@ -2178,7 +2351,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "be",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_pao2": {
    "variable": "preop_pao2",
@@ -2191,7 +2366,9 @@
    "resolution_if_decimal": 0.1,
    "resolution_if_whole": 1,
    "lab_analyte": "po2",
-   "evidence": "41% end in .0 against 10% expected: two sources, decided by whether a decimal is present."
+   "evidence": "41% end in .0 against 10% expected: two sources, decided by whether a decimal is present.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_paco2": {
    "variable": "preop_paco2",
@@ -2203,7 +2380,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "pco2",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "preop_sao2": {
    "variable": "preop_sao2",
@@ -2215,7 +2394,9 @@
    "resolution": 0.1,
    "anchor": "nearest",
    "lab_analyte": "sao2",
-   "evidence": "Pre-operative copy of a lab result; behaves like the lab data."
+   "evidence": "Pre-operative copy of a lab result; behaves like the lab data.",
+   "anchor_basis": "convention",
+   "anchor_note": "Laboratory results rounded to the last reported digit; at most half the last digit."
   },
   "los": {
    "variable": "los",

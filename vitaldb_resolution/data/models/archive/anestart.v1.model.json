@@ -1,0 +1,227 @@
+{
+ "id": "anestart",
+ "version": 1,
+ "fit_hash": "0d420a24783dc52ea310de6460cf9d97fd47ffdd373da3fafaaab00ea0152e6d",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "superseded_by": 2,
+ "variable": "anestart",
+ "unit": "clock minute",
+ "schema_version": "0.4",
+ "kind": "timestamp",
+ "resolution": {
+  "observed": "1 min (chronon)",
+  "effective": 1,
+  "anchor_base": "floor"
+ },
+ "reference": {
+  "name": "recording start",
+  "field": "casestart",
+  "note": "device time, exact to the second. Clock: an event at t s from casestart is at clock minute (-adm + 60*ceil(t/60)) mod 86400 / 60; ref (recording start clock, minutes) = that minute - t/60."
+ },
+ "grid": {
+  "lo": -60.0,
+  "hi": 330.0,
+  "dx": 0.05
+ },
+ "latent": {
+  "family": "reference_offset_spline",
+  "direction": "before",
+  "offset_name": "G = recording start - anaesthesia start (min)",
+  "inner_knots": [
+   -60.0,
+   -8.768666666666666,
+   2.3333333333333655,
+   5.349000000000021,
+   8.083333333333371,
+   11.683666666666719,
+   16.450000000000045,
+   24.25,
+   49.85366666666675,
+   330.0
+  ],
+  "coefficients": [
+   0.9228556216994304,
+   4.364477258221419,
+   10.165978168973009,
+   11.530703390781884,
+   10.831425667770642,
+   10.807190433831888,
+   10.282781347141713,
+   9.779459408057829,
+   -2.481805407989483,
+   1.3513730661297967,
+   2.15660071727208
+  ],
+  "time_of_day_prior": {
+   "applies_if_ref_in": [
+    390,
+    540
+   ],
+   "knots": [
+    330.0,
+    390.0,
+    450.0,
+    510.0,
+    570.0,
+    630.0
+   ],
+   "coefficients": [
+    183708.75247810024,
+    183625.36273310884,
+    183664.15004826352,
+    183645.87326932026,
+    183669.92838090047,
+    183560.97053555588,
+    -0.0046597812520745765
+   ],
+   "note": "first-case window (recording starts 06:30-09:00): true start also follows a clock-time density h(X); X outside 05:30-10:30 has zero prior"
+  }
+ },
+ "required_covariates": [
+  "ref",
+  "ref_window (first_case if recording starts 06:30-09:00; evening_night if it starts 19:00-06:00; otherwise day)",
+  "emop"
+ ],
+ "allocation": [
+  {
+   "label": "nominal_0740",
+   "kind": "nominal",
+   "recorded_value": 460,
+   "window": [
+    440,
+    480
+   ],
+   "applies_if_ref_in": [
+    390,
+    540
+   ],
+   "prob": {
+    "form": "constant",
+    "logit": -1.8832758610934148
+   },
+   "note": "first-case start written as 07:40 when the true start is 07:20-08:00; window width not identifiable (+-20 and +-40 fit equally)"
+  },
+  {
+   "label": "nominal_0730",
+   "kind": "nominal",
+   "recorded_value": 450,
+   "window": [
+    430,
+    470
+   ],
+   "applies_if_ref_in": [
+    390,
+    540
+   ],
+   "prob": {
+    "form": "constant",
+    "logit": -2.2438867638851527
+   },
+   "note": "first-case start written as 07:30 when the true start is 07:10-07:50"
+  },
+  {
+   "label": "nearest_10min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -2.0403407188279266,
+    "covariates": [
+     {
+      "name": "ref_window",
+      "transform": {
+       "type": "indicator",
+       "value": "first_case"
+      },
+      "coef": -15.984086624580922
+     },
+     {
+      "name": "ref_window",
+      "transform": {
+       "type": "indicator",
+       "value": "evening_night"
+      },
+      "coef": 1.0429901827492238
+     },
+     {
+      "name": "emop",
+      "transform": {
+       "type": "indicator",
+       "value": 1
+      },
+      "coef": -0.05188490467900049
+     }
+    ]
+   }
+  },
+  {
+   "label": "nearest_5min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 5,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -1.2828592679682056,
+    "covariates": [
+     {
+      "name": "ref_window",
+      "transform": {
+       "type": "indicator",
+       "value": "first_case"
+      },
+      "coef": 0.9748273050993919
+     },
+     {
+      "name": "ref_window",
+      "transform": {
+       "type": "indicator",
+       "value": "evening_night"
+      },
+      "coef": 0.9643736942341554
+     },
+     {
+      "name": "emop",
+      "transform": {
+       "type": "indicator",
+       "value": 1
+      },
+      "coef": 0.43424288794032473
+     }
+    ]
+   }
+  },
+  {
+   "label": "clock_minute",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "floor"
+   },
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 6387,
+  "loglik": -21645.008608877528,
+  "n_params": 28,
+  "bic": 43535.35377645478,
+  "source": "clinical_data.csv",
+  "method": "JAX gradient, L-BFGS-B then BFGS",
+  "date": "2026-10-13"
+ }
+}

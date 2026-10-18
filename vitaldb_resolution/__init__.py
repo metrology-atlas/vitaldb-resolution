@@ -10,7 +10,8 @@ d.mean(), d.interval(0.95), d.sample(1000), d.to_dict()
 from .cache import Cache
 from .distribution import Component, Distribution
 from .registry import Registry, load
+from . import versions
 
 __all__ = ['Cache', 'Component', 'Distribution', 'Registry', 'load']
 
-__version__ = '0.5.0'
+__version__ = '0.6.0'

@@ -1,5 +1,20 @@
 {
- "schema_version": "0.1",
+ "id": "intraop_ebl",
+ "version": 2,
+ "fit_hash": "70c2f11e274c4a02186af3ed3c404570a96c7bf4f76a801373ce9d037ddb962b",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/intraop_ebl.v1.model.json",
+  "reason": "anaesthesia duration as a latent location covariate"
+ },
+ "schema_version": "0.5",
  "variable": "intraop_ebl",
  "unit": "mL",
  "resolution": {
@@ -31,12 +46,70 @@
   ],
   "K": 6,
   "coefficients": [
-   23.123557893857754,
-   29.0384607552788,
-   27.1970332692924,
-   22.293194529070025,
-   22.494459499653786
-  ]
+   -2.2326133998474815,
+   10.409578784617723,
+   4.253247273277361,
+   0.5807617669851135,
+   0.06685894656074191
+  ],
+  "location_covariates": [
+   {
+    "name": "duration",
+    "transform": {
+     "type": "log_ratio",
+     "ref": 180.0
+    },
+    "coef": 1.4258881619233617,
+    "note": "charted anaesthesia duration, aneend - anestart, minutes"
+   }
+  ],
+  "marginal": {
+   "covariate": "duration",
+   "shifts": [
+    -1.4854205491154588,
+    -1.1291786896139668,
+    -0.9883503592309809,
+    -0.8297825625750282,
+    -0.7022163901265714,
+    -0.6142482604150553,
+    -0.5313932775295405,
+    -0.4640159484044199,
+    -0.3685677324927074,
+    -0.3083099707011248,
+    -0.24331924881105635,
+    -0.16794543621783445,
+    -0.1154528277487883,
+    -0.04967531093290719,
+    0.006813471940789561,
+    0.07709381075737723,
+    0.12868195477369063,
+    0.1714618083129388,
+    0.21980162951812604,
+    0.2533534872194901,
+    0.2990380224396139,
+    0.3495172111307892,
+    0.38623739046319994,
+    0.439603259036252,
+    0.46841006023910536,
+    0.5243344108265611,
+    0.5684094186081932,
+    0.6146442854591019,
+    0.6612936649256715,
+    0.7055611581896185,
+    0.7531743371252528,
+    0.8114651560372201,
+    0.8642818668288169,
+    0.9235260982220012,
+    0.9883503592309809,
+    1.0465579579635131,
+    1.1350134874958486,
+    1.2507788839905944,
+    1.3985528207375542,
+    1.625972748851604
+   ],
+   "note": "used when duration is missing: average of the latent over 40 quantiles of log(duration / ref) among the fitted cases"
+  },
+  "note": "log f(x | duration) = B(log x - b log(duration / 180))·[0, coefficients] - log x, normalised on the grid; duration = charted anaesthesia duration (aneend - anestart, min); without it, the marginal is used"
  },
  "allocation": [
   {
@@ -55,7 +128,7 @@
    "applies_below": 75,
    "prob": {
     "form": "constant",
-    "logit": -0.3883030062862894
+    "logit": -0.3177669762526707
    }
   },
   {
@@ -68,8 +141,8 @@
    "anchor": "nearest",
    "prob": {
     "form": "logistic_logx",
-    "logit": -4.090218912383013,
-    "slope": 0.6570215807013458,
+    "logit": -3.9640767367690706,
+    "slope": 0.6012034371089259,
     "centre": 150
    }
   },
@@ -83,8 +156,8 @@
    "anchor": "nearest",
    "prob": {
     "form": "logistic_logx",
-    "logit": -1.1542724669143016,
-    "slope": 0.602593290627398,
+    "logit": -1.163498698957125,
+    "slope": 0.6031016497626271,
     "centre": 150
    }
   },
@@ -98,8 +171,8 @@
    "anchor": "nearest",
    "prob": {
     "form": "logistic_logx",
-    "logit": 1.9778367780772754,
-    "slope": 0.2632809103705836,
+    "logit": 1.965788552059665,
+    "slope": 0.2711365797893671,
     "centre": 150
    }
   },
@@ -115,10 +188,32 @@
   }
  ],
  "fit": {
-  "n": 3933,
-  "loglik": -12149.493122922317,
-  "n_params": 12,
-  "aic": 24322.986245844633,
-  "bic": 24398.312139113816
- }
+  "n": 3882,
+  "loglik": -11141.127603860634,
+  "n_params": 13,
+  "aic": 22308.255207721268,
+  "bic": 22389.688582649746,
+  "data": "VitalDB clinical_data.csv (intraop_ebl), positive values on the 10 mL grid with a usable anaesthesia duration",
+  "method": "tools/fit_volume.py --duration: library likelihood, JAX gradient, L-BFGS-B then BFGS",
+  "date": "2026-10-18",
+  "previous": {
+   "n": 3933,
+   "loglik": -12149.493122922317,
+   "bic": 24398.312139113816
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  }
+ ]
 }

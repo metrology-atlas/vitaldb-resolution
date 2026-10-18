@@ -1,75 +1,169 @@
 {
+ "models": {
+  "aneend": {
+   "version": 2,
+   "fit_hash": "168d91cd9aa9fae96856fec59fd9db6a483ad200dcc4193aeec3e84ba5be581d",
+   "file": "aneend.model.json"
+  },
+  "anestart": {
+   "version": 2,
+   "fit_hash": "79d08da46c4fe141959116039cda94e571bcbcf21dd79257a2ef92691b3c4553",
+   "file": "anestart.model.json"
+  },
+  "bmi": {
+   "version": 1,
+   "fit_hash": "b9e63b1b4497b143f565127cad5241e4fb463848576d1a31f8d275efcf58573a",
+   "file": "bmi.model.json"
+  },
+  "height": {
+   "version": 1,
+   "fit_hash": "c78b88db45dbc749821372a49ddd40f31278c2c75da3bf544704794fde1077e2",
+   "file": "height.model.json"
+  },
+  "intraop_crystalloid": {
+   "version": 2,
+   "fit_hash": "724cc3cc0dfbd81e958f34cfcc8fc398c8225568d517cf288a36b37347700872",
+   "file": "intraop_crystalloid.model.json"
+  },
+  "intraop_ebl": {
+   "version": 2,
+   "fit_hash": "70c2f11e274c4a02186af3ed3c404570a96c7bf4f76a801373ce9d037ddb962b",
+   "file": "intraop_ebl.model.json"
+  },
+  "intraop_ppf": {
+   "version": 2,
+   "fit_hash": "f271327e96496363a62c5c7abe73cbfd5472bc73178c500bf289fd7ec92dcf96",
+   "file": "intraop_ppf.model.json"
+  },
+  "intraop_uo": {
+   "version": 2,
+   "fit_hash": "5bf56f515582d45bb73302e680e8dfb05ef2428dffc91f94d8b3552a3935fdff",
+   "file": "intraop_uo.model.json"
+  },
+  "opend": {
+   "version": 2,
+   "fit_hash": "c3691c6334ff6fc02aa4d5b048065a76d82b57ac9ab7edf391b2275908904746",
+   "file": "opend.model.json"
+  },
+  "opstart": {
+   "version": 2,
+   "fit_hash": "e7987f5631141f727534f5ffe91d99f55dbf27ee93c7041c148045511fb33d66",
+   "file": "opstart.model.json"
+  },
+  "weight": {
+   "version": 2,
+   "fit_hash": "1a142ff6ccaca6036d90af7d31303a5f46028fb55e1ab33bb1e11bd24dee88f6",
+   "file": "weight.model.json"
+  }
+ },
  "loglik": {
-  "intraop_uo": [
-   -15603.903576137356,
-   -15603.903576137356,
-   3669
-  ],
-  "intraop_ebl": [
-   -12149.493122922317,
-   -12149.493122922317,
-   3933
-  ],
-  "intraop_crystalloid": [
-   -23656.606732810353,
-   -23656.606732810353,
-   5974
-  ],
-  "height": [
-   -32378.343087524154,
-   -32378.34308758191,
-   6041
-  ],
-  "weight": [
-   -38917.24449735528,
-   -38917.287569711785,
-   6041
-  ],
-  "anestart": [
-   -21644.900127340443,
-   -21645.008608877528,
-   6387
-  ],
-  "opstart": [
-   -18073.745131891184,
-   -18063.177909816128,
-   6387
-  ],
-  "opend": [
-   -9411.496858807295,
-   -9411.358523679852,
-   5850
-  ],
-  "aneend": [
-   -11684.40908736247,
-   -13065.915095334687,
-   6254
-  ]
+  "intraop_uo": {
+   "n": 3630,
+   "n_stored": 3630,
+   "loglik": -14925.972865138065,
+   "loglik_stored": -14925.972865138065,
+   "diff": 0.0
+  },
+  "intraop_ebl": {
+   "n": 3882,
+   "n_stored": 3882,
+   "loglik": -11141.127603860634,
+   "loglik_stored": -11141.127603860634,
+   "diff": 0.0
+  },
+  "intraop_crystalloid": {
+   "n": 5863,
+   "n_stored": 5863,
+   "loglik": -20154.700391872782,
+   "loglik_stored": -20154.700391872782,
+   "diff": 0.0
+  },
+  "intraop_ppf": {
+   "n": 2328,
+   "n_stored": 2328,
+   "loglik": -3847.548725885572,
+   "loglik_stored": -3847.548725885572,
+   "diff": 0.0
+  },
+  "height": {
+   "n": 6041,
+   "n_stored": 6041,
+   "loglik": -32378.343087524154,
+   "loglik_stored": -32378.343087524154,
+   "diff": 0.0
+  },
+  "weight": {
+   "n": 6041,
+   "n_stored": 6041,
+   "loglik": -38917.24449735528,
+   "loglik_stored": -38917.24449735528,
+   "diff": 0.0
+  },
+  "anestart": {
+   "n": 6387,
+   "n_stored": 6387,
+   "loglik": -21644.900127340366,
+   "loglik_stored": -21644.900127340366,
+   "diff": 0.0
+  },
+  "opstart": {
+   "n": 6387,
+   "n_stored": 6387,
+   "loglik": -18040.569423964025,
+   "loglik_stored": -18040.569423964025,
+   "diff": 0.0
+  },
+  "opend": {
+   "n": 5850,
+   "n_stored": 5850,
+   "loglik": -9411.496858807313,
+   "loglik_stored": -9411.496858807313,
+   "diff": 0.0
+  },
+  "aneend": {
+   "n": 6254,
+   "n_stored": 6254,
+   "loglik": -11684.409087362483,
+   "loglik_stored": -11684.409087362483,
+   "diff": 0.0
+  }
  },
  "clinical": {
   "caseid": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "subjectid": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "casestart": {
    "status": {
     "ok": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "exact": 6388
+   }
   },
   "caseend": {
    "status": {
     "ok": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6388
+   }
   },
   "anestart": {
    "status": {
@@ -78,6 +172,10 @@
    },
    "flags": {
     "clock_uncertain": 2
+   },
+   "density": {
+    "latent": 6387,
+    "none": 1
    }
   },
   "opstart": {
@@ -88,6 +186,10 @@
    "flags": {
     "clock_uncertain": 2,
     "clock_offset_mismatch": 1
+   },
+   "density": {
+    "latent": 6387,
+    "none": 1
    }
   },
   "aneend": {
@@ -100,6 +202,10 @@
     "same_time": 108,
     "order_violation": 47,
     "clock_uncertain": 2
+   },
+   "density": {
+    "latent": 6254,
+    "none": 134
    }
   },
   "opend": {
@@ -113,6 +219,10 @@
     "same_time": 107,
     "order_violation": 45,
     "clock_uncertain": 2
+   },
+   "density": {
+    "latent": 5850,
+    "none": 538
    }
   },
   "adm": {
@@ -120,41 +230,65 @@
     "ok": 6387,
     "invalid": 1
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6387,
+    "none": 1
+   }
   },
   "dis": {
    "status": {
     "ok": 6387,
     "invalid": 1
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6387,
+    "none": 1
+   }
   },
   "icu_days": {
    "status": {
     "ok": 6388
    },
    "flags": {
-    "counting_rule_unknown": 1204
+    "counting_rule_assumed": 1204,
+    "icu_exceeds_postop": 36,
+    "order_violation": 6
+   },
+   "density": {
+    "exact": 5184,
+    "triangular": 1204
    }
   },
   "death_inhosp": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "age": {
    "status": {
     "ok": 6380,
     "top_coded": 8
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6380,
+    "none": 8
+   }
   },
   "sex": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "height": {
    "status": {
@@ -164,6 +298,14 @@
     "child_native_resolution": 57,
     "age_covariate_top_coded": 8,
     "off_grid": 1
+   },
+   "density": {
+    "latent": 6331,
+    "uniform": 57
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.3994,
+    "recorded_value": 140.0
    }
   },
   "weight": {
@@ -174,6 +316,14 @@
     "child_native_resolution": 57,
     "age_covariate_top_coded": 8,
     "off_grid": 5
+   },
+   "density": {
+    "latent": 6331,
+    "uniform": 57
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.0283,
+    "recorded_value": 34.0
    }
   },
   "bmi": {
@@ -183,160 +333,245 @@
    "flags": {
     "recorded_bmi_mismatch": 2,
     "age_covariate_top_coded": 8
+   },
+   "density": {
+    "derived": 6388
    }
   },
   "asa": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "emop": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "department": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "optype": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "dx": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "opname": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "approach": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "position": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "ane_type": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "preop_htn": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "preop_dm": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "preop_ecg": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "preop_pft": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "cormack": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "airway": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "tubesize": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "dltubesize": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "lmasize": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "iv1": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "iv2": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "aline1": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "aline2": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "cline1": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "cline2": {
    "status": {
     "not_applicable": 6388
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6388
+   }
   },
   "intraop_uo": {
    "status": {
-    "ok": 3684,
-    "missing": 2681,
-    "zero_or_not_recorded": 23
+    "ok": 3707,
+    "missing": 2681
    },
    "flags": {
-    "off_grid": 15
+    "off_grid": 15,
+    "zero_unexplained": 14,
+    "duration_marginal": 39,
+    "zero_anuric": 9
+   },
+   "density": {
+    "latent": 3707,
+    "none": 2681
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.2396,
+    "recorded_value": 5.0
    }
   },
   "intraop_ebl": {
@@ -346,7 +581,16 @@
     "zero_or_not_recorded": 11
    },
    "flags": {
+    "duration_marginal": 52,
     "off_grid": 43
+   },
+   "density": {
+    "none": 2412,
+    "latent": 3976
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.2245,
+    "recorded_value": 3.0
    }
   },
   "intraop_crystalloid": {
@@ -355,7 +599,16 @@
     "missing": 408
    },
    "flags": {
+    "duration_marginal": 111,
     "off_grid": 6
+   },
+   "density": {
+    "latent": 5980,
+    "none": 408
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.2619,
+    "recorded_value": 50.0
    }
   },
   "intraop_ppf": {
@@ -366,6 +619,14 @@
    "flags": {
     "age_covariate_top_coded": 8,
     "off_grid": 4
+   },
+   "density": {
+    "latent": 2335,
+    "none": 4053
+   },
+   "latent_uniform_gap_max": {
+    "fraction_of_width": 0.4549,
+    "recorded_value": 150
    }
   },
   "intraop_colloid": {
@@ -376,6 +637,11 @@
    "flags": {
     "unit_uncertain": 98,
     "possibly_albumin": 65
+   },
+   "density": {
+    "none": 5857,
+    "exact": 315,
+    "uniform": 216
    }
   },
   "intraop_rbc": {
@@ -384,7 +650,11 @@
     "ok": 352
    },
    "flags": {
-    "unit_uncertain": 7
+    "unit_uncertain": 5
+   },
+   "density": {
+    "none": 6036,
+    "exact": 352
    }
   },
   "intraop_ffp": {
@@ -392,7 +662,11 @@
     "zero_or_not_recorded": 6259,
     "ok": 129
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6259,
+    "exact": 129
+   }
   },
   "intraop_ftn": {
    "status": {
@@ -401,6 +675,10 @@
    },
    "flags": {
     "off_unit_dose_grid": 28
+   },
+   "density": {
+    "exact": 1168,
+    "none": 5220
    }
   },
   "intraop_eph": {
@@ -410,6 +688,10 @@
    },
    "flags": {
     "off_unit_dose_grid": 20
+   },
+   "density": {
+    "exact": 3211,
+    "none": 3177
    }
   },
   "intraop_phe": {
@@ -419,6 +701,10 @@
    },
    "flags": {
     "off_unit_dose_grid": 7
+   },
+   "density": {
+    "none": 5544,
+    "exact": 844
    }
   },
   "intraop_ca": {
@@ -428,6 +714,10 @@
    },
    "flags": {
     "off_unit_dose_grid": 26
+   },
+   "density": {
+    "none": 5520,
+    "exact": 868
    }
   },
   "intraop_rocu": {
@@ -437,6 +727,10 @@
    },
    "flags": {
     "off_unit_dose_grid": 319
+   },
+   "density": {
+    "exact": 5942,
+    "none": 446
    }
   },
   "intraop_mdz": {
@@ -444,35 +738,55 @@
     "zero_or_not_recorded": 6308,
     "ok": 80
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6308,
+    "uniform": 80
+   }
   },
   "intraop_vecu": {
    "status": {
     "zero_or_not_recorded": 6376,
     "ok": 12
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6376,
+    "uniform": 12
+   }
   },
   "intraop_epi": {
    "status": {
     "zero_or_not_recorded": 6299,
     "ok": 89
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 6299,
+    "uniform": 89
+   }
   },
   "preop_hb": {
    "status": {
     "ok": 6047,
     "missing": 341
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6047,
+    "none": 341
+   }
   },
   "preop_plt": {
    "status": {
     "ok": 6047,
     "missing": 341
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6047,
+    "none": 341
+   }
   },
   "preop_pt": {
    "status": {
@@ -482,119 +796,188 @@
    "flags": {
     "off_grid": 3,
     "not_a_reachable_value": 3
+   },
+   "density": {
+    "uniform": 5998,
+    "none": 390
    }
   },
   "preop_aptt": {
    "status": {
-    "ok": 5986,
-    "missing": 402
+    "ok": 5984,
+    "missing": 402,
+    "top_coded": 2
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 5984,
+    "none": 404
+   }
   },
   "preop_na": {
    "status": {
     "ok": 5765,
     "missing": 623
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 5765,
+    "none": 623
+   }
   },
   "preop_k": {
    "status": {
     "ok": 5767,
     "missing": 621
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 5767,
+    "none": 621
+   }
   },
   "preop_gluc": {
    "status": {
     "ok": 6010,
     "missing": 378
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6010,
+    "none": 378
+   }
   },
   "preop_alb": {
    "status": {
     "ok": 6016,
     "missing": 372
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6016,
+    "none": 372
+   }
   },
   "preop_ast": {
    "status": {
     "ok": 6022,
     "missing": 366
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6022,
+    "none": 366
+   }
   },
   "preop_alt": {
    "status": {
     "ok": 6024,
     "missing": 364
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6024,
+    "none": 364
+   }
   },
   "preop_bun": {
    "status": {
     "ok": 6023,
     "missing": 365
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6023,
+    "none": 365
+   }
   },
   "preop_cr": {
    "status": {
     "ok": 6016,
     "missing": 372
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "uniform": 6016,
+    "none": 372
+   }
   },
   "preop_ph": {
    "status": {
     "missing": 5842,
     "ok": 546
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5842,
+    "uniform": 546
+   }
   },
   "preop_hco3": {
    "status": {
     "missing": 5855,
     "ok": 533
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5855,
+    "uniform": 533
+   }
   },
   "preop_be": {
    "status": {
     "missing": 5856,
     "ok": 532
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5856,
+    "uniform": 532
+   }
   },
   "preop_pao2": {
    "status": {
     "missing": 5850,
     "ok": 538
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5850,
+    "uniform": 538
+   }
   },
   "preop_paco2": {
    "status": {
     "missing": 5850,
     "ok": 538
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5850,
+    "uniform": 538
+   }
   },
   "preop_sao2": {
    "status": {
     "missing": 5855,
     "ok": 533
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "none": 5855,
+    "uniform": 533
+   }
   },
   "los": {
    "status": {
     "ok": 6387,
     "invalid": 1
    },
-   "flags": {}
+   "flags": {},
+   "density": {
+    "triangular": 6387,
+    "none": 1
+   }
   },
   "ind_to_incision": {
    "status": {
@@ -604,6 +987,10 @@
    "flags": {
     "clock_uncertain": 2,
     "clock_offset_mismatch": 1
+   },
+   "density": {
+    "derived": 6387,
+    "none": 1
    }
   },
   "op_duration": {
@@ -617,6 +1004,10 @@
     "same_time": 107,
     "order_violation": 45,
     "clock_uncertain": 2
+   },
+   "density": {
+    "derived": 5850,
+    "none": 538
    }
   },
   "ane_duration": {
@@ -629,6 +1020,10 @@
     "same_time": 108,
     "order_violation": 47,
     "clock_uncertain": 2
+   },
+   "density": {
+    "derived": 6254,
+    "none": 134
    }
   },
   "emergence": {
@@ -642,6 +1037,10 @@
     "same_time": 107,
     "order_violation": 41,
     "clock_uncertain": 2
+   },
+   "density": {
+    "derived": 5731,
+    "none": 657
    }
   }
  },
@@ -666,7 +1065,8 @@
   },
   "aptt": {
    "status": {
-    "ok": 20542
+    "ok": 20316,
+    "top_coded": 226
    },
    "flags": {}
   },
@@ -720,7 +1120,8 @@
   },
   "esr": {
    "status": {
-    "ok": 1415
+    "ok": 1326,
+    "bottom_coded": 89
    },
    "flags": {}
   },
@@ -758,7 +1159,10 @@
    "status": {
     "ok": 58498
    },
-   "flags": {}
+   "flags": {
+    "stand_alone_probable_body_fluid": 6,
+    "source_unknown,stand_alone_probable_body_fluid": 3
+   }
   },
   "ica": {
    "status": {
@@ -774,7 +1178,8 @@
   },
   "lac": {
    "status": {
-    "ok": 14516
+    "ok": 14199,
+    "top_coded": 317
    },
    "flags": {}
   },
@@ -861,6 +1266,57 @@
     "ok": 43941
    },
    "flags": {}
+  }
+ },
+ "zeros": {
+  "intraop_uo": {
+   "recorded": 3707,
+   "missing": 2681,
+   "zero": 23,
+   "zero_anuric": 9,
+   "zero_unexplained": 14,
+   "p0": 0.006204478014567035
+  },
+  "intraop_ebl": {
+   "recorded": 3987,
+   "missing": 2401,
+   "zero": 11
+  },
+  "intraop_crystalloid": {
+   "recorded": 5980,
+   "missing": 408,
+   "zero": 0
+  },
+  "intraop_colloid": {
+   "recorded": 6388,
+   "missing": 0,
+   "zero": 5857
+  }
+ },
+ "latent_uniform_gap_max": {
+  "height": {
+   "fraction_of_width": 0.3994,
+   "recorded_value": 140.0
+  },
+  "weight": {
+   "fraction_of_width": 0.0283,
+   "recorded_value": 34.0
+  },
+  "intraop_uo": {
+   "fraction_of_width": 0.2396,
+   "recorded_value": 5.0
+  },
+  "intraop_ebl": {
+   "fraction_of_width": 0.2245,
+   "recorded_value": 3.0
+  },
+  "intraop_crystalloid": {
+   "fraction_of_width": 0.2619,
+   "recorded_value": 50.0
+  },
+  "intraop_ppf": {
+   "fraction_of_width": 0.4549,
+   "recorded_value": 150
   }
  }
 }

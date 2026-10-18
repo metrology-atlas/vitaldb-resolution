@@ -6,7 +6,7 @@ from functools import cache
 
 import numpy as np
 
-from . import engine
+from . import engine, versions
 from .distribution import Component, Distribution, uniform_interval
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -91,6 +91,17 @@ class Registry:
         """
         return [k for k, e in self.vars.items() if method is None or e['method'] == method]
 
+    def _pinned(self, e, pin):
+        mid, ver = versions.parse_pin(pin)
+        if not e.get('model') or mid != self.spec(e['model']).get('id', mid):
+            raise ValueError(f'{pin!r} is not a model of {e["variable"]!r}')
+        if ver is None or ver == self.spec(e['model']).get('version'):
+            return e
+        f = versions.archive_file(mid, ver)
+        if not os.path.exists(os.path.join(self.models_dir, f)):
+            raise ValueError(f'{pin!r}: no such version (archive has no {f})')
+        return {**e, 'model': f}
+
     @cache
     def spec(self, filename):
         """The parsed JSON of one model file (cached).
@@ -110,7 +121,7 @@ class Registry:
         return engine.load_model(self.spec(filename))
 
     # ------------------------------------------------------------------ main entry point
-    def distribution(self, variable, value=None, variability=False, n_samples=20000, rng=None, **cov):
+    def distribution(self, variable, value=None, variability=False, n_samples=20000, rng=None, model=None, **cov):
         """Distribution of the true value of a variable, given its recorded value.
 
         Args:
@@ -119,6 +130,8 @@ class Registry:
             variability: For height and weight, add the measurement variability of a written-in value.
             n_samples: Draws used for sampled posteriors (derived variables, variability).
             rng: Random generator for those draws. Default: seeded with 0, so results repeat.
+            model: Pin a model version, e.g. ``"aneend@1"`` (archived versions stay loadable). Default: the
+                version in the installed release's ``models.lock``.
             **cov: Covariates the entry lists in ``required_covariates`` (e.g. ``sex``, ``age``, ``emop``,
                 ``department``, ``adm``, ``caseend``), or a derived variable's inputs.
 
@@ -137,6 +150,7 @@ class Registry:
             ('ok', 'heaped')
         """
         e = self.entry(variable)
+        if model is not None: e = self._pinned(e, model)
         m = e['method']
         if isinstance(value, np.generic): value = value.item()
         D = lambda **kw: Distribution(variable, value, e.get('unit', ''), **kw)
@@ -185,6 +199,13 @@ class Registry:
         v = float(v); flags = []
         if e['type'] == 'date' and v < SENTINEL: return D(status='invalid', note='1900-01-01 placeholder')
         if v == 0 and e.get('zero_status'): return D(status=e['zero_status'])
+        lim = e.get('reporting_limits')
+        if lim and lim.get('upper') is not None and v >= lim['upper'] - 1e-9:
+            return D(status='top_coded', kind='top_coded', extra={'lower': lim['upper'], 'upper': None},
+                     note=f'At the reporting limit: true value at least {lim["upper"]:g}; no upper bound ({lim["note"]})')
+        if lim and lim.get('lower') is not None and v <= lim['lower'] + 1e-9:
+            return D(status='bottom_coded', kind='bottom_coded', extra={'lower': None, 'upper': lim['lower']},
+                     note=f'At the reporting limit: true value at most {lim["lower"]:g} ({lim["note"]})')
         r = e['resolution']
         if e['type'] not in ('date', 'device_time') and not _on_grid(v, r): flags.append('off_grid')
         return self._uniform(e, v, D, r, e['anchor'], flags=flags)
@@ -219,11 +240,17 @@ class Registry:
         return D(kind='computed_value', components=[Component('uniform', label='neighbour midpoints',
                  lower=v - left / 2, upper=v + right / 2, anchor='nearest', closed='lower')])
 
-    def _h_triangular_count(self, e, v, D, **_):
+    def _h_triangular_count(self, e, v, D, cov=None, **_):
         n = float(v)
         if n == 0: return D(kind='exact', components=[Component('point', label='no ICU stay', value=0.0)])
-        w = e.get('half_width', 1)
-        return D(kind='count_uncertain', flags=['counting_rule_unknown'],
+        w = e.get('half_width', 1); flags = ['counting_rule_assumed']
+        adm, dis = (cov or {}).get('adm'), (cov or {}).get('dis')
+        if not _missing(adm) and not _missing(dis) and float(adm) > SENTINEL and float(dis) > SENTINEL:
+            adm, dis = float(adm), float(dis)
+            if n > (dis - adm) / 86400: flags.append('order_violation')
+            case_midnight = adm + 86400 * math.floor(-adm / 86400)      # adm and dis are midnights (s from casestart)
+            if n >= (dis - case_midnight) / 86400: flags.append('icu_exceeds_postop')
+        return D(kind='count_uncertain', flags=flags,
                  components=[Component('triangular', label=f'n ± {w}', lower=n - w, mode=n, upper=n + w)])
 
     def _h_age(self, e, v, D, **_):
@@ -251,7 +278,8 @@ class Registry:
     def _h_model(self, e, v, D, cov, variability, n, rng, **_):
         spec = self.spec(e['model']); M = self.model(e['model'])
         v = float(v); flags = []
-        if v == 0 and (e.get('zero_status') or spec.get('truncation', {}).get('exclude_recorded_zero')):
+        zm = spec.get('zero_model')
+        if v == 0 and not zm and (e.get('zero_status') or spec.get('truncation', {}).get('exclude_recorded_zero')):
             return D(status=e.get('zero_status', 'special_value'), note='0 is not modelled (special value)')
         res = spec['resolution']['effective']
         pop = spec.get('population', {})
@@ -261,26 +289,58 @@ class Registry:
         if not _on_grid(v, res):
             flags.append('off_grid'); v = round(v / res) * res
         c = {k: cov[k] for k in spec.get('required_covariates', []) if k in cov} if spec.get('required_covariates') else None
+        extra = {}
+        for name, shares in spec.get('covariate_marginals', {}).items():
+            if cov.get(name) not in shares:
+                flags.append(f'{name}_marginal')
+                if c: c.pop(name, None)
+        if spec['latent'].get('location_covariates'):
+            dur = anaesthesia_duration(cov)
+            c = dict(c or {})
+            if dur is None:
+                flags.append('duration_marginal')
+            else:
+                c['duration'] = dur; extra['duration_min'] = dur
         w = M.latent(spec['latent'].get('coefficients'), c, spec)
+        if v == 0 and zm:
+            return self._zero(e, spec, M, w, c, cov, D, extra, flags)
         comps, written = [], 0.0
         for lab, rec, take in M.components(spec, c):
-            wm = w * take * (np.round(rec / M.ru) == round(v / M.ru))
+            cell = (np.round(rec / M.ru) == round(v / M.ru)) & (take > 0)
+            wm = w * take * cell
             if wm.sum() > 0:
-                comps.append(Component('tabulated', weight=wm.sum(), label=lab, x=M.X, p=wm, dx=M.dx))
+                ix = np.where(cell)[0]
+                comps.append(Component('tabulated', weight=wm.sum(), label=lab, x=M.X, p=wm, dx=M.dx,
+                                       interval=(float(M.X[ix[0]] - M.dx / 2), float(M.X[ix[-1]] + M.dx / 2))))
                 if lab in engine.WRITTEN_IN_MODES.get(spec['variable'], set()): written += wm.sum()
         if not comps:
             d = self._uniform(e, v, D, res, 'nearest', flags=flags + ['outside_model_support'])
             d.note = 'value outside the fitted model support; uniform at the working resolution'; return d
         tot = sum(cc.weight for cc in comps)
-        extra = {'possibly_written_in': round(float(written / tot), 4)} if spec.get('flags', {}).get('possibly_written_in') else None
-        model = {'id': spec['variable'], 'version': spec.get('schema_version'), 'file': e['model'],
-                 'fit_date': spec.get('fit', {}).get('date'), 'latent': spec['latent']['family']}
+        if spec.get('flags', {}).get('possibly_written_in'): extra['possibly_written_in'] = round(float(written / tot), 4)
+        extra = extra or None
+        model = _model_info(spec, e)
         kind = 'heaped' if len(spec['allocation']) > 1 else 'single_resolution'
         if variability and spec.get('measurement_variability'):
             s, _ = engine.sample_posterior(M, v, c, n, rng, variability=True)
             return D(kind=kind + '+measurement_variability', model=model, flags=flags, extra=extra,
                      components=[Component('samples', label='posterior with measurement variability', samples=s)])
         return D(kind=kind, components=comps, model=model, flags=flags, extra=extra)
+
+    def _zero(self, e, spec, M, w, c, cov, D, extra, flags):
+        """A recorded 0 under a zero model: a point mass at 0 (probability p0) mixed with the latent mass that
+        records as 0, each flagged by cause (see the model's ``zero_model`` and ``exclusion_rules.json``)."""
+        zm = spec['zero_model']; p0 = zm['p0']
+        q0 = sum(float((w * take * (np.round(rec / M.ru) == 0)).sum()) for _, rec, take in M.components(spec, c))
+        comps = [Component('point', weight=p0, label='true zero', value=0.0)]
+        if q0 > 0:
+            wm = sum(w * take * (np.round(rec / M.ru) == 0) for _, rec, take in M.components(spec, c))
+            comps.append(Component('tabulated', weight=(1 - p0) * q0, label='latent below half the base resolution',
+                                   x=M.X, p=wm, dx=M.dx))
+        flag = zero_flag(zm, cov)
+        model = _model_info(spec, e)
+        return D(kind='zero_point_mass', components=comps, model=model, flags=flags + [flag], extra=extra or None,
+                 note=zm['rules'][flag]['meaning'])
 
     # timestamps -------------------------------------------------------------------------------
     def timestamp_context(self, variable, t, cov):
@@ -347,8 +407,7 @@ class Registry:
         if not out:
             return D(status='invalid', note='recorded minute has zero probability under the model', flags=flags)
         d = D(kind='heaped', components=out, flags=flags,
-              model={'id': var, 'version': spec.get('schema_version'), 'file': e['model'],
-                     'fit_date': spec.get('fit', {}).get('date'), 'latent': spec['latent']['family']})
+              model=_model_info(spec, e))
         mu = d.mean()
         d.extra = {'recorded_clock': _hms(ctx['M']), 'mean_clock': _hms(ctx['recording_start_clock'] + mu / 60),
                    'reference': spec['reference']['name'], 'ref_clock': _hms(ctx['ref']),
@@ -473,6 +532,44 @@ class Registry:
                          'lo95': s['ci95'][0] if s else np.nan, 'hi95': s['ci95'][1] if s else np.nan,
                          'flags': ','.join(d.flags)})
         return pd.DataFrame(rows)
+
+
+def _model_info(spec, e):
+    """Provenance of a modelled result: model id, version, fit_hash, file, fit date and latent family."""
+    return {'id': spec.get('id', spec['variable']), 'version': spec.get('version'), 'fit_hash': spec.get('fit_hash'),
+            'file': e['model'], 'fit_date': spec.get('fit', {}).get('date'), 'latent': spec['latent']['family'],
+            'density': 'latent'}
+
+
+def anaesthesia_duration(cov):
+    """Charted anaesthesia duration in minutes (aneend - anestart), or None when it is not usable: either time
+    missing or invalid, a 1900 placeholder, an anaesthesia end derived from an imputed op end (not a whole second)
+    or outside the anaesthesia-end model range. A ``duration`` covariate passed directly is used as given."""
+    if not _missing(cov.get('duration')):
+        d = float(cov['duration']); return d if d > 0 else None
+    a, b = cov.get('anestart'), cov.get('aneend')
+    if _missing(a) or _missing(b): return None
+    a, b = float(a), float(b)
+    if a < SENTINEL or b < SENTINEL or abs(b - round(b)) > 1e-9: return None
+    if not _missing(cov.get('adm')) and float(cov['adm']) < SENTINEL: return None
+    if not _missing(cov.get('caseend')) and (b - float(cov['caseend'])) / 60 >= 240: return None
+    d = (b - a) / 60
+    return d if d > 0 else None
+
+
+def zero_flag(zm, cov):
+    """Which zero rule applies to a recorded 0 (first matching rule; the last rule is the default)."""
+    for name, r in zm['rules'].items():
+        test = r.get('test')
+        if test is None: return name
+        ok = False
+        for cond in test['any']:
+            x = cov.get(cond['field'])
+            if _missing(x): continue
+            x = float(x)
+            if (cond['op'] == '>' and x > cond['value']) or (cond['op'] == '==' and x == cond['value']): ok = True
+        if ok: return name
+    return list(zm['rules'])[-1]
 
 
 def load(path=None):

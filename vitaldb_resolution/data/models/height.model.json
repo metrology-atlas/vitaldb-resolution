@@ -1,4 +1,15 @@
 {
+ "id": "height",
+ "version": 1,
+ "fit_hash": "c78b88db45dbc749821372a49ddd40f31278c2c75da3bf544704794fde1077e2",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
  "variable": "height",
  "unit": "cm",
  "schema_version": "0.3",
@@ -183,19 +194,67 @@
    "basis": "2018 Korea Community Health Survey, 171,384 adults: self-reported minus measured height by sex and age; limits of agreement -6.26 to 4.31 cm give SD ~2.6 cm. Assumes written-in heights are self-reported. True height = recorded - bias."
   },
   "references": [
-   "Leatt P, Reilly T, Troup JG. Spinal loading during circuit weight-training and running. Br J Sports Med 1986;20(3):119-24.",
-   "Voss LD, Bailey BJR. Diurnal variation in stature: is stretching the answer? Arch Dis Child 1997;77:319-22.",
-   "Differences in accuracy of height, weight, and BMI between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health 2022 (PMC9117107)."
+   "Leatt P, Reilly T, Troup JG. Spinal loading during circuit weight-training and running. Br J Sports Med. 1986;20(3):119-124. doi:10.1136/bjsm.20.3.119",
+   "Healey EL, Burden AM, McEwan IM, Fowler NE. Diurnal variation in stature: do those with chronic low-back pain differ from asymptomatic controls? Clin Biomech. 2011;26(4):331-336. doi:10.1016/j.clinbiomech.2010.11.017",
+   "Voss LD, Bailey BJR. Diurnal variation in stature: is stretching the answer? Arch Dis Child. 1997;77(4):319-322. doi:10.1136/adc.77.4.319",
+   "Ko Y, Choi S, Won J, Lee YK, Kim DH, Lee SK. Differences in accuracy of height, weight, and body mass index between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health. 2022;44:e2022024. doi:10.4178/epih.e2022024"
   ]
  },
  "fit": {
   "n": 6041,
-  "loglik": -32378.34308758191,
+  "loglik": -32378.343087524154,
   "n_params": 11,
-  "aic": 64778.68617516382,
-  "bic": 64852.455748405344,
+  "aic": 64778.68617504831,
+  "bic": 64852.45574828983,
   "source": "clinical_data.csv",
   "method": "closed-form likelihood, Nelder-Mead",
-  "date": "2026-10-13"
- }
+  "date": "2026-10-13",
+  "reevaluated": {
+   "date": "2026-10-18",
+   "by": "tools/reevaluate_fit.py (library likelihood; parameters unchanged)",
+   "previous": {
+    "n": 6041,
+    "loglik": -32378.34308758191,
+    "bic": 64852.455748405344
+   }
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  },
+  {
+   "id": "leatt1986spinal",
+   "citation": "Leatt P, Reilly T, Troup JG. Spinal loading during circuit weight-training and running. Br J Sports Med. 1986;20(3):119-124.",
+   "doi": "10.1136/bjsm.20.3.119",
+   "used_for": "diurnal loss of stature (measured-height SD)"
+  },
+  {
+   "id": "healey2011diurnal",
+   "citation": "Healey EL, Burden AM, McEwan IM, Fowler NE. Diurnal variation in stature: do those with chronic low-back pain differ from asymptomatic controls? Clin Biomech. 2011;26(4):331-336.",
+   "doi": "10.1016/j.clinbiomech.2010.11.017",
+   "used_for": "diurnal loss of stature (measured-height SD)"
+  },
+  {
+   "id": "voss1997diurnal",
+   "citation": "Voss LD, Bailey BJR. Diurnal variation in stature: is stretching the answer? Arch Dis Child. 1997;77(4):319-322.",
+   "doi": "10.1136/adc.77.4.319",
+   "used_for": "diurnal variation and stadiometer reproducibility (measured-height SD)"
+  },
+  {
+   "id": "ko2022selfreported",
+   "citation": "Ko Y, Choi S, Won J, Lee YK, Kim DH, Lee SK. Differences in accuracy of height, weight, and body mass index between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health. 2022;44:e2022024.",
+   "doi": "10.4178/epih.e2022024",
+   "used_for": "self-reported minus measured height and weight by sex and age (written-in bias and SD)"
+  }
+ ]
 }

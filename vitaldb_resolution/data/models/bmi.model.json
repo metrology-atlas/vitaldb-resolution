@@ -1,7 +1,43 @@
-{"variable":"bmi","unit":"kg/m2","schema_version":"0.3","kind":"derived",
- "formula":"weight / (height/100)^2","inputs":["weight","height"],
- "recorded_rounding":{"resolution":0.1,"anchor":"nearest"},
- "evidence":"Recorded BMI equals round(weight / (height/100)^2, 1) for 6,388 of 6,388 cases, so it is computed from the recorded height and weight and carries no information of its own about the true values.",
- "required_covariates":["sex","age","emop","department"],
- "api":"Return the distribution of weight/(height/100)^2 with height and weight drawn from their own posteriors for the same case; optionally include measurement variability. The recorded BMI is used only as a consistency check.",
- "limitations":"Height and weight posteriors are drawn independently given sex and age; their correlation is ignored. This matters only when an input posterior is wide (written-in values)."}
+{
+ "id": "bmi",
+ "version": 1,
+ "fit_hash": "b9e63b1b4497b143f565127cad5241e4fb463848576d1a31f8d275efcf58573a",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "variable": "bmi",
+ "unit": "kg/m2",
+ "schema_version": "0.3",
+ "kind": "derived",
+ "formula": "weight / (height/100)^2",
+ "inputs": [
+  "weight",
+  "height"
+ ],
+ "recorded_rounding": {
+  "resolution": 0.1,
+  "anchor": "nearest"
+ },
+ "evidence": "Recorded BMI equals round(weight / (height/100)^2, 1) for 6,388 of 6,388 cases, so it is computed from the recorded height and weight and carries no information of its own about the true values.",
+ "required_covariates": [
+  "sex",
+  "age",
+  "emop",
+  "department"
+ ],
+ "api": "Return the distribution of weight/(height/100)^2 with height and weight drawn from their own posteriors for the same case; optionally include measurement variability. The recorded BMI is used only as a consistency check.",
+ "limitations": "Height and weight posteriors are drawn independently given sex and age; their correlation is ignored. This matters only when an input posterior is wide (written-in values).",
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  }
+ ]
+}

@@ -40,7 +40,12 @@ def test_interval_edges_nearest_floor_ceiling():
 # ---------------- statuses ----------------
 def test_statuses():
     assert reg.distribution('intraop_uo', None).status == 'missing'
-    assert reg.distribution('intraop_uo', 0).status == 'zero_or_not_recorded'
+    z = reg.distribution('intraop_uo', 0)                                  # zero rule: point mass at 0, flagged
+    assert z.status == 'ok' and z.kind == 'zero_point_mass' and 'zero_unexplained' in z.flags
+    assert reg.distribution('intraop_ebl', 0).status == 'zero_or_not_recorded'
+    assert reg.distribution('lac', 15.0).status == 'top_coded'
+    assert reg.distribution('esr', 2).status == 'bottom_coded'
+    assert reg.distribution('aptt', 400.0).status == 'top_coded' and reg.distribution('aptt', 399.9).ok
     assert reg.distribution('sex', 'F').status == 'not_applicable'
     assert reg.distribution('age', '>89').status == 'top_coded'
     assert reg.distribution('adm', -3685366320).status == 'invalid'

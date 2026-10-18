@@ -20,6 +20,7 @@ How each value is stored
     draws of their inputs in the same iteration, so shared inputs stay coherent.
 """
 import json
+import warnings
 import os
 import time
 
@@ -243,7 +244,7 @@ def write(cols, tables, clinical, lab, reg, out, dtype='int16', knots=1024):
         np.save(os.path.join(out, 'tables_lo.npy'), lo); np.save(os.path.join(out, 'tables_scale.npy'), scale)
     meta = {'version': 2, 'dtype': dtype, 'knots': knots, 'knot_layout': 'mid-levels, mean-preserving ends', 'n_tables': len(tables), 'n_cases': len(clinical),
             'n_lab': len(lab), 'variables': sorted(cols), 'built': time.strftime('%Y-%m-%d %H:%M'),
-            'registry_built': reg.reg.get('built')}
+            'registry_built': reg.reg.get('built'), 'models': _model_keys()}
     statuses = sorted({str(x) for c in cols.values() for x in c.status})
     flagsets = sorted({str(x) for c in cols.values() for x in c.flags})
     meta['status_codes'] = statuses; meta['flag_codes'] = flagsets
@@ -289,6 +290,22 @@ def build(clinical_csv, lab_csv, out, dtype='int16', knots=1024, log=print):
 
 
 # ---------------------------------------------------------------- loading and drawing
+
+def _model_keys():
+    """Model id -> {version, fit_hash} of the installed release (the cache is keyed by these)."""
+    from . import versions
+    try:
+        return {k: {'version': m['version'], 'fit_hash': m['fit_hash']} for k, m in versions.load_lock()['models'].items()}
+    except FileNotFoundError:
+        return {}
+
+
+def stale_models(meta):
+    """Models whose id, version or fit_hash differ between a cache's meta and the installed release."""
+    built, now = meta.get('models'), _model_keys()
+    if built is None: return sorted(now) or ['(cache built before model versions)']
+    return sorted(k for k in set(built) | set(now) if built.get(k) != now.get(k))
+
 class Cache:
     """A whole-dataset cache of every record's distribution, for fast Monte Carlo draws.
 
@@ -300,6 +317,10 @@ class Cache:
     """
     def __init__(self, path, mmap=False):
         self.path = path; self.meta = json.load(open(os.path.join(path, 'meta.json')))
+        stale = stale_models(self.meta)
+        if stale:
+            warnings.warn(f'cache {path} was built with other model versions ({", ".join(stale)}); rebuild it',
+                          stacklevel=3)
         mm = 'r' if mmap else None
         self.q = np.load(os.path.join(path, 'tables.npy'), mmap_mode=mm)
         lp = os.path.join(path, 'tables_lo.npy')

@@ -1,11 +1,13 @@
 {
  "schema_version": "0.4",
  "dataset": "VitalDB clinical_data.csv / lab_data.csv",
- "date": "2026-10-13",
+ "date": "2026-10-18",
  "statuses": {
   "imputed": "excluded from fitting; API returns status, no distribution",
   "invalid": "excluded; API returns status",
-  "flag": "fitted and returned with the flag attached"
+  "flag": "fitted and returned with the flag attached",
+  "bottom_coded": "reported at the lower reporting limit: open interval below",
+  "top_coded": "reported at the upper reporting limit: open interval above"
  },
  "rules": [
   {
@@ -42,7 +44,11 @@
    "test": "offset from the device reference outside the model grid",
    "cases": 2,
    "status": "invalid",
-   "note": "aneend 720 min after recording end in one case (12-hour clock error?) and 1,441 min in the other (date error?)"
+   "note": "Excluded from the anaesthesia-end fit and returned as invalid: out of range, not corrected. Anaesthesia end is 720 min after recording end in case 3980 and 1,441 min after it in case 4959; a 12-hour clock slip or a one-day date error are candidate explanations, neither confirmed. The October 2026 fit had included both at clipped probability (a constant), so its parameters were unaffected; its fit block is now re-evaluated without them.",
+   "case_ids": [
+    3980,
+    4959
+   ]
   },
   {
    "id": "adm_not_whole_minute",
@@ -116,6 +122,74 @@
    "status": "flag",
    "flag": "unit_uncertain",
    "note": "pending clarification"
+  },
+  {
+   "id": "uo_zero_anuric",
+   "field": "intraop_uo",
+   "test": "intraop_uo == 0 and (preop_cr > 2 or asa == 6)",
+   "cases": 9,
+   "status": "flag",
+   "flag": "zero_anuric",
+   "note": "A true zero: renal failure or dialysis (preoperative creatinine > 2 mg/dL, 8 cases) or an organ donor (ASA 6, 1 case). Returned as a point mass at 0 (zero_model in intraop_uo.model.json)."
+  },
+  {
+   "id": "uo_zero_unexplained",
+   "field": "intraop_uo",
+   "test": "intraop_uo == 0 otherwise",
+   "cases": 14,
+   "status": "flag",
+   "flag": "zero_unexplained",
+   "note": "Normal creatinine; zero over 2-3 h is unlikely, so a blocked catheter or a 0 meaning not measured are possible. Kept and returned like an anuric zero, but flagged so analyses treating urine output as a measurement can drop it."
+  },
+  {
+   "id": "duration_unusable",
+   "field": [
+    "anestart",
+    "aneend"
+   ],
+   "test": "either time missing or invalid, aneend derived from an imputed op end, or aneend outside the model range",
+   "status": "flag",
+   "flag": "duration_marginal",
+   "note": "Volume models with a duration covariate (urine output, crystalloid, blood loss) then use the latent averaged over the fitted cases' durations."
+  },
+  {
+   "id": "icu_exceeds_postop",
+   "field": "icu_days",
+   "test": "icu_days > 0 and icu_days >= (dis - case-day midnight) / 86400 (adm and dis are midnights)",
+   "cases": 36,
+   "status": "flag",
+   "flag": "icu_exceeds_postop",
+   "note": "ICU days at least the days from the case-day midnight to the discharge midnight: the count probably includes preoperative ICU days (24 of 36 are emergencies). Do not use as postoperative ICU length. Includes the 6 order_violation cases. The atlas handover counted 37; this definition gives 36."
+  },
+  {
+   "id": "lactate_top_coded",
+   "field": "lac",
+   "test": "lac == 15.0",
+   "cases": 28,
+   "results": 317,
+   "status": "top_coded",
+   "note": "Reporting limit: values above 15 mmol/L are reported as 15.0 (at most 16 results at any nearby value). Open interval: at least 15."
+  },
+  {
+   "id": "aptt_top_coded",
+   "field": [
+    "aptt",
+    "preop_aptt"
+   ],
+   "test": "value == 400.0",
+   "cases": 87,
+   "results": 226,
+   "status": "top_coded",
+   "note": "Reporting limit 400.0 s (clot not formed in range); preop_aptt has 2 such values. Open interval: at least 400."
+  },
+  {
+   "id": "esr_bottom_coded",
+   "field": "esr",
+   "test": "esr == 2",
+   "cases": 72,
+   "results": 89,
+   "status": "bottom_coded",
+   "note": "Reporting floor 2 mm/h: no result below it. Open interval: at most 2."
   }
  ],
  "checked_no_cases": [
@@ -123,5 +197,5 @@
   "opend < opstart",
   "aneend < anestart"
  ],
- "case_ids": "not published: per-case lists are kept with the analysis outputs (aggregate counts only here)"
+ "case_ids": "may appear where a specific case is discussed (as here); bulk per-case lists stay with the analysis outputs"
 }

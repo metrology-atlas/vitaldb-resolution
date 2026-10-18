@@ -1,5 +1,20 @@
 {
- "schema_version": "0.1",
+ "id": "intraop_uo",
+ "version": 2,
+ "fit_hash": "5bf56f515582d45bb73302e680e8dfb05ef2428dffc91f94d8b3552a3935fdff",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/intraop_uo.v1.model.json",
+  "reason": "anaesthesia duration as a latent location covariate; department on the heaping propensities; zero rule (point mass, zero_anuric / zero_unexplained)"
+ },
+ "schema_version": "0.5",
  "variable": "intraop_uo",
  "unit": "mL",
  "resolution": {
@@ -11,7 +26,7 @@
  "special_values": [
   {
    "value": 0,
-   "handling": "excluded from fit; returned with status special_value"
+   "handling": "zero_model: point mass at 0, flagged zero_anuric or zero_unexplained"
   }
  ],
  "truncation": {
@@ -31,12 +46,69 @@
   ],
   "K": 5,
   "coefficients": [
-   0.1741695933833961,
-   11.367035807841765,
-   4.659198295347198,
-   -0.8925590694720781
+   -2.3051808574961723,
+   11.942293793807641,
+   0.8276916246477645,
+   -4.834926540580692
   ],
-  "note": "log f(x) = B(log x)\u00b7[0, coefficients] - log x, normalised on the grid"
+  "note": "log f(x | duration) = B(log x - b log(duration / 180))·[0, coefficients] - log x, normalised on the grid; duration = charted anaesthesia duration (aneend - anestart, min); without it, the marginal is used",
+  "location_covariates": [
+   {
+    "name": "duration",
+    "transform": {
+     "type": "log_ratio",
+     "ref": 180.0
+    },
+    "coef": 1.1142841129865424,
+    "note": "charted anaesthesia duration, aneend - anestart, minutes"
+   }
+  ],
+  "marginal": {
+   "covariate": "duration",
+   "shifts": [
+    -0.712116645564565,
+    -0.5179171408948002,
+    -0.40631602838095454,
+    -0.3205595629240629,
+    -0.24093397462828123,
+    -0.20315801419047722,
+    -0.13124376541123559,
+    -0.0969553950286273,
+    -0.06369071246536488,
+    0.0,
+    0.030530241649944164,
+    0.060246245694796384,
+    0.1005606622324164,
+    0.12848904432223074,
+    0.16110456630028924,
+    0.18881291244079798,
+    0.22360416789543577,
+    0.24864531414482124,
+    0.27313606072236557,
+    0.30718833855820443,
+    0.3389779014870544,
+    0.36604686287840693,
+    0.3924738117033047,
+    0.40974988044511057,
+    0.44766868866376364,
+    0.47224948204025685,
+    0.5042024703814361,
+    0.5314289166310802,
+    0.5692048770688842,
+    0.5985298356235019,
+    0.6341329956725028,
+    0.6680808222724423,
+    0.7020982121566354,
+    0.7409725306064732,
+    0.7877325709767288,
+    0.8326091369541578,
+    0.8966023674972047,
+    0.9908905851672061,
+    1.1158981983345395,
+    1.2822809142165452
+   ],
+   "note": "used when duration is missing: average of the latent over 40 quantiles of log(duration / ref) among the fitted cases"
+  }
  },
  "allocation": [
   {
@@ -49,7 +121,33 @@
    "anchor": "nearest",
    "prob": {
     "form": "constant",
-    "logit": -2.890534933471286
+    "logit": -2.795292149407774,
+    "covariates": [
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Thoracic surgery"
+      },
+      "coef": -0.7906018167328855
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Gynecology"
+      },
+      "coef": 1.2173413461726015
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Urology"
+      },
+      "coef": -7.216147121224982
+     }
+    ]
    }
   },
   {
@@ -63,9 +161,35 @@
    "capture_window": 20.0,
    "prob": {
     "form": "logistic_logx",
-    "logit": -0.5358012009274511,
-    "slope": 0.17620638882336492,
-    "centre": 160
+    "logit": -0.4590670330276428,
+    "slope": 0.1363382202966073,
+    "centre": 160,
+    "covariates": [
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Thoracic surgery"
+      },
+      "coef": -1.0600193017914448
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Gynecology"
+      },
+      "coef": 1.6667036877554218
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Urology"
+      },
+      "coef": 2.627411299142485
+     }
+    ]
    }
   },
   {
@@ -78,7 +202,33 @@
    "anchor": "nearest",
    "prob": {
     "form": "constant",
-    "logit": 1.0821622359125642
+    "logit": 1.1209006413941214,
+    "covariates": [
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Thoracic surgery"
+      },
+      "coef": -0.27638687168355935
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Gynecology"
+      },
+      "coef": 20.77104954250139
+     },
+     {
+      "name": "department",
+      "transform": {
+       "type": "indicator",
+       "value": "Urology"
+      },
+      "coef": 13.071324020575853
+     }
+    ]
    }
   },
   {
@@ -93,13 +243,75 @@
   }
  ],
  "fit": {
-  "n": 3669,
-  "loglik": -15603.903576137356,
-  "n_params": 9,
-  "aic": 31225.807152274712,
-  "bic": 31273.468547669556,
-  "data": "VitalDB clinical_data.csv (intraop_uo), positive values on the 5 mL grid",
-  "fitted": "2026-10-13",
-  "engine": "rounding_engine 0.1"
- }
+  "n": 3630,
+  "loglik": -14925.972865138065,
+  "n_params": 19,
+  "aic": 29889.94573027613,
+  "bic": 30007.688500894048,
+  "data": "VitalDB clinical_data.csv (intraop_uo), positive values on the 5 mL grid with a usable anaesthesia duration",
+  "method": "tools/fit_volume.py --duration --department: library likelihood, JAX gradient, L-BFGS-B (stopped when 25 iterations gained < 0.001)",
+  "date": "2026-10-18",
+  "previous": {
+   "n": 3630,
+   "loglik": -15006.532788154449,
+   "bic": 30095.03545558149,
+   "note": "duration covariate only (0.6.0 development fit); v1 is in archive/"
+  },
+  "note": "n_params counts the capture window, chosen by profile likelihood"
+ },
+ "zero_model": {
+  "p0": 0.006204478014567035,
+  "n_zero": 23,
+  "n_recorded": 3707,
+  "note": "A recorded 0 is a point mass at 0 with probability p0 (zeros / recorded values), mixed with the latent mass that records as 0. The latent and rounding model are fitted on positive values only. Missing values are not zeros: they mean not measured.",
+  "rules": {
+   "zero_anuric": {
+    "test": {
+     "any": [
+      {
+       "field": "preop_cr",
+       "op": ">",
+       "value": 2
+      },
+      {
+       "field": "asa",
+       "op": "==",
+       "value": 6
+      }
+     ]
+    },
+    "meaning": "true zero: preoperative creatinine > 2 mg/dL (renal failure, dialysis) or ASA 6 (organ donor)"
+   },
+   "zero_unexplained": {
+    "test": null,
+    "meaning": "recorded 0 with normal creatinine: possibly a blocked catheter or 0 meaning not measured; kept but uncertain"
+   }
+  }
+ },
+ "required_covariates": [
+  "department"
+ ],
+ "covariate_marginals": {
+  "department": {
+   "General surgery": 0.7308539944903581,
+   "Thoracic surgery": 0.21570247933884298,
+   "Gynecology": 0.04214876033057851,
+   "Urology": 0.011294765840220386
+  }
+ },
+ "covariate_marginals_note": "used when department is missing or not one of the fitted levels: propensities averaged over the department shares of the fitted cases (flag department_marginal)",
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  }
+ ]
 }

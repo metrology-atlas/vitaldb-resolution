@@ -1,0 +1,96 @@
+{
+ "id": "intraop_crystalloid",
+ "version": 1,
+ "fit_hash": "144e64d6501293b6299012fc558a182500d7540618929eaf5bda934840e1106a",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "superseded_by": 2,
+ "schema_version": "0.1",
+ "variable": "intraop_crystalloid",
+ "unit": "mL",
+ "resolution": {
+  "observed": 1,
+  "override": 10,
+  "effective": 10,
+  "justification": "Only 6 of 5,980 values are not multiples of 10; flagged off_grid."
+ },
+ "special_values": [],
+ "truncation": {
+  "exclude_recorded_zero": true
+ },
+ "grid": {
+  "lo": 0,
+  "hi": 30000,
+  "dx": 2.0
+ },
+ "latent": {
+  "family": "log_spline",
+  "basis": "cubic_bspline_on_log_x",
+  "domain": [
+   5,
+   30000
+  ],
+  "K": 6,
+  "coefficients": [
+   4.263813564377886,
+   10.780960907946312,
+   12.790187955194845,
+   7.852432898539658,
+   2.2966852302212253
+  ]
+ },
+ "allocation": [
+  {
+   "label": "100 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 100
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": -0.08248736093740439
+   }
+  },
+  {
+   "label": "50 mL",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 50
+   },
+   "anchor": "nearest",
+   "prob": {
+    "form": "constant",
+    "logit": 3.188136902829972
+   }
+  },
+  {
+   "label": "10 mL (base)",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10
+   },
+   "anchor": "nearest",
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 5974,
+  "loglik": -23656.606732810353,
+  "n_params": 7,
+  "aic": 47327.213465620705,
+  "bic": 47374.07966961214,
+  "data": "VitalDB clinical_data.csv (intraop_crystalloid), positive values on the 10 mL grid",
+  "fitted": "2026-10-13",
+  "engine": "rounding_engine 0.1"
+ }
+}

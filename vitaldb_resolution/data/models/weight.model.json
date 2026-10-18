@@ -1,4 +1,19 @@
 {
+ "id": "weight",
+ "version": 2,
+ "fit_hash": "1a142ff6ccaca6036d90af7d31303a5f46028fb55e1ab33bb1e11bd24dee88f6",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/weight.v1.model.json",
+  "reason": "fit block re-evaluated with the library likelihood; parameters unchanged"
+ },
  "variable": "weight",
  "unit": "kg",
  "schema_version": "0.3",
@@ -145,19 +160,60 @@
    "basis": "2018 Korea Community Health Survey, 177,839 adults; limits of agreement -4.80 to 5.84 kg give SD ~2.7 kg. Assumes written-in weights are self-reported. True weight = recorded - bias."
   },
   "references": [
-   "Khosla T, Billewicz WZ. Measurement of change in body-weight. Br J Nutr 1964;18:227-39.",
-   "Vivanti A et al. Short-term body weight fluctuations in older well-hydrated hospitalised patients. J Hum Nutr Diet 2013;26(5):429-35.",
-   "2018 Korea Community Health Survey validation, Epidemiol Health 2022 (PMC9117107)."
+   "Khosla T, Billewicz WZ. Measurement of change in body-weight. Br J Nutr. 1964;18(1):227-239. doi:10.1079/BJN19640022",
+   "Vivanti A, Yu L, Palmer M, Dakin L, Sun J, Campbell K. Short-term body weight fluctuations in older well-hydrated hospitalised patients. J Hum Nutr Diet. 2013;26(5):429-435. doi:10.1111/jhn.12034",
+   "Ko Y, Choi S, Won J, Lee YK, Kim DH, Lee SK. Differences in accuracy of height, weight, and body mass index between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health. 2022;44:e2022024. doi:10.4178/epih.e2022024"
   ]
  },
  "fit": {
   "n": 6041,
-  "loglik": -38917.287569711785,
+  "loglik": -38917.24449735528,
   "n_params": 11,
-  "aic": 77856.57513942357,
-  "bic": 77930.3447126651,
+  "aic": 77856.48899471055,
+  "bic": 77930.25856795209,
   "source": "clinical_data.csv",
   "method": "closed-form likelihood, Nelder-Mead",
-  "date": "2026-10-13"
- }
+  "date": "2026-10-13",
+  "reevaluated": {
+   "date": "2026-10-18",
+   "by": "tools/reevaluate_fit.py (library likelihood; parameters unchanged)",
+   "previous": {
+    "n": 6041,
+    "loglik": -38917.287569711785,
+    "bic": 77930.3447126651
+   }
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  },
+  {
+   "id": "khosla1964bodyweight",
+   "citation": "Khosla T, Billewicz WZ. Measurement of change in body-weight. Br J Nutr. 1964;18(1):227-239.",
+   "doi": "10.1079/BJN19640022",
+   "used_for": "day-to-day variation of body weight (measured-weight SD)"
+  },
+  {
+   "id": "vivanti2013weight",
+   "citation": "Vivanti A, Yu L, Palmer M, Dakin L, Sun J, Campbell K. Short-term body weight fluctuations in older well-hydrated hospitalised patients. J Hum Nutr Diet. 2013;26(5):429-435.",
+   "doi": "10.1111/jhn.12034",
+   "used_for": "short-term weight fluctuation in hospital (measured-weight SD)"
+  },
+  {
+   "id": "ko2022selfreported",
+   "citation": "Ko Y, Choi S, Won J, Lee YK, Kim DH, Lee SK. Differences in accuracy of height, weight, and body mass index between self-reported and measured using the 2018 Korea Community Health Survey data. Epidemiol Health. 2022;44:e2022024.",
+   "doi": "10.4178/epih.e2022024",
+   "used_for": "self-reported minus measured height and weight by sex and age (written-in bias and SD)"
+  }
+ ]
 }

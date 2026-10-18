@@ -1,4 +1,19 @@
 {
+ "id": "opstart",
+ "version": 2,
+ "fit_hash": "e7987f5631141f727534f5ffe91d99f55dbf27ee93c7041c148045511fb33d66",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "d5c39b2f0933c7457097d0b369d653964c15454fdc1eba1ee52ea5274298b8dd",
+  "code": "vitaldb-resolution 0.6.0 (tag v0.6.0): tools/fit_timestamps.py, tools/fit_volume.py, tools/fit_logt.py, tools/reevaluate_fit.py",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": {
+  "version": 1,
+  "file": "archive/opstart.v1.model.json",
+  "reason": "refitted with the library likelihood: the old fit integrated the time-of-day prior on its own grid (loglik gap 10.6)"
+ },
  "variable": "opstart",
  "unit": "clock minute",
  "schema_version": "0.4",
@@ -33,15 +48,15 @@
    240.0
   ],
   "coefficients": [
-   -144.08749164924438,
-   86.0395558538446,
-   89.96641943133439,
-   89.63522712685051,
-   89.52520206935499,
-   88.14876065104603,
-   81.81814617315162,
-   80.88945159621564,
-   30.55487261309994
+   -144.02995370305115,
+   79.88202869626124,
+   84.08413431587684,
+   83.71867100999378,
+   83.65165062892463,
+   82.18335042633905,
+   76.60160476263815,
+   69.87009908025371,
+   76.38700842796439
   ],
   "time_of_day_prior": {
    "applies_if_ref_in": [
@@ -57,13 +72,13 @@
     720.0
    ],
    "coefficients": [
-    -24.64503198271528,
-    -19.654646560519023,
-    -13.907009377091578,
-    -21.309729484720524,
-    -1.5631186536234831,
-    -136.02570448740312,
-    -0.07748712750258545
+    -19.35947093611007,
+    -14.407109732936515,
+    -8.677939472400325,
+    -16.06998491214622,
+    3.388854989167653,
+    -148.58526774456007,
+    -45.55865106733341
    ],
    "note": "first-case window: true op start also follows a clock-time density (07:00-12:00)"
   }
@@ -82,7 +97,7 @@
    },
    "prob": {
     "form": "constant",
-    "logit": -2.835402712925093
+    "logit": -2.833366372045513
    }
   },
   {
@@ -95,7 +110,7 @@
    },
    "prob": {
     "form": "constant",
-    "logit": 2.1534178674524673
+    "logit": 2.1531652983464205
    }
   },
   {
@@ -111,11 +126,32 @@
  ],
  "fit": {
   "n": 6387,
-  "loglik": -18063.177909816128,
+  "loglik": -18040.569423964025,
   "n_params": 18,
-  "bic": 36284.07217879636,
+  "bic": 36238.85520709216,
   "source": "clinical_data.csv",
-  "method": "JAX gradient, L-BFGS-B then BFGS",
-  "date": "2026-10-13"
- }
+  "method": "tools/fit_timestamps.py: refitted with the library likelihood (JAX gradient, L-BFGS-B)",
+  "date": "2026-10-18",
+  "previous": {
+   "n": 6387,
+   "loglik": -18063.177909816128,
+   "bic": 36284.07217879636,
+   "method": "JAX gradient, L-BFGS-B then BFGS",
+   "date": "2026-10-13"
+  }
+ },
+ "references": [
+  {
+   "id": "lee2022vitaldb",
+   "citation": "Lee HC, Park Y, Yoon SB, Yang SM, Park D, Jung CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data. 2022;9:279.",
+   "doi": "10.1038/s41597-022-01411-5",
+   "used_for": "data source"
+  },
+  {
+   "id": "rietveld2002rounding",
+   "citation": "Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.",
+   "url": "https://www.bts.gov/archive/publications/journal_of_transportation_and_statistics/volume_05_number_01/paper_05/index",
+   "used_for": "rounding probabilities fitted by maximum likelihood; Bayes rule for the true value given the reported one"
+  }
+ ]
 }

@@ -1,0 +1,133 @@
+{
+ "id": "opstart",
+ "version": 1,
+ "fit_hash": "b52a5a19d7b0b958dbdbae2b955c4667b5e0852b0ad9b6ff890d3be5d14f0346",
+ "fitted_on": {
+  "data": "VitalDB 1.0.0 (clinical_data.csv, lab_data.csv)",
+  "exclusion_rules_sha256": "ac3df12896d007487cabb2e628f238e0e1438667712010757fce5685a6de1eb1",
+  "code": "baseline e2376f4 (fitting scripts of the original analysis; see fit.method)",
+  "seed": null,
+  "seed_note": "deterministic optimisers (no random draws in fitting)"
+ },
+ "supersedes": null,
+ "superseded_by": 2,
+ "variable": "opstart",
+ "unit": "clock minute",
+ "schema_version": "0.4",
+ "kind": "timestamp",
+ "resolution": {
+  "observed": "1 min (chronon)",
+  "effective": 1,
+  "anchor_base": "floor"
+ },
+ "reference": {
+  "name": "recording start",
+  "field": "casestart",
+  "note": "Clock as for anestart; ref = recording start clock (minutes)."
+ },
+ "grid": {
+  "lo": -150.0,
+  "hi": 240.0,
+  "dx": 0.05
+ },
+ "latent": {
+  "family": "reference_offset_spline",
+  "direction": "after",
+  "offset_name": "G = op start - recording start (min)",
+  "inner_knots": [
+   -150.0,
+   9.919333333333293,
+   22.191933333333388,
+   30.08333333333337,
+   38.59713333333337,
+   48.808066666666676,
+   83.845,
+   240.0
+  ],
+  "coefficients": [
+   -144.08749164924438,
+   86.0395558538446,
+   89.96641943133439,
+   89.63522712685051,
+   89.52520206935499,
+   88.14876065104603,
+   81.81814617315162,
+   80.88945159621564,
+   30.55487261309994
+  ],
+  "time_of_day_prior": {
+   "applies_if_ref_in": [
+    390,
+    540
+   ],
+   "knots": [
+    420.0,
+    480.0,
+    540.0,
+    600.0,
+    660.0,
+    720.0
+   ],
+   "coefficients": [
+    -24.64503198271528,
+    -19.654646560519023,
+    -13.907009377091578,
+    -21.309729484720524,
+    -1.5631186536234831,
+    -136.02570448740312,
+    -0.07748712750258545
+   ],
+   "note": "first-case window: true op start also follows a clock-time density (07:00-12:00)"
+  }
+ },
+ "required_covariates": [
+  "ref"
+ ],
+ "allocation": [
+  {
+   "label": "nearest_10min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 10,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": -2.835402712925093
+   }
+  },
+  {
+   "label": "nearest_5min",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 5,
+    "anchor": "nearest"
+   },
+   "prob": {
+    "form": "constant",
+    "logit": 2.1534178674524673
+   }
+  },
+  {
+   "label": "clock_minute",
+   "kind": "rounding",
+   "mode": {
+    "type": "absolute",
+    "resolution": 1,
+    "anchor": "floor"
+   },
+   "prob": null
+  }
+ ],
+ "fit": {
+  "n": 6387,
+  "loglik": -18063.177909816128,
+  "n_params": 18,
+  "bic": 36284.07217879636,
+  "source": "clinical_data.csv",
+  "method": "JAX gradient, L-BFGS-B then BFGS",
+  "date": "2026-10-13"
+ }
+}

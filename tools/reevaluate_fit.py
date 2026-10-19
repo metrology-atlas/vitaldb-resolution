@@ -6,8 +6,14 @@ statistics are brought in line with what the library recomputes.
 
 usage: python tools/reevaluate_fit.py <clinical_data.csv> <variable> [...] [--write]
 """
-import json, math, os, sys, time
+import json
+import math
+import os
+import sys
+import time
+
 import pandas as pd
+
 from vitaldb_resolution import Registry, fitcheck
 
 MODELS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'vitaldb_resolution', 'data', 'models')

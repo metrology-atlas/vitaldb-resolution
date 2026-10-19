@@ -1,8 +1,8 @@
 # Release 0.6.0: refits, duration and department covariates, UO zero rule, model versions (2026-10-18)
 
-This file holds aggregate results only, with no per-case data. It answers the metrology-atlas handovers of 2026-10-18:
-handover 1 (items 1–4) and handover 2 (the UO zero rule, within-interval density, model versions, anchors, and the
-new findings).
+This file holds aggregate results only, with no per-case data. It answers two sets of requests from the metrology atlas
+(18 October 2026): set 1 (items 1–4) and set 2 (the UO zero rule, within-interval density, model versions, anchors,
+and the new findings).
 
 All log-likelihoods are the library's own evaluation (`vitaldb_resolution.fitcheck`), so stored and recomputed
 values agree. `tests/test_fit_consistency.py` checks this for every current model and every archived version. The
@@ -93,7 +93,7 @@ The propensities barely change: the covariate sharpens the latent, not the recor
 **Records without a usable duration** are excluded from the fit: 39 UO, 111 crystalloid and 51 EBL records. The
 v1 fits used them; the API gives them the marginal.
 
-## 5. Department as a covariate on the heaping propensities (handover 2)
+## 5. Department as a covariate on the heaping propensities (request set 2)
 
 Department enters the logit of every stick-breaking propensity as indicator offsets against general surgery
 (thoracic, gynaecology, urology). This is on top of the duration covariate, on the same records:
@@ -157,7 +157,7 @@ volume", not confirmed anuria, unless it is flagged `zero_anuric`.
 
 Exact zeros in the other volume variables, left unchanged: EBL 11, crystalloid 0, colloid 5857 (mostly "not given").
 
-## 8. Within-interval density (handover 2)
+## 8. Within-interval density (request set 2)
 
 For a modelled variable, each component of a result is now the fitted latent truncated to that component's
 rounding interval, computed at call time on the model grid. The latents are log-spline or log-t, not log-normal,
@@ -196,7 +196,7 @@ Near the median the gap is a few per cent of the interval width (UO table above)
 volumes and for coarse components, where the latent is steep across the interval; there a uniform would be
 noticeably biased.
 
-## 9. Model versions (handover 2)
+## 9. Model versions (request set 2)
 
 Every model file now has an `id`, an integer `version`, a `fit_hash`, `fitted_on` and `supersedes`. The fit_hash
 is the sha256 of the fitted numbers only (loglik to 1e-4). `data/models.lock` lists the current models and every
@@ -223,7 +223,7 @@ The contributor path is described in `CONTRIBUTING.md`.
 **For vitaldb-bench:** labels or results built from a distribution should record the model id, version and
 fit_hash (`Distribution.model`). That repository was not changed.
 
-## 10. Registry: anchors, ICU days, reporting limits (handover 2)
+## 10. Registry: anchors, ICU days, reporting limits (request set 2)
 
 * **`anchor_basis` and `anchor_note`** are set for every variable with an anchor or a counting rule:
   - adm, dis: tested;

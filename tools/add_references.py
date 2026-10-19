@@ -1,5 +1,7 @@
 """Add structured references to the model files (ids match metrology-atlas datasets/vitaldb/references.yaml)."""
-import json, os
+import json
+import os
+
 MODELS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'vitaldb_resolution', 'data', 'models')
 REF = {
  'rietveld2002rounding': {'citation': 'Rietveld P. Rounding of arrival and departure times in travel surveys: an interpretation in terms of scheduled activities. J Transp Stat. 2002;5(1):71-81.',

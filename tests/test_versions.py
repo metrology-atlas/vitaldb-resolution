@@ -6,7 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from vitaldb_resolution import load, versions as V
+from vitaldb_resolution import load
+from vitaldb_resolution import versions as V
 
 MODELS = Path(V.MODELS)
 LOCK = V.load_lock()

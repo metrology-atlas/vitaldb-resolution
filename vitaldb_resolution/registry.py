@@ -329,7 +329,8 @@ class Registry:
 
     def _zero(self, e, spec, M, w, c, cov, D, extra, flags):
         """A recorded 0 under a zero model: a point mass at 0 (probability p0) mixed with the latent mass that
-        records as 0, each flagged by cause (see the model's ``zero_model`` and ``exclusion_rules.json``)."""
+        records as 0, each flagged by cause (see the model's ``zero_model`` and ``exclusion_rules.json``).
+        """
         zm = spec['zero_model']; p0 = zm['p0']
         q0 = sum(float((w * take * (np.round(rec / M.ru) == 0)).sum()) for _, rec, take in M.components(spec, c))
         comps = [Component('point', weight=p0, label='true zero', value=0.0)]
@@ -544,7 +545,8 @@ def _model_info(spec, e):
 def anaesthesia_duration(cov):
     """Charted anaesthesia duration in minutes (aneend - anestart), or None when it is not usable: either time
     missing or invalid, a 1900 placeholder, an anaesthesia end derived from an imputed op end (not a whole second)
-    or outside the anaesthesia-end model range. A ``duration`` covariate passed directly is used as given."""
+    or outside the anaesthesia-end model range. A ``duration`` covariate passed directly is used as given.
+    """
     if not _missing(cov.get('duration')):
         d = float(cov['duration']); return d if d > 0 else None
     a, b = cov.get('anestart'), cov.get('aneend')

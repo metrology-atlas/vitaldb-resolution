@@ -6,7 +6,11 @@ untouched) and the current file records `supersedes`.
 
 usage: python tools/version_models.py <baseline commit> <release>
 """
-import hashlib, json, os, subprocess, sys
+import hashlib
+import json
+import os
+import subprocess
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)

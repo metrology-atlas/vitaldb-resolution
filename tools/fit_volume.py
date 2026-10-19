@@ -11,9 +11,17 @@ usage: python tools/fit_volume.py <clinical_data.csv> <variable> [--duration] [-
 --department adds department (indicator offsets against general surgery) to the logit of every stick-breaking
 propensity.
 """
-import copy, json, math, os, sys, time
-import numpy as np, pandas as pd
-import jax, jax.numpy as jnp
+import copy
+import json
+import math
+import os
+import sys
+import time
+
+import jax
+import jax.numpy as jnp
+import numpy as np
+import pandas as pd
 from scipy import optimize
 from scipy.interpolate import BSpline
 

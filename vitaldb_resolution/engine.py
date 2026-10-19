@@ -57,7 +57,8 @@ class Model:
     @staticmethod
     def shift(L, cov):
         """Location shift of a log-spline latent on the log scale (sum of coef x transform), or None when a
-        location covariate is missing from cov."""
+        location covariate is missing from cov.
+        """
         s=0.0
         for c in L['location_covariates']:
             v=None if cov is None else cov.get(c['name'])
@@ -96,7 +97,8 @@ class Model:
         """Return list of (label, recorded_value_array, weight_array) over the true-value grid.
 
         A propensity covariate missing from ``cov`` (or an unknown level) is averaged over its fitted shares
-        (``covariate_marginals`` in the model file): the weights become the share-weighted mixture."""
+        (``covariate_marginals`` in the model file): the weights become the share-weighted mixture.
+        """
         s=self.spec if spec is None else spec
         for name,shares in s.get('covariate_marginals',{}).items():
             if cov is None or cov.get(name) not in shares:

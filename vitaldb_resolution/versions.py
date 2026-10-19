@@ -23,7 +23,8 @@ TEXT_KEYS = {'note', 'notes', 'description', 'meaning', 'evidence', 'references'
 
 def _numbers(x):
     """The numeric skeleton of a JSON value: numbers (12 significant digits) and booleans, keyed by path;
-    descriptive text is dropped."""
+    descriptive text is dropped.
+    """
     if isinstance(x, bool) or x is None:
         return x
     if isinstance(x, (int, float)):

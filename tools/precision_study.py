@@ -1,7 +1,14 @@
 """Precision and memory of the cache storage options (dtype x knots) against the exact posteriors.
 usage: python tools/precision_study.py clinical_data.csv lab_data.csv outdir"""
-import json, os, pickle, sys, time
-import numpy as np, pandas as pd
+import json
+import os
+import pickle
+import sys
+import time
+
+import numpy as np
+import pandas as pd
+
 import vitaldb_resolution as vr
 from vitaldb_resolution import cache as C
 

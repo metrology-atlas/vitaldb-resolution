@@ -6,9 +6,17 @@ grid, vectorised over records, so the stored and recomputed values agree.
 
 usage: python tools/fit_logt.py <clinical_data.csv> intraop_ppf [--write]
 """
-import copy, json, math, os, sys, time
-import numpy as np, pandas as pd
+import copy
+import json
+import math
+import os
+import sys
+import time
+
+import numpy as np
+import pandas as pd
 from scipy import optimize, stats
+
 from vitaldb_resolution import engine, fitcheck
 
 MODELS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'vitaldb_resolution', 'data', 'models')

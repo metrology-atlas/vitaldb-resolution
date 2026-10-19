@@ -237,7 +237,8 @@ class Distribution:
 
     def latent_uniform_gap(self):
         """Largest gap between a latent component's mean and its interval midpoint (the uniform mean), as a
-        fraction of the interval width; ``None`` when no component carries an interval."""
+        fraction of the interval width; ``None`` when no component carries an interval.
+        """
         gaps = []
         for c in self.components:
             if 'interval' in c.p:

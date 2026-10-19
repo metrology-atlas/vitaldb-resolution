@@ -1,7 +1,11 @@
 """Build vitaldb_resolution/data/registry.json from the VitalDB parameter dictionaries, the data, and the
 decisions recorded in the 'VitalDB Resolution and Heaping' doc. Re-run after any decision changes."""
-import json, os, sys
-import numpy as np, pandas as pd
+import json
+import os
+import sys
+
+import numpy as np
+import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'vitaldb_resolution', 'data')

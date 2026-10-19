@@ -1,6 +1,11 @@
 """Duration covariate, department-on-propensity and rounding-anchor comparisons for the volume models (results/volume_study.json)."""
-import json, math, os, sys
-import numpy as np, pandas as pd
+import json
+import math
+import os
+import sys
+
+import pandas as pd
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_volume as F
 

@@ -20,9 +20,9 @@ How each value is stored
     draws of their inputs in the same iteration, so shared inputs stay coherent.
 """
 import json
-import warnings
 import os
 import time
+import warnings
 
 import numpy as np
 

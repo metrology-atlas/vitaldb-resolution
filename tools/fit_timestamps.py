@@ -10,9 +10,17 @@ The stored fit block is then the engine's own evaluation of the refitted paramet
 
 usage: python tools/fit_timestamps.py <clinical_data.csv> [anestart opstart opend aneend] [--write]
 """
-import copy, json, math, os, sys, time
-import numpy as np, pandas as pd
-import jax, jax.numpy as jnp
+import copy
+import json
+import math
+import os
+import sys
+import time
+
+import jax
+import jax.numpy as jnp
+import numpy as np
+import pandas as pd
 from scipy import optimize
 from scipy.interpolate import BSpline
 

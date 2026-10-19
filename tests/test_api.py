@@ -1,6 +1,8 @@
 import json
+
 import numpy as np
 import pytest
+
 import vitaldb_resolution as vr
 from vitaldb_resolution.distribution import Component, Distribution
 
@@ -162,6 +164,7 @@ def test_every_registry_entry_has_a_handler():
 # ---------------- Monte Carlo cache ----------------
 def test_cache_matches_api(tmp_path):
     import pandas as pd
+
     from vitaldb_resolution import cache as C
     rows = pd.DataFrame([dict(CASE, caseid=1, subjectid=1, casestart=0, intraop_uo=100, intraop_ebl=300,
                               icu_days=1, dis=5 * 86400 - 28800, death_inhosp=0, preop_hb=12.3)])

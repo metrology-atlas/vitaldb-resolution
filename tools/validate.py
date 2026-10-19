@@ -3,8 +3,13 @@
 (4) for each modelled variable, the largest gap between the latent and uniform means within an interval, as a fraction
 of the interval width.
 usage: python tools/validate.py <clinical_data.csv> <lab_data.csv> [--full]"""
-import json, sys, time
-import numpy as np, pandas as pd
+import json
+import sys
+import time
+
+import numpy as np
+import pandas as pd
+
 import vitaldb_resolution as vr
 
 if len(sys.argv) < 3: sys.exit(__doc__)
@@ -18,6 +23,7 @@ for mid, m in vr.versions.load_lock()['models'].items():
 
 # ---------------- 1. log-likelihood reproduction (stored fit block vs the library) ----------------
 from vitaldb_resolution import fitcheck
+
 quick = ['intraop_uo', 'intraop_ebl', 'intraop_crystalloid', 'intraop_ppf']
 for v in (quick + ['height', 'weight', 'anestart', 'opstart', 'opend', 'aneend']) if FULL else quick:
     r = fitcheck.recompute(v, d, reg)

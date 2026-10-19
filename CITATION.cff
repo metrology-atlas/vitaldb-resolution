@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "vitaldb-resolution: VitalDB recorded values and times as distributions of the true value"
+authors:
+  - family-names: Goodwin
+    given-names: "Andrew J."
+    affiliation: "School of Biomedical Engineering, The University of Sydney"
+    orcid: "https://orcid.org/0000-0002-2776-7039"
+abstract: "Every recorded VitalDB time and value as a probability distribution of the true value: native resolution, or a mixture of rounding modes deconvolved from heaped data. Models are versioned JSON files evaluated by one generic engine."
+license: MIT
+repository-code: "https://github.com/metrology-atlas/vitaldb-resolution"
+keywords:
+  - "VitalDB"
+  - "measurement uncertainty"
+  - "rounding"
+  - "heaping"
+  - "coarse data"
+  - "anaesthesia"

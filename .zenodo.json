@@ -1,0 +1,29 @@
+{
+  "title": "vitaldb-resolution: VitalDB recorded values and times as distributions of the true value",
+  "upload_type": "software",
+  "description": "Every recorded VitalDB time and value as a probability distribution of the true value: native resolution, or a mixture of rounding modes deconvolved from heaped data. Models are versioned JSON files evaluated by one generic engine.",
+  "creators": [
+    {
+      "name": "Goodwin, Andrew J.",
+      "affiliation": "School of Biomedical Engineering, The University of Sydney",
+      "orcid": "0000-0002-2776-7039"
+    }
+  ],
+  "license": "mit",
+  "keywords": [
+    "VitalDB",
+    "measurement uncertainty",
+    "rounding",
+    "heaping",
+    "coarse data",
+    "anaesthesia"
+  ],
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/metrology-atlas/vitaldb-resolution",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

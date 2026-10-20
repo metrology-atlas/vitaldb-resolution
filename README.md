@@ -2,6 +2,7 @@
 
 Every recorded VitalDB time and value as a probability distribution of the true value: native resolution,
 or a mixture of resolutions deconvolved from heaped data. Models are JSON files evaluated by one generic engine.
+The [VitalDB metrology atlas](https://vitaldb.metrology-atlas.org) shows every model with its study.
 
 ## Install and use
 

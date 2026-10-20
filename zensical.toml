@@ -2,8 +2,8 @@
 site_name = "vitaldb-resolution"
 site_description = "Every recorded VitalDB time and value as a probability distribution of the true value."
 use_directory_urls = false
-repo_url = "https://github.com/meshlab/vitaldb-resolution"
-repo_name = "meshlab/vitaldb-resolution"
+repo_url = "https://github.com/metrology-atlas/vitaldb-resolution"
+repo_name = "metrology-atlas/vitaldb-resolution"
 edit_uri = "edit/main/docs/"
 docs_dir = "docs"
 copyright = "© 2026 Andrew J. Goodwin, University of Sydney · code MIT, data CC BY 4.0 (VitalDB)"

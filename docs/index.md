@@ -29,7 +29,7 @@ choice and the rules that exclude or flag values can all be read and checked.
 ## Install
 
 ```bash
-pip install git+https://github.com/meshlab/vitaldb-resolution
+pip install git+https://github.com/metrology-atlas/vitaldb-resolution
 ```
 
 The registry and models ship with the package. The VitalDB data themselves are not included: download

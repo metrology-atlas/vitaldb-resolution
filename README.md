@@ -4,6 +4,8 @@ Every recorded VitalDB time and value as a probability distribution of the true 
 or a mixture of resolutions deconvolved from heaped data. Models are JSON files evaluated by one generic engine.
 The [VitalDB metrology atlas](https://vitaldb.metrology-atlas.org) shows every model with its study.
 
+Paper: Goodwin, A. J. (2026). *The Metrology Atlas: describing recorded physiological data as a measurement system, with VitalDB as a first application*. [arXiv:2610.29001](https://arxiv.org/abs/2610.29001).
+
 ## Install and use
 
 ```bash

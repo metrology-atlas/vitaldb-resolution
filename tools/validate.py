@@ -1,9 +1,12 @@
 """Validation against the data: (1) each fitted model reproduces its stored log-likelihood through the package,
 (2) every clinical and lab value returns a status without error, (3) summary of statuses, flags and densities,
 (4) for each modelled variable, the largest gap between the latent and uniform means within an interval, as a fraction
-of the interval width.
+of the interval width; (5) the package version, commit, machine and the wall time of each pass (one core).
 usage: python tools/validate.py <clinical_data.csv> <lab_data.csv> [--full]"""
 import json
+import os
+import platform
+import subprocess
 import sys
 import time
 
@@ -12,12 +15,19 @@ import pandas as pd
 
 import vitaldb_resolution as vr
 
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 if len(sys.argv) < 3: sys.exit(__doc__)
 clin, labf = sys.argv[1], sys.argv[2]
 FULL = '--full' in sys.argv
 reg = vr.load()
 d = pd.read_csv(clin, encoding='utf-8-sig')
-report = {'models': {}, 'loglik': {}, 'clinical': {}, 'lab': {}}
+report = {'meta': {'package_version': vr.__version__, 'full': FULL,
+                   'commit': subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], capture_output=True, text=True, cwd=REPO).stdout.strip(),
+                   'dirty': bool(subprocess.run(['git', 'status', '--porcelain', '--', 'vitaldb_resolution'], capture_output=True, text=True, cwd=REPO).stdout.strip()),
+                   'machine': platform.platform(), 'cpu': platform.processor() or platform.machine(),
+                   'run_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())},
+          'timing_s': {}, 'models': {}, 'loglik': {}, 'clinical': {}, 'lab': {}}
 for mid, m in vr.versions.load_lock()['models'].items():
     report['models'][mid] = m
 
@@ -64,6 +74,7 @@ for v in list(reg.vars):
             json.dumps(x.to_dict())
     report['clinical'][v] = {'status': st, 'flags': fl, 'density': dn}
     if gap: report['clinical'][v]['latent_uniform_gap_max'] = {'fraction_of_width': round(gap[0], 4), 'recorded_value': gap[1]}
+report['timing_s']['clinical'] = round(time.time() - t0, 1)
 print(f'clinical: {len(report["clinical"])} variables x {len(rows)} cases in {time.time() - t0:.0f} s')
 
 # ---------------- 3. lab values ----------------
@@ -75,6 +86,7 @@ S = reg.summary_frame(ds)
 for nm, g in S.groupby('variable'):
     report['lab'][nm] = {'status': g['status'].value_counts().to_dict(),
                          'flags': g['flags'][g['flags'] != ''].value_counts().to_dict()}
+report['timing_s']['lab'] = round(time.time() - t0, 1)
 print(f'lab: {len(ds)} results in {time.time() - t0:.0f} s; statuses {S.status.value_counts().to_dict()}')
 
 bad = {k: v for k, v in {**report['clinical'], **report['lab']}.items() if 'error' in v['status']}

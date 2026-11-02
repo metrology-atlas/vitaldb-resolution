@@ -1,4 +1,17 @@
 {
+ "meta": {
+  "package_version": "0.6.0",
+  "full": true,
+  "commit": "93bbf7f",
+  "dirty": false,
+  "machine": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "x86_64",
+  "run_utc": "2026-11-02T06:38:27Z"
+ },
+ "timing_s": {
+  "clinical": 251.5,
+  "lab": 296.6
+ },
  "models": {
   "aneend": {
    "version": 2,

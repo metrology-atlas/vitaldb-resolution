@@ -1,0 +1,674 @@
+{
+ "meta": {
+  "package_version": "0.6.0",
+  "end_knots": "support",
+  "knots": [
+   256,
+   1024
+  ],
+  "commit": "93bbf7f",
+  "dirty": false,
+  "machine": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "x86_64",
+  "run_utc": "2026-11-02T06:54:00Z"
+ },
+ "n_tables": 66203,
+ "tables_by_variable": {
+  "height": 12662,
+  "weight": 12662,
+  "anestart": 6387,
+  "opstart": 6387,
+  "aneend": 6254,
+  "intraop_crystalloid": 5980,
+  "opend": 5850,
+  "intraop_ebl": 3976,
+  "intraop_uo": 3707,
+  "intraop_ppf": 2335,
+  "lab": 3
+ },
+ "options": [
+  {
+   "knots": 256,
+   "dtype": "int16",
+   "tables_MB": 35.0,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 1.984474466325621e-05,
+     "w1_rel_p99": 0.004475092729777486,
+     "w1_rel_max": 0.005242733305893595,
+     "max_rel_p99": 1.950790295869917,
+     "mean_rel_max": 0.005007043093510802,
+     "sd_rel_max": 0.04750941045088419
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.1569946152711202e-05,
+     "w1_rel_p99": 2.834985174972276e-05,
+     "w1_rel_max": 0.0022532780827193744,
+     "max_rel_p99": 0.0027152981589853055,
+     "mean_rel_max": 0.002058045735354803,
+     "sd_rel_max": 0.008439160336683793
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 6.193482398973387e-05,
+     "w1_rel_p99": 0.015429791137717995,
+     "w1_rel_max": 0.03520167113336133,
+     "max_rel_p99": 13.459357639797492,
+     "mean_rel_max": 0.0350878799172065,
+     "sd_rel_max": 0.45909203366952944
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 2.463232731638314e-05,
+     "w1_rel_p99": 2.4632327316613464e-05,
+     "w1_rel_max": 2.4632327316618163e-05,
+     "max_rel_p99": 0.0034943148628461124,
+     "mean_rel_max": 1.5094737161446276e-16,
+     "sd_rel_max": 3.233660000656613e-06
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 6.701130824080566,
+    "w1_rel_max": 0.03520167113336133,
+    "mean_rel_max": 0.0350878799172065,
+    "sd_rel_max": 0.45909203366952944
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.017664673750403814,
+     "w1_abs_max": 0.8838152442675538,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0014166969889262693,
+     "w1_abs_max": 0.6153290210299576,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.0508342693802426e-07,
+     "w1_abs_max": 0.003246699617182665,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.0004930163634267459,
+     "w1_abs_max": 0.0013879922325696,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.0003928447717699182,
+     "w1_abs_max": 0.014552844234568294,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 0.00015396168793249503,
+     "w1_abs_max": 0.1323480795970498,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 4.592822675424969e-05,
+     "w1_abs_max": 0.059377200845902,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 6.244153195032318e-06,
+     "w1_abs_max": 6.244153195091896e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.008832840231512096,
+     "w1_abs_max": 1.3578910645414664,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.001361386571667636,
+     "w1_abs_max": 0.09064235532981721,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.773654205338657e-07,
+     "w1_abs_max": 3.6966904325471533e-06,
+     "unit_resolution": 0.05
+    }
+   }
+  },
+  {
+   "knots": 256,
+   "dtype": "float32",
+   "tables_MB": 67.8,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 9.407802782692772e-06,
+     "w1_rel_p99": 0.00443416138170943,
+     "w1_rel_max": 0.005216573419896681,
+     "max_rel_p99": 1.9508106378513117,
+     "mean_rel_max": 0.005007245457300182,
+     "sd_rel_max": 0.04750344648521532
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 6.236859704843795e-05,
+     "w1_rel_p99": 0.00011796582171336304,
+     "w1_rel_max": 0.002241264087128494,
+     "max_rel_p99": 0.002713366184692951,
+     "mean_rel_max": 0.002056622792489704,
+     "sd_rel_max": 0.008441605949008002
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 5.1977624301171496e-05,
+     "w1_rel_p99": 0.01537465873015227,
+     "w1_rel_max": 0.03508802314867741,
+     "max_rel_p99": 13.45936088014431,
+     "mean_rel_max": 0.0350870154714502,
+     "sd_rel_max": 0.4590754004996669
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.4607462703692199e-05,
+     "w1_rel_p99": 1.5224629032867124e-05,
+     "w1_rel_max": 1.5237224264074776e-05,
+     "max_rel_p99": 0.003479257570517225,
+     "mean_rel_max": 1.548526664284486e-16,
+     "sd_rel_max": 2.80519649953348e-06
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 6.701128811247291,
+    "w1_rel_max": 0.03508802314867741,
+    "mean_rel_max": 0.0350870154714502,
+    "sd_rel_max": 0.4590754004996669
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.016364416467504334,
+     "w1_abs_max": 0.8794292106447652,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0006604662399779804,
+     "w1_abs_max": 0.6109653054530981,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.129686782671684e-06,
+     "w1_abs_max": 0.0032293889109787192,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.00022600342900971904,
+     "w1_abs_max": 0.001123021789689406,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.0002022295868823673,
+     "w1_abs_max": 0.01339479329577909,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 9.880542477748791e-05,
+     "w1_abs_max": 0.13129573537856076,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 2.1833069770153812e-05,
+     "w1_abs_max": 0.05908031680447613,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 3.7029077172058295e-06,
+     "w1_abs_max": 3.8625486479576705e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.007726715276336504,
+     "w1_abs_max": 1.3536892985089926,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0007105892757973686,
+     "w1_abs_max": 0.08961561257514311,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 8.257404291210982e-07,
+     "w1_abs_max": 2.706440372219482e-06,
+     "unit_resolution": 0.05
+    }
+   }
+  },
+  {
+   "knots": 256,
+   "dtype": "float64",
+   "tables_MB": 135.6,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 8.794492813608358e-06,
+     "w1_rel_p99": 0.004434128933444538,
+     "w1_rel_max": 0.005216499047704535,
+     "max_rel_p99": 1.9508107499719722,
+     "mean_rel_max": 0.005007255658826994,
+     "sd_rel_max": 0.04750344415785679
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.854245356870575e-07,
+     "w1_rel_p99": 1.6747642041602372e-05,
+     "w1_rel_max": 0.002240965464258819,
+     "max_rel_p99": 0.0027152691942979143,
+     "mean_rel_max": 0.0020569619127366236,
+     "sd_rel_max": 0.008441588471971961
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 5.130672806447891e-05,
+     "w1_rel_p99": 0.015369519318424852,
+     "w1_rel_max": 0.03508683443195464,
+     "max_rel_p99": 13.459360857098563,
+     "mean_rel_max": 0.03508683443195249,
+     "sd_rel_max": 0.45907529799400115
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.3970235328329936e-05,
+     "w1_rel_p99": 1.3970235329618399e-05,
+     "w1_rel_max": 1.3970235329644694e-05,
+     "max_rel_p99": 0.0034792576447928085,
+     "mean_rel_max": 2.3095955297771227e-17,
+     "sd_rel_max": 2.7760225009831885e-06
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 6.701129409984883,
+    "w1_rel_max": 0.03508683443195464,
+    "mean_rel_max": 0.03508683443195249,
+    "sd_rel_max": 0.45907529799400115
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.016205735770329244,
+     "w1_abs_max": 0.8793231715208203,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0006573139940212122,
+     "w1_abs_max": 0.6109630492423316,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 1.5276570598798944e-09,
+     "w1_abs_max": 0.003228958631749497,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.0002084879124681846,
+     "w1_abs_max": 0.0011205793037587786,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.0001910644256532014,
+     "w1_abs_max": 0.013391996539552954,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 9.77179276145379e-05,
+     "w1_abs_max": 0.1312947046035785,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 1.7122335616501227e-05,
+     "w1_abs_max": 0.05907972079779077,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 3.541374245328655e-06,
+     "w1_abs_max": 3.5413742456619386e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.007618323960074169,
+     "w1_abs_max": 1.3536208878047098,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0007039889865300686,
+     "w1_abs_max": 0.08961365680679324,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 6.332138636436918e-08,
+     "w1_abs_max": 4.378018516326687e-07,
+     "unit_resolution": 0.05
+    }
+   }
+  },
+  {
+   "knots": 1024,
+   "dtype": "int16",
+   "tables_MB": 136.6,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 1.247265539195046e-05,
+     "w1_rel_p99": 0.000590154237198138,
+     "w1_rel_max": 0.0013231660781544653,
+     "max_rel_p99": 0.3793356442564658,
+     "mean_rel_max": 0.0006335223124565083,
+     "sd_rel_max": 0.006661055185575915
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.1513862702242536e-05,
+     "w1_rel_p99": 1.3902316273017097e-05,
+     "w1_rel_max": 0.00038892038588079743,
+     "max_rel_p99": 0.0006610277416107509,
+     "mean_rel_max": 0.00035619606020497233,
+     "sd_rel_max": 0.001590876744412384
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 1.667744749826311e-05,
+     "w1_rel_p99": 0.0035323829852507774,
+     "w1_rel_max": 0.00871177754977235,
+     "max_rel_p99": 10.574870218855377,
+     "mean_rel_max": 0.008597613081904175,
+     "sd_rel_max": 0.13150913217221594
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 1.1178807755992512e-05,
+     "w1_rel_p99": 1.1178807756120774e-05,
+     "w1_rel_max": 1.1178807756123391e-05,
+     "max_rel_p99": 0.0002266556597783057,
+     "mean_rel_max": 1.4626623882005139e-16,
+     "sd_rel_max": 1.949585084481953e-07
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 4.612786067190826,
+    "w1_rel_max": 0.00871177754977235,
+    "mean_rel_max": 0.008597613081904175,
+    "sd_rel_max": 0.13150913217221594
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.00290842377337186,
+     "w1_abs_max": 0.16094329449229816,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 0.0009229278899191076,
+     "w1_abs_max": 0.10855270204901094,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 3.2116992301073344e-07,
+     "w1_abs_max": 0.0005603869658332705,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 0.00031109930945076754,
+     "w1_abs_max": 0.0003784996253400792,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 0.0001657298950428973,
+     "w1_abs_max": 0.002188461449349012,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 8.220608214795297e-05,
+     "w1_abs_max": 0.017958504253279575,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 3.212409394992826e-05,
+     "w1_abs_max": 0.014992819722782755,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 2.8337634227443374e-06,
+     "w1_abs_max": 2.833763422777514e-06,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.002211356396696118,
+     "w1_abs_max": 0.3275189034828348,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.0009687370955059338,
+     "w1_abs_max": 0.015456673644147049,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 3.1057647685746315e-07,
+     "w1_abs_max": 3.526601233570098e-06,
+     "unit_resolution": 0.05
+    }
+   }
+  },
+  {
+   "knots": 1024,
+   "dtype": "float32",
+   "tables_MB": 271.2,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 1.1976813195150059e-06,
+     "w1_rel_p99": 0.000540798371850337,
+     "w1_rel_max": 0.0012962540975377627,
+     "max_rel_p99": 0.3793783078584486,
+     "mean_rel_max": 0.000628468603080941,
+     "sd_rel_max": 0.006658259060156713
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 5.585465350595655e-05,
+     "w1_rel_p99": 9.225387506877429e-05,
+     "w1_rel_max": 0.00037137654664940925,
+     "max_rel_p99": 0.0006599123091664279,
+     "mean_rel_max": 0.00035621869415107554,
+     "sd_rel_max": 0.0015911865905757772
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 4.89709882872866e-06,
+     "w1_rel_p99": 0.0034657335299891324,
+     "w1_rel_max": 0.008590690738190264,
+     "max_rel_p99": 10.574875497965241,
+     "mean_rel_max": 0.008589412158832375,
+     "sd_rel_max": 0.131513219950528
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 9.460995946406745e-07,
+     "w1_rel_p99": 1.5936138257794655e-06,
+     "w1_rel_max": 1.606828401925155e-06,
+     "max_rel_p99": 0.0002368697560003689,
+     "mean_rel_max": 1.4952495412467753e-16,
+     "sd_rel_max": 5.427053895168399e-08
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 4.612801031085409,
+    "w1_rel_max": 0.008590690738190264,
+    "mean_rel_max": 0.008589412158832375,
+    "sd_rel_max": 0.131513219950528
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.001146413361766574,
+     "w1_abs_max": 0.1558974997183662,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 5.175524967172135e-05,
+     "w1_abs_max": 0.10175588781135572,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 2.615657295982482e-06,
+     "w1_abs_max": 0.0005351084276211913,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 2.5485781191776635e-05,
+     "w1_abs_max": 0.0004342416056135612,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 1.99300586167185e-05,
+     "w1_abs_max": 0.0008408348647879309,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 7.797790103023297e-06,
+     "w1_abs_max": 0.01649429062705684,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 6.743963753254312e-06,
+     "w1_abs_max": 0.014688426497577553,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 2.398308016459804e-07,
+     "w1_abs_max": 4.0732175124501627e-07,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0007065829031759341,
+     "w1_abs_max": 0.32225106193567066,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 0.00010662455688198458,
+     "w1_abs_max": 0.013825982105209782,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 7.95867529585978e-07,
+     "w1_abs_max": 3.1101102755150267e-06,
+     "unit_resolution": 0.05
+    }
+   }
+  },
+  {
+   "knots": 1024,
+   "dtype": "float64",
+   "tables_MB": 542.3,
+   "groups": {
+    "value models (uo, ebl, crystalloid, ppf)": {
+     "n": 15998,
+     "w1_rel_median": 5.497283885514247e-07,
+     "w1_rel_p99": 0.0005407177390653747,
+     "w1_rel_max": 0.0012961437277806572,
+     "max_rel_p99": 0.3793786079586954,
+     "mean_rel_max": 0.0006284712535097583,
+     "sd_rel_max": 0.006658269486256696
+    },
+    "height and weight": {
+     "n": 25324,
+     "w1_rel_median": 1.0666527073131817e-08,
+     "w1_rel_p99": 1.0587485064331999e-06,
+     "w1_rel_max": 0.00036980581582218586,
+     "max_rel_p99": 0.0006603828376958728,
+     "mean_rel_max": 0.0003562550479156287,
+     "sd_rel_max": 0.0015911129590984174
+    },
+    "timestamps": {
+     "n": 24878,
+     "w1_rel_median": 3.050068764684555e-06,
+     "w1_rel_p99": 0.0034645801586814995,
+     "w1_rel_max": 0.008589446585564427,
+     "max_rel_p99": 10.574875222418884,
+     "mean_rel_max": 0.008589446585561732,
+     "sd_rel_max": 0.13151314354310695
+    },
+    "other (PT %, fibrinogen, haematocrit mixtures)": {
+     "n": 3,
+     "w1_rel_median": 2.3178806781960124e-07,
+     "w1_rel_p99": 2.3178806944254546e-07,
+     "w1_rel_max": 2.3178806947566678e-07,
+     "max_rel_p99": 0.00023568271933518226,
+     "mean_rel_max": 1.8818926538924703e-17,
+     "sd_rel_max": 4.565052913463319e-08
+    }
+   },
+   "pooled": {
+    "n": 66203,
+    "max_rel_p99": 4.612801384624625,
+    "w1_rel_max": 0.008589446585564427,
+    "mean_rel_max": 0.008589446585561732,
+    "sd_rel_max": 0.13151314354310695
+   },
+   "per_variable_abs": {
+    "aneend": {
+     "w1_abs_median": 0.0009692180189770916,
+     "w1_abs_max": 0.15557980150739903,
+     "unit_resolution": 60
+    },
+    "anestart": {
+     "w1_abs_median": 4.000974037154936e-05,
+     "w1_abs_max": 0.1017392191361961,
+     "unit_resolution": 60
+    },
+    "height": {
+     "w1_abs_median": 1.1906356282842534e-10,
+     "w1_abs_max": 0.0005328451955707164,
+     "unit_resolution": 0.1
+    },
+    "intraop_crystalloid": {
+     "w1_abs_median": 1.3047389415404842e-05,
+     "w1_abs_max": 7.353051842159952e-05,
+     "unit_resolution": 10
+    },
+    "intraop_ebl": {
+     "w1_abs_median": 1.1695635339670132e-05,
+     "w1_abs_max": 0.0008353060300356312,
+     "unit_resolution": 10
+    },
+    "intraop_ppf": {
+     "w1_abs_median": 6.245189934077355e-06,
+     "w1_abs_max": 0.016492263662617246,
+     "unit_resolution": 10
+    },
+    "intraop_uo": {
+     "w1_abs_median": 1.0800328025389883e-06,
+     "w1_abs_max": 0.01467814328566967,
+     "unit_resolution": 5
+    },
+    "lab": {
+     "w1_abs_median": 5.875694105783938e-08,
+     "w1_abs_max": 5.875694147764246e-08,
+     "unit_resolution": null
+    },
+    "opend": {
+     "w1_abs_median": 0.0005327257615966308,
+     "w1_abs_max": 0.32219360788721124,
+     "unit_resolution": 60
+    },
+    "opstart": {
+     "w1_abs_median": 4.2688201767726586e-05,
+     "w1_abs_max": 0.013820808431694878,
+     "unit_resolution": 60
+    },
+    "weight": {
+     "w1_abs_median": 4.61238325137614e-09,
+     "w1_abs_max": 2.7099788105396094e-08,
+     "unit_resolution": 0.05
+    }
+   }
+  }
+ ],
+ "exact_ragged_MB": 251.931392
+}

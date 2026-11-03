@@ -554,6 +554,53 @@ def lab_heaping_sao2_sodium(root: Path) -> dict:
     return out
 
 
+def heap_ratio_dense(v: pd.Series, base: int, odd_only: bool = False, w: int = 4, min_mean: float = 20.0) -> dict:
+    """As heap_ratio, restricted to the multiples whose neighbours (the fitted values) average at least MIN_MEAN
+    results each; also counts, over all multiples, those whose fit falls to the floor of 0.5 expected (sparse tail,
+    where an empty multiple still adds 0.5 to the expected count)."""
+    x = v[np.isclose(v, np.round(v))].round().astype(int)
+    cnt = x.value_counts()
+    lo, hi = int(x.min()), int(x.max())
+    O = E = 0.0
+    n = floored = floored_obs = 0
+    for m in range((lo // base + 1) * base, hi, base):
+        if odd_only and m % 10 == 0:
+            continue
+        xs = [m + d for d in range(-w, w + 1) if d and (m + d) % 5]
+        ys = [cnt.get(t, 0) for t in xs]
+        e_fit = float(np.polyval(np.polyfit(xs, ys, 2), m))
+        if e_fit < 0.5:
+            floored += 1
+            floored_obs += cnt.get(m, 0)
+        if np.mean(ys) < min_mean:
+            continue
+        O += cnt.get(m, 0)
+        E += max(e_fit, 0.5)
+        n += 1
+    return {"multiples_dense": n, "observed": int(O), "expected": round(E, 1),
+            "ratio": round(O / E, 3) if E else None, "z": round((O - E) / np.sqrt(E), 1) if E else None,
+            "floored_multiples": floored, "floored_observed": floored_obs, "floored_expected": round(0.5 * floored, 1)}
+
+
+def lab_heaping_sparse_tail(root: Path) -> dict:
+    """Why ALT and AST sit below 1 at multiples of 10 in the all-variable screen: per whole-number analyte, the
+    screen's ratio, the number of multiples whose fit is floored at 0.5 expected (each adding 0.5 even when empty),
+    and the ratio over the dense multiples only (neighbours averaging >= 20 results), with the same on the values
+    shifted by 1-4 (placebo)."""
+    L = lab(root)
+    out = {}
+    for nm, g in L.groupby("name"):
+        if finest(g["result"])["finest_decimals"] != 0 or len(g) <= 500:
+            continue
+        v = g["result"]
+        r = {}
+        for key, base, odd in (("x10", 10, False), ("x5_odd", 5, True)):
+            r[key] = {"screen": heap_ratio(v, base, odd_only=odd), "dense": heap_ratio_dense(v, base, odd_only=odd),
+                      "dense_placebo_shift": {str(k): heap_ratio_dense(v - k, base, odd_only=odd)["ratio"] for k in (1, 2, 3, 4)}}
+        out[nm] = r
+    return out
+
+
 STUDIES = {
     "dates-admission-discharge-los": dates_admission_discharge_los,
     "lab-preop-pao2-decimal": lab_preop_pao2_decimal,
@@ -566,6 +613,7 @@ STUDIES = {
     "lab-computed-value-grids": lab_computed_value_grids,
     "heaping-screen-all-variables": heaping_screen_all_variables,
     "lab-heaping-sao2-sodium": lab_heaping_sao2_sodium,
+    "lab-heaping-sparse-tail": lab_heaping_sparse_tail,
     "timestamp-lab-times-meaning": timestamp_lab_times_meaning,
     "timestamp-derived-intervals": timestamp_derived_intervals,
 }

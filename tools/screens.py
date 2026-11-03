@@ -499,6 +499,61 @@ def timestamp_derived_intervals(root: Path) -> dict:
     return out
 
 
+def heap_ratio_log(v: pd.Series, base: int, odd_only: bool = False, w: int = 4) -> dict:
+    """As heap_ratio, but the quadratic is fitted to log counts (count + 0.5), so an exponential rise or fall (a
+    steep flank, as near a ceiling) is followed instead of overshot."""
+    x = v[np.isclose(v, np.round(v))].round().astype(int)
+    cnt = x.value_counts()
+    lo, hi = int(x.min()), int(x.max())
+    O = E = 0.0
+    n = 0
+    per = {}
+    for m in range((lo // base + 1) * base, hi, base):
+        if odd_only and m % 10 == 0:
+            continue
+        xs = [m + d for d in range(-w, w + 1) if d and (m + d) % 5]
+        ys = np.log(np.array([cnt.get(t, 0) for t in xs], float) + 0.5)
+        e = max(float(np.exp(np.polyval(np.polyfit(xs, ys, 2), m)) - 0.5), 0.5)
+        O += cnt.get(m, 0)
+        E += e
+        n += 1
+        if cnt.get(m, 0) >= 100:
+            per[str(m)] = {"observed": int(cnt.get(m, 0)), "expected": round(e, 1)}
+    return {"screened": int(len(x)), "multiples": n, "observed": int(O), "expected": round(E, 1),
+            "ratio": round(O / E, 3), "z": round((O - E) / np.sqrt(E), 1), "per_value_n100": per}
+
+
+def lab_heaping_sao2_sodium(root: Path) -> dict:
+    """The two whole-number analytes the all-variable screen flags (SaO2 at odd multiples of 5, sodium at multiples
+    of 10): counts near the mode; the same ratio on each other residue (the values shifted by 1-4, a placebo for
+    the fit); the ratio with a log-quadratic fit; by analyser (lab_sources); by time of day (08:00-18:00 against
+    the rest, clock time from -adm modulo a day plus dt)."""
+    c = clinical(root)
+    L = lab(root)
+    L["src"] = lab_sources(L)
+    start = (-c.set_index("caseid")["adm"]).mod(DAY)
+    L["hour"] = ((L["caseid"].map(start) + L["dt"]).mod(DAY) / 3600.0)
+    out = {}
+    for nm, base, odd, rng in (("sao2", 5, True, (85, 101)), ("na", 10, False, (125, 152))):
+        g = L[L["name"] == nm]
+        v = g["result"]
+        cnt = v[np.isclose(v, np.round(v))].round().astype(int).value_counts()
+        r = {"n": int(len(v)), "counts": {str(k): int(cnt.get(k, 0)) for k in range(*rng)},
+             "quadratic": heap_ratio(v, base, odd_only=odd),
+             "placebo_shift": {str(k): heap_ratio(v - k, base, odd_only=odd)["ratio"] for k in (1, 2, 3, 4)},
+             "log_quadratic": heap_ratio_log(v, base, odd_only=odd),
+             "log_placebo_shift": {str(k): heap_ratio_log(v - k, base, odd_only=odd)["ratio"] for k in (1, 2, 3, 4)}}
+        r["by_source"] = {s_: {"n": int(len(gg)), "quadratic": heap_ratio(gg["result"], base, odd_only=odd)["ratio"],
+                               "log_quadratic": heap_ratio_log(gg["result"], base, odd_only=odd)["ratio"]}
+                          for s_, gg in g.groupby("src") if len(gg) >= 500}
+        day = g["hour"].between(8, 18, inclusive="left")
+        r["by_time"] = {k: {"n": int(len(gg)), "quadratic": heap_ratio(gg["result"], base, odd_only=odd)["ratio"],
+                            "log_quadratic": heap_ratio_log(gg["result"], base, odd_only=odd)["ratio"]}
+                        for k, gg in (("08-18", g[day]), ("18-08", g[~day])) if len(gg) >= 500}
+        out[nm] = r
+    return out
+
+
 STUDIES = {
     "dates-admission-discharge-los": dates_admission_discharge_los,
     "lab-preop-pao2-decimal": lab_preop_pao2_decimal,
@@ -510,6 +565,7 @@ STUDIES = {
     "lab-haematocrit-two-analysers": lab_haematocrit_two_analysers,
     "lab-computed-value-grids": lab_computed_value_grids,
     "heaping-screen-all-variables": heaping_screen_all_variables,
+    "lab-heaping-sao2-sodium": lab_heaping_sao2_sodium,
     "timestamp-lab-times-meaning": timestamp_lab_times_meaning,
     "timestamp-derived-intervals": timestamp_derived_intervals,
 }
